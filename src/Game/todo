@@ -27,3 +27,5 @@ Todo
 -Tracking teams/players performance over time as a graph
 -When sorting by tournament wins, prioritize World/Major over minor
 -Team abbreviations for all player things
+
+-Clean up button code after NotificaitonDismissSlot9

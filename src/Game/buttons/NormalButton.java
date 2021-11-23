@@ -19,105 +19,122 @@ import Game.Application;
 
 import Game.MusicHandler;
 import Game.Application.STATE;
+import Game.Graphical;
 
-public class NormalButton {
-	public Rectangle bounds;				//The phyisical button
-	public String txt;						//What the button displays as text
-	Color cDefault;					//The default color when the button is NOT highlighted
-	Color cHovered;					//The color of the button when the color is highlighted
-	public Application.STATE[] prereq;		//The gamestate that allows this button to show up  [SPECIAL CASES EXIST FOR "CORNERMENUBUTTON"]
-	public Application.STATE gameStateOnClick;	//The gamestate that the game will be set to when the button is pushed
-	public boolean Hovered = false;		//Whether or not this button is being hovered over by the mouse.
-	public String name;					//The name of the button. I don't think this will have any use but it exists just in case.
+public class NormalButton implements MouseListener {
+	public Rectangle bounds; // The phyisical button
+	public String txt; // What the button displays as text
+	Color cDefault; // The default color when the button is NOT highlighted
+	Color cHovered; // The color of the button when the color is highlighted
+	public Application.STATE[] prereq; // The gamestate that allows this button to show up [SPECIAL CASES EXIST FOR
+										// "CORNERMENUBUTTON"]
+	public Application.STATE gameStateOnClick; // The gamestate that the game will be set to when the button is pushed
+	public boolean hovered = false; // Whether or not this button is being hovered over by the mouse.
+	public String name; // The name of the button. I don't think this will have any use but it exists
+						// just in case.
 	static boolean isMouse = true;
-	MusicHandler Music = new MusicHandler();	
-	
-	//The constructor. These are all invoked in ButtonCollection
-	public NormalButton(Rectangle b, String t, Color co, Color co2, Application.STATE[] states ,Application.STATE gs, String n)
-	{
+	MusicHandler Music = new MusicHandler();
+
+	// The constructor. These are all invoked in ButtonCollection
+	public NormalButton(Rectangle b, String t, Color co, Color co2, Application.STATE[] states, Application.STATE gs,
+			String n) {
 		bounds = b;
 		txt = t;
 		cDefault = co;
 		cHovered = co2;
-	    prereq = states;
+		prereq = states;
 		gameStateOnClick = gs;
 		name = n;
 
 	}
-	
-	public NormalButton(Rectangle b, String t, Color co, Color co2, ArrayList<Application.STATE> states ,Application.STATE gs, String n)
-	{
+
+	public NormalButton(Rectangle b, String t, Color co, Color co2, ArrayList<Application.STATE> states,
+			Application.STATE gs, String n) {
 		Object[] temp = states.toArray();
-		
+
 		Application.STATE[] temp2 = new Application.STATE[temp.length];
-		for(int i = 0; i < temp.length; i++)
-		{
+		for (int i = 0; i < temp.length; i++) {
 			temp2[i] = (STATE) temp[i];
 		}
 		bounds = b;
 		txt = t;
 		cDefault = co;
 		cHovered = co2;
-	    prereq = temp2;
+		prereq = temp2;
 		gameStateOnClick = gs;
 		name = n;
 
 	}
-	
-	public void draw(Graphics g, Graphics2D g2d)
-	{
-		if(Application.gameStateIsPartOf(Application.State, prereq))
-		{	
-			//Set the correct color for the button
-			if(Hovered)
-			{
-				g.setColor(cHovered);
+
+	public void draw(Graphics g, Graphics2D g2d) {
+		Application.getGraphical().drawButton(this);
+	}
+
+	public void init() {
+
+	}
+
+	public void mouseLeftClicked(MouseEvent e) {
+		Application.prevState.add(Application.State);
+		Music.mouseClick();
+		Application.State = gameStateOnClick;
+	}
+
+	public void mouseRightClicked(MouseEvent e) {
+
+	}
+
+	public void mouseMiddleClicked(MouseEvent e) {
+
+	}
+
+	public Color getHoveredColor() {
+		return cHovered;
+	}
+
+	public Color getDefaultcolor() {
+		return cDefault;
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+
+		// TODO Auto-generated method stub
+		int x = e.getX();
+		int y = e.getY();
+		if (bounds.contains(x, y)) {
+			if (e.getButton() == MouseEvent.BUTTON1) {
+				mouseLeftClicked(e);
+			} else if (e.getButton() == MouseEvent.BUTTON2) {
+				mouseRightClicked(e);
+			} else if (e.getButton() == MouseEvent.BUTTON3) {
+				mouseMiddleClicked(e);
 			}
-			else {
-				g.setColor(cDefault);	}
-			
-		//Actually do the drawing to the screen	
-
-			FontMetrics fm   = g.getFontMetrics(Application.bitoperatorfont36);
-			Rectangle2D rect = fm.getStringBounds(txt, g);
-
-			int textHeight = (int)(rect.getHeight()); 
-			int textWidth  = (int)(rect.getWidth());
-			int panelHeight= (int) bounds.getHeight();
-			int panelWidth = (int) bounds.getWidth();
-
-			// Center text horizontally and vertically
-			int x = ((panelWidth  - textWidth)  / 2) + bounds.x;
-			int y = ((panelHeight - textHeight) / 2  + fm.getAscent()) + bounds.y;
-
-			g.drawString(txt, x, y);  // Draw the string.	
-			g2d.draw(bounds);
-//			g.drawString(txt, bounds.x + 5, bounds.y + 40);		
-
-
-
-
-
-
 		}
-		}
-		
-	public void init()
-	{
-		
 	}
-	
-	public void mouseLeftClicked() {
-		
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		hovered = true;
 	}
-	public void mouseRightClicked() {
-		// TODO Auto-generated method stub
-		
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		hovered = false;
 	}
-	public void mouseMiddleClicked() {
-		// TODO Auto-generated method stub
-		
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+
 	}
-	
-	
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+
+	}
+
+	public void mouseMoved(MouseEvent arg0) {
+
+	}
+
 }

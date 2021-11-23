@@ -190,14 +190,14 @@ public class Player implements java.lang.Comparable<Player> {
 		// double doublePayment = 100.13;
 		String s = n.format(earnings);
 		if (org == null) {
-			if(wChampion) Application.g.setColor(Color.yellow);
+			if(wChampion) Application.getGraphical().getGraphics().setColor(Color.yellow);
 			return "\tName: " + name;
 		}
-		if(wChampion) Application.g.setColor(Color.yellow);
-		else if(maChampion) Application.g.setColor(Color.lightGray);
-		else if(miChampion) Application.g.setColor(Color.orange);
-		else if(bestPlayer) Application.g.setColor(Color.blue);
-		else if(worstPlayer) Application.g.setColor(Color.red);
+		if(wChampion) Application.getGraphical().getGraphics().setColor(Color.yellow);
+		else if(maChampion) Application.getGraphical().getGraphics().setColor(Color.lightGray);
+		else if(miChampion) Application.getGraphical().getGraphics().setColor(Color.orange);
+		else if(bestPlayer) Application.getGraphical().getGraphics().setColor(Color.blue);
+		else if(worstPlayer) Application.getGraphical().getGraphics().setColor(Color.red);
 		return "\tName: " + name;
 		
 		

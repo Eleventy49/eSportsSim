@@ -42,8 +42,8 @@ public class Bracket8 {
 	}
 	
 	public static void load() {
-		Application.g.setFont(Application.bitoperatorfont13);
-		Application.g.setColor(Color.white);
+		Application.getGraphical().getGraphics().setFont(Application.getGraphical().getSmallFont());
+		Application.getGraphical().getGraphics().setColor(Color.white);
 
 		for(Integer x: counter)
 		{	
@@ -53,26 +53,26 @@ public class Bracket8 {
 			{
 				r1++;
 				if(hoveredPlayer == indexArray ) {
-					Application.g.setColor(Color.DARK_GRAY);}
-				else Application.g.setColor(Color.white);
-				Application.g.drawString(winners.get(indexArray), 125, (r1 * 40) -25);
-				Application.g.drawString(notWinners.get(indexArray), 125, ((r1 * 40) - 30 + 20));
+					Application.getGraphical().getGraphics().setColor(Color.DARK_GRAY);}
+				else Application.getGraphical().getGraphics().setColor(Color.white);
+				Application.getGraphical().getGraphics().drawString(winners.get(indexArray), 125, (r1 * 40) -25);
+				Application.getGraphical().getGraphics().drawString(notWinners.get(indexArray), 125, ((r1 * 40) - 30 + 20));
 				if(r1 == 4)
 					r1 = 0;
-				Application.g.setColor(Color.white);
+				Application.getGraphical().getGraphics().setColor(Color.white);
 				
 			}
 			if(section.get(indexArray).equals("LBR1"))
 			{ l1++;
-				Application.g.drawString(winners.get(indexArray), 275, ((l1 * 40) -25 + 600));
-				Application.g.drawString(notWinners.get(indexArray), 275, (((l1 * 40) -30 + 20) + 600));
+				Application.getGraphical().getGraphics().drawString(winners.get(indexArray), 275, ((l1 * 40) -25 + 600));
+				Application.getGraphical().getGraphics().drawString(notWinners.get(indexArray), 275, (((l1 * 40) -30 + 20) + 600));
 				if(l1 == 2)
 					l1 = 0;
 			}
 			if(section.get(indexArray).equals("UBR2"))
 			{ u2++;
-				Application.g.drawString(winners.get(indexArray), 275, (u2 * 40)-25);
-				Application.g.drawString(notWinners.get(indexArray), 275, ((u2 * 40) -30 + 20));
+				Application.getGraphical().getGraphics().drawString(winners.get(indexArray), 275, (u2 * 40)-25);
+				Application.getGraphical().getGraphics().drawString(notWinners.get(indexArray), 275, ((u2 * 40) -30 + 20));
 				
 				if(u2 == 2)
 					u2 = 0;
@@ -80,39 +80,39 @@ public class Bracket8 {
 			}
 			if(section.get(indexArray).equals("LBR2"))
 			{l2++;
-				Application.g.drawString(winners.get(indexArray), 425, ((l2 * 40)-25 + 600));
-				Application.g.drawString(notWinners.get(indexArray), 425, (((l2 * 40) + 20)-30 + 600));
+				Application.getGraphical().getGraphics().drawString(winners.get(indexArray), 425, ((l2 * 40)-25 + 600));
+				Application.getGraphical().getGraphics().drawString(notWinners.get(indexArray), 425, (((l2 * 40) + 20)-30 + 600));
 				if(l2 == 2)
 					l2 = 0;
 			}
 			
 			if(section.get(indexArray).equals("LBR3"))
 			{l3++;
-				Application.g.drawString(winners.get(indexArray), 575, ((l3 * 40) + 600)-25);
-				Application.g.drawString(notWinners.get(indexArray), 575, (((l3 * 40) + 20) -30 + 600));
+				Application.getGraphical().getGraphics().drawString(winners.get(indexArray), 575, ((l3 * 40) + 600)-25);
+				Application.getGraphical().getGraphics().drawString(notWinners.get(indexArray), 575, (((l3 * 40) + 20) -30 + 600));
 				if(l3 == 1)
 					l3 = 0;
 			}
 			if(section.get(indexArray).equals("LBR4"))
 			{l4++;
-				Application.g.drawString(winners.get(indexArray), 725, ((l4 * 40) + 600)-25);
-				Application.g.drawString(notWinners.get(indexArray), 725, (((l4 * 40) + 20) -30 + 600));
+				Application.getGraphical().getGraphics().drawString(winners.get(indexArray), 725, ((l4 * 40) + 600)-25);
+				Application.getGraphical().getGraphics().drawString(notWinners.get(indexArray), 725, (((l4 * 40) + 20) -30 + 600));
 				if(l4 == 1)
 					l4 = 0;
 			}
 	
 			if(section.get(indexArray).equals("SEMI"))
 			{s++;
-				Application.g.drawString(winners.get(indexArray), 725, (s * 40)-25);
-				Application.g.drawString(notWinners.get(indexArray), 725, ((s * 40) -30+ 20));
+				Application.getGraphical().getGraphics().drawString(winners.get(indexArray), 725, (s * 40)-25);
+				Application.getGraphical().getGraphics().drawString(notWinners.get(indexArray), 725, ((s * 40) -30+ 20));
 				if(s == 1)
 					s = 0;
 			}
 	
 			if(section.get(indexArray).equals("FINAL"))
 			{f++;
-				Application.g.drawString(winners.get(indexArray), 1450, (f * 40)-25);
-				Application.g.drawString(notWinners.get(indexArray), 1450, ((f * 40) -30+ 20));
+				Application.getGraphical().getGraphics().drawString(winners.get(indexArray), 1450, (f * 40)-25);
+				Application.getGraphical().getGraphics().drawString(notWinners.get(indexArray), 1450, ((f * 40) -30+ 20));
 				if(f ==1)
 					f = 0;
 			}
@@ -125,8 +125,8 @@ public class Bracket8 {
 	}
 	public static void printBracket()
 	{
-		Application.g.drawRect(120, 1, 130, 35);
-		Application.g.drawRect(120, 40, 130, 35);
+		Application.getGraphical().getGraphics().drawRect(120, 1, 130, 35);
+		Application.getGraphical().getGraphics().drawRect(120, 40, 130, 35);
 	}
 	public static void clearTournament()
 	{

@@ -11,19 +11,19 @@ public class WarningText{
 	{
 		try {
 	    
-		Application.g.setColor(new Color(1, 0, 0, alpha));
-		FontMetrics fm   = Application.g.getFontMetrics(Application.bitoperatorfont13);
-		Rectangle2D rect = fm.getStringBounds(text, Application.g);
+		Application.getGraphical().getGraphics().setColor(new Color(1, 0, 0, alpha));
+		FontMetrics fm   = Application.getGraphical().getGraphics().getFontMetrics(Application.getGraphical().getSmallFont());
+		Rectangle2D rect = fm.getStringBounds(text, Application.getGraphical().getGraphics());
 		int textHeight = (int)(rect.getHeight()); 
 		int textWidth  = (int)(rect.getWidth());
 		int panelHeight= (int) Application.HEIGHT - 50;
 		int panelWidth = (int) Application.WIDTH;
 		int x = ((panelWidth  - textWidth));
 		int y = ((panelHeight - textHeight) /16  + fm.getAscent());
-		Application.g.setFont(Application.bitoperatorfont13);
-		Application.g.drawString(text, x, y);
-		Application.g.setColor(Color.white);
-		Application.g.setFont(Application.bitoperatorfont36);
+		Application.getGraphical().getGraphics().setFont(Application.getGraphical().getSmallFont());
+		Application.getGraphical().getGraphics().drawString(text, x, y);
+		Application.getGraphical().getGraphics().setColor(Color.white);
+		Application.getGraphical().getGraphics().setFont(Application.getGraphical().getLargeFont());
 		}
 		catch(NullPointerException e)
 		{

@@ -23,7 +23,7 @@ public class PlayersAddPlayer extends NormalButton implements ButtonInterface,Mo
 	}
 	@Override
 	public void init() {
-		Application.getGame().addMouseListener(this);;
+		Application.getGraphical().addMouseListener(this);;
 	}
 	
 	public void mouseClicked(MouseEvent e) {

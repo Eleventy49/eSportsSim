@@ -21,7 +21,7 @@ public class Slider {
 	public static void drawCenteredCircle(int x, int y, int r) {
 		  x = x-(r/2);
 		  y = y-(r/2);
-		  Application.g.fillOval(x,y,r,r);
+		  Application.getGraphical().getGraphics().fillOval(x,y,r,r);
 		}
 	public Slider(Rectangle r, String t, Color co, Color co2, Application.STATE[] states, int startpoint)
 	{
@@ -40,7 +40,7 @@ public class Slider {
 		
 	//Actually do the drawing to the screen	
 
-		FontMetrics fm   = g.getFontMetrics(Application.bitoperatorfont36);
+		FontMetrics fm   = g.getFontMetrics(Application.getGraphical().getLargeFont());
 		Rectangle2D rect = fm.getStringBounds(txt, g);
 
 		int textHeight = (int)(rect.getHeight()); 

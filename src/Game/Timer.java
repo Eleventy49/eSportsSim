@@ -80,17 +80,17 @@ public class Timer {
 	}
 	public static void render()
 	{
-		Application.g.setFont(Application.bitoperatorfont36);
-		Application.g.setColor(Color.white);
-		Application.g.drawLine(1, 1, length, 1);
-		Application.g.drawLine(1, 2, length, 2);
-		Application.g.drawLine(1, 3, length, 3);
-		Application.g.drawLine(1, 4, length, 4);
-		Application.g.drawLine(1, 5, length, 5);
+		Application.getGraphical().getGraphics().setFont(Application.getGraphical().getLargeFont());
+		Application.getGraphical().getGraphics().setColor(Color.white);
+		Application.getGraphical().getGraphics().drawLine(1, 1, length, 1);
+		Application.getGraphical().getGraphics().drawLine(1, 2, length, 2);
+		Application.getGraphical().getGraphics().drawLine(1, 3, length, 3);
+		Application.getGraphical().getGraphics().drawLine(1, 4, length, 4);
+		Application.getGraphical().getGraphics().drawLine(1, 5, length, 5);
 		
 		
-		FontMetrics fm   = Application.g.getFontMetrics(Application.bitoperatorfont36);
-		Rectangle2D rect = fm.getStringBounds(dateAsString(), Application.g);
+		FontMetrics fm   = Application.getGraphical().getGraphics().getFontMetrics(Application.getGraphical().getLargeFont());
+		Rectangle2D rect = fm.getStringBounds(dateAsString(), Application.getGraphical().getGraphics());
 		int textWidth  = (int)(rect.getWidth());
 	
 		int panelWidth = (int) Application.WIDTH;
@@ -99,7 +99,7 @@ public class Timer {
 		int x = ((panelWidth  - textWidth)  / 2);
 		
 		if(Application.isInGame)
-		Application.g.drawString(dateAsString(), x, 45);  // Draw the string.	
+		Application.getGraphical().getGraphics().drawString(dateAsString(), x, 45);  // Draw the string.	
 
 	}
 	public static void pulse()

@@ -25,11 +25,11 @@ public class PlayerViewer {
 			try {
 			if(!Database.playerdatabase.get(x).equals(null)) {
 			if(Database.playerdatabase.get(x).wChampion)
-				Application.g.setColor(Color.yellow);
-			Application.g.drawString(Database.playerdatabase.get(x).name, 200, i * 60);
-			Application.g.setColor(Color.white);
+				Application.getGraphical().getGraphics().setColor(Color.yellow);
+			Application.getGraphical().getGraphics().drawString(Database.playerdatabase.get(x).name, 200, i * 60);
+			Application.getGraphical().getGraphics().setColor(Color.white);
 			}
-			Application.g.drawString("" + page, 550, 700);}
+			Application.getGraphical().getGraphics().drawString("" + page, 550, 700);}
 			catch(IndexOutOfBoundsException e)
 			{
 				

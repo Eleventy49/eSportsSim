@@ -25,7 +25,7 @@ public class SpectatorModeQuickFunction1 extends NormalButton implements ButtonI
 	}
 	@Override
 	public void init() {
-		Application.getGame().addMouseListener(this);;
+		Application.getGraphical().addMouseListener(this);;
 	}
 	
 	public void mouseClicked(MouseEvent e) {

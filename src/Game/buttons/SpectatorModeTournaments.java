@@ -22,7 +22,7 @@ public class SpectatorModeTournaments extends NormalButton implements ButtonInte
 	}
 	@Override
 	public void init() {
-		Application.getGame().addMouseListener(this);;
+		Application.getGraphical().addMouseListener(this);;
 	}
 	
 	public void mouseClicked(MouseEvent e) {

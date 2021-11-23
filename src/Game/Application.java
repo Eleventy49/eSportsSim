@@ -30,13 +30,12 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-import Game.buttons.AddTeam;
 import Game.buttons.NormalButton;
 import Game.buttons.OptionsConsoleEnable;
 import Game.buttons.Slider;
 import Game.buttons.SpecialButton;
 
-public class Application extends Canvas implements Runnable {
+public class Application implements Runnable {
 
 	
 	
@@ -49,23 +48,16 @@ public class Application extends Canvas implements Runnable {
 	static JFrame frame;
 	Dimension windowSize;
 	static Application game;
-	private BufferedImage background = new BufferedImage(1920, 1080, BufferedImage.TYPE_INT_RGB);
-	private BufferedImage spriteSheet = null;
-	private BufferedImage player;
-	private Menu menu;
-	public static Graphics g;
+
+	private static Menu menu;
 	public static ArrayList<ActionListener> garbage = new ArrayList<ActionListener>();
 	
 	public MusicHandler Music = new MusicHandler();
-	public static Font bitoperatorfont36;
-	public static Font bitoperatorfont13;
+	
 	public static Cursor mouseCursor = new Cursor(Cursor.DEFAULT_CURSOR);
 	public static Cursor handCursor = new Cursor(Cursor.HAND_CURSOR);
 	public static Cursor pointerCursor = new Cursor(Cursor.DEFAULT_CURSOR);
-	boolean runTournament = true;
-	public static int frameCounter = 0;
-	private static float alpha = 1;
-	private boolean CountingFrames = false;
+	static boolean runTournament = true;
 	static boolean gameLoaded = false;
 	public static  boolean WarningQuery;
 	public static String WarningMessage;
@@ -74,13 +66,16 @@ public class Application extends Canvas implements Runnable {
 	public static boolean SpectatorMode;
 	public static boolean isMusic = false;
 	public static ButtonCollection buttons;
+	private static Graphical graphical = new Graphical();
 
 	//Gamestates
-	
-	public static void resetAlpha()
-	{
-		alpha = 1;
+	public static Graphical getGraphical() {
+		return graphical;
 	}
+	public static Menu getMenu() {
+		return menu;
+	}
+	
 	public static enum STATE {
 		Menu, ManagerMode, Options, Credits, Tournaments, GameSelect, SpectatorMode, LoadGame, SpectatorModePlayers, SpectatorModeAddPlayer, 
 		Exit, SpectatorModeTeams, SpectatorModeAddTeam, TournamentsWorldTournament, SpectatorModeViewPlayer, SpectatorModeViewPlayerB, 
@@ -145,144 +140,16 @@ public class Application extends Canvas implements Runnable {
 	}
 	
 	public void init() {
-		requestFocus(); 
 		buttons = new ButtonCollection();
-		for(Object x: buttons.getCollection())
-		{
-			if(x instanceof NormalButton)
-			{ NormalButton y = (NormalButton) x;
-			y.init();
-			}
-			else if(x instanceof SpecialButton)
-			{ SpecialButton y = (SpecialButton) x;
-			y.init();
-			}
-		}
-	
-		try {														//Get the font from the file and create one at 36 point and one at 13 point
-			bitoperatorfont36 = Font
-					.createFont(Font.TRUETYPE_FONT,
-							getClass().getClassLoader().getResourceAsStream("8bitOperatorPlusSC-Regular.ttf"))
-					.deriveFont(36f);
-			bitoperatorfont13 = Font
-					.createFont(Font.TRUETYPE_FONT,
-							getClass().getClassLoader().getResourceAsStream("8bitOperatorPlusSC-Regular.ttf"))
-					.deriveFont(13f);
-			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-			// ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new
-			// File("/8bitOperatorPlusSC-Regular.ttf")));
-			ge.registerFont(bitoperatorfont36);
-			ge.registerFont(bitoperatorfont13);
-
-		} catch (IOException | FontFormatException e) {
-			e.printStackTrace();
-		}
-
-		//Basically doing all the pictures and stuff that will form the basis of the rendering model. Again, refer to RealTutsGML tutorial for what this actually does.
-		BufferedImageLoader loader = new BufferedImageLoader();
-		try {
-			spriteSheet = loader.loadImage("/SpriteSheet.png");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		try {
-			background = loader.loadImage("/BackGround.png");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		//Create the main menu.
 		menu = new Menu();
-		BracketHandler.setGraphics(g);
-		
-		
-		//Get the databases online.
-		//Filehandler.Load();
-		
-		//Get input from the player.
-		addKeyListener(new KeyInput(this));
-		//this.addMouseListener(new MouseInput());
-		//this.addMouseMotionListener(new MouseInput());
-
+		BracketHandler.setGraphics(graphical.getGraphics());
+		graphical.addKeyListener(new KeyInput(this));
 	}
 	
 	public void init2() {
-	
 		Music.init();
 		Music.defaultSong();
 		Timer.init();
-		
-		
-		
-		
-
-	
-	}
-	  public static void drawString2(Graphics g, String text, int x, int y) {
-	        for (String line : text.split("\n"))
-	            g.drawString(line, x, y += g.getFontMetrics().getHeight());
-	    }
-
-	public static void drawViewPlayers(int i)
-	{
-		Player p = Database.playerdatabase.get((PlayerViewer.page*10) - 11 + i);
-	
-		g.setFont(bitoperatorfont13);
-		try {
-			drawString2(g,p.toStringN(), 700, 100);
-			drawString2(g,p.toStringN2(), 700, 100);
-			Application.g.setColor(Color.WHITE);
-			}
-			catch (IndexOutOfBoundsException e)
-			{
-				
-			}
-	}
-	public static void drawViewPlayers(Player i)
-	{
-		g.setFont(bitoperatorfont13);
-		try {
-			drawString2(g,i.toStringN(), 700, 100);
-			drawString2(g,i.toStringN2(), 700, 100);
-			
-			Application.g.setColor(Color.WHITE);
-			}
-			catch (IndexOutOfBoundsException e)
-			{
-				
-			}
-	}
-	
-	public static void drawViewTeams(int i)
-	{	if(viewingTeam == null)
-		viewingTeam = Database.teamdatabase.get((TeamViewer.page*10) - 11 + i);
-		
-		g.setFont(bitoperatorfont36);
-		try {
-		drawString2(g,viewingTeam.toStringN(), 700, 100);
-		Application.g.setColor(Color.white);
-		drawString2(g,viewingTeam.toStringN2(), 700, 150);
-		
-		for(int j = 0; j < viewingTeam.roster.size(); j++)
-		{
-			drawString2(g,viewingTeam.toStringN3(j), 700, 550 + (50*j));
-			Application.g.setColor(Color.white);
-		}
-		}
-		catch (IndexOutOfBoundsException e)
-		{
-			
-		}
-	}
-	public static void drawViewTeams(Team i)
-	{
-		g.setFont(bitoperatorfont13);
-		try {
-			drawString2(g,i.toString(), 700, 100);
-			}
-			catch (IndexOutOfBoundsException e)
-			{
-				
-			}
 	}
 	
 	//Start the game thread.
@@ -319,12 +186,12 @@ public class Application extends Canvas implements Runnable {
 	public static void main(String args[]) {
 		
 		game = new Application();     							//Actually create an object game
-		game.setPreferredSize(new Dimension(WIDTH, HEIGHT));	//Doing some things with the size of the window
-		game.setMaximumSize(new Dimension(WIDTH, HEIGHT));
-		game.setMinimumSize(new Dimension(WIDTH, HEIGHT));
+		graphical.setPreferredSize(new Dimension(WIDTH, HEIGHT));	//Doing some things with the size of the window
+		graphical.setMaximumSize(new Dimension(WIDTH, HEIGHT));
+		graphical.setMinimumSize(new Dimension(WIDTH, HEIGHT));
 
 		frame = new JFrame(game.TITLE);							//Defining the window and making it visible.
-		frame.add(game);
+		frame.add(graphical);
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -394,227 +261,7 @@ public class Application extends Canvas implements Runnable {
 	}
 
 	//The main render method.
-	private void render() {
-		
-		tick();
-		
-		BufferStrategy bs = this.getBufferStrategy();						//Establishing the bufferimage strategy
-		if (bs == null) {
-			createBufferStrategy(3);
-			return;
-		}
-		
-		g = bs.getDrawGraphics();									//Making sure the graphics environment is in check.
-		g.drawImage(background, 0, 0,getWidth(), getHeight(),this);			//The background is always the first thing drawn to the screen.
-		g.setFont(Application.bitoperatorfont36);									//Set the default font and color
-		g.setColor(Color.WHITE);
-		
-		
-		for(Object x: buttons.getCollection())
-		{
-			NormalButton y = null;
-			Slider z = null;
-			if(x instanceof NormalButton)
-			{
-				y = (NormalButton) x;
-				y.draw(g, (Graphics2D) g);
-			}
-			if(x instanceof SpecialButton)
-			{
-				y = (SpecialButton) x;
-				y.draw(g, (Graphics2D) g);
-			}
-			if(x instanceof Slider)
-			{
-				z = (Slider) x;
-				z.draw(g, (Graphics2D) g);
-			}
-			//if(gameStateIsPartOf(Game.State, y.prereq))
-			;
-		}
-		
-		
-		if (State == STATE.ManagerMode) {
-			//////// Image zone
 
-		//	g.drawImage(background, 0, 0, getWidth(), getHeight(), this);
-			
-			// p.render(g);
-			//Render the Text in the main menu
-		} else if (State == STATE.Menu) {
-			menu.render(g);												//Render the menu
-		}
-		//Draw Buttons
-	
-		if(State == STATE.SpectatorModeAddPlayer)
-		{
-			AddPlayer.AddPlayer(g);
-		}
-		if(State == STATE.Options)
-		{
-			OptionsMenu.render();
-		}
-		if(State == STATE.SpectatorModeAddTeam)
-		{
-			AddTeam.Team(g);
-		}
-		if(State == STATE.Tournaments)
-		{
-			
-			BracketHandler.setGraphics(g);
-			Bracket32.clearTournament();
-			Bracket16.clearTournament();
-			runTournament = true;
-			
-			
-		}
-		if((State == STATE.TournamentsWorldTournament))
-		{
-			
-			if(runTournament) {
-				Bracket32.clearTournament();
-			BracketHandler.setGraphics(g);
-		//	SimTournament.World(Database.teamdatabase);
-			runTournament = false;
-			Bracket32.printBracket();
-			}
-			else
-			{
-				Bracket32.load();
-				Bracket32.printBracket();
-			}
-	
-		}
-		
-		if((State == STATE.TournamentsMajorTournament))
-		{
-			
-			if(runTournament) {
-				Bracket16.clearTournament();
-			BracketHandler.setGraphics(g);
-		//	SimTournament.Major(Database.getStrongBois(16));
-			runTournament = false;
-			Bracket16.printBracket();
-			}
-			else
-			{
-				Bracket16.load();
-				Bracket16.printBracket();
-			}
-	
-		}
-		if((State == STATE.TournamentsMinor4Tournament))
-		{
-			
-			if(runTournament) {
-				Bracket4.clearTournament();
-			BracketHandler.setGraphics(g);
-		//	SimTournament.Minor4(Database.getWeakBois(4));
-			runTournament = false;
-			Bracket4.printBracket();
-			}
-			else
-			{
-				Bracket4.load();
-				Bracket4.printBracket();
-			}
-	
-		}
-		
-		if((State == STATE.TournamentsMinor8Tournament))
-		{
-			
-			if(runTournament) {
-				Bracket8.clearTournament();
-			BracketHandler.setGraphics(g);
-		//	SimTournament.Minor8(Database.getWeakBois(8));
-			runTournament = false;
-			Bracket8.printBracket();
-			}
-			else
-			{
-				Bracket8.load();
-				Bracket8.printBracket();
-			}
-	
-		}
-		if(State == STATE.SpectatorModeViewPlayer)
-		{
-			PlayerViewer.defaultdisplay();
-		}
-		if(State == STATE.SpectatorModeViewPlayerB)
-		{drawViewPlayers(ourversionofi);}
-	
-	if(State == STATE.SpectatorModeViewTeam)
-	{
-		TeamViewer.defaultdisplay();
-	}
-	if(State == STATE.SpectatorModeViewTeamB)
-	{drawViewTeams(ourversionofi);}
-	
-
-	
-	if(State == STATE.SpectatorModeViewTop10Team)
-	{
-		TeamTenTeams.render();
-		TeamTenTeams.clear();
-		}
-	if(State == STATE.SpectatorModeViewTop10Player)
-	{
-		TeamTenPlayers.render();
-		TeamTenPlayers.clear();
-		}
-		
-
-	if(WarningQuery)
-	{	CountingFrames = true;
-		
-		if(CountingFrames)
-		{
-		frameCounter ++;
-		alpha = 1 - (float)(0.01 * frameCounter);
-		new WarningText(WarningMessage, alpha);
-		}
-		if(frameCounter == 100)
-		{
-		WarningQuery = false;
-		WarningMessage = "";
-		frameCounter = 0;
-		}
-		
-	
-		
-		
-	}
-	
-	Timer.render();
-	NotificationHandler.render();
-		///////
-		// windowSize = frame.getSize();
-		// WIDTH = windowSize.width;
-		// HEIGHT = windowSize.height;
-		g.dispose();														//We are done drawing this frame.
-		bs.show();															//Display the frame.
-		
-	}
-
-		
-	public static void drawCenteredText(String txt, int x1, int y1, int x2, int y2)
-	{
-		FontMetrics fm   = g.getFontMetrics(Application.bitoperatorfont36);
-		Rectangle2D rect = fm.getStringBounds(txt, g);
-
-		int textHeight = y1; 
-		int textWidth  = x2;
-		int panelHeight= y2;
-		int panelWidth = x1;
-
-		// Center text horizontally and vertically
-		int x = ((panelWidth  - textWidth)  / 2) ;
-		int y = ((panelHeight - textHeight) / 2  + fm.getAscent());
-
-		g.drawString(txt, x, y);  // Draw the string.	
-	}
 	
 	public void run() {
 		init();	
@@ -634,7 +281,9 @@ public class Application extends Canvas implements Runnable {
 			if (delta >= 1) {										//If we should render a frame and all that jazz.
 				
 				updates++;
-				render();
+				tick();
+				graphical.render();
+				
 				
 				delta--;
 			
@@ -662,9 +311,6 @@ public class Application extends Canvas implements Runnable {
 
 	}
 
-	public BufferedImage getSpriteSheet() {											//Get the spritesheet (That I have yet to use.)
-		return spriteSheet;
-	}
 
 
 }

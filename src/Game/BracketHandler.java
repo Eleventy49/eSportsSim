@@ -18,30 +18,30 @@ public class BracketHandler {
 		case 0:
 		Counter++;
 		Bracket32.save(winner,notWinner,section, Counter);
-		Application.g.setColor(Color.red);
-		Application.g.setFont(Application.bitoperatorfont13);
-		Application.g.setColor(Color.white);
+		Application.getGraphical().getGraphics().setColor(Color.red);
+		Application.getGraphical().getGraphics().setFont(Application.getGraphical().getSmallFont());
+		Application.getGraphical().getGraphics().setColor(Color.white);
 		break;
 		case 1:
 			Counter++;
 			Bracket16.save(winner,notWinner,section, Counter);
-			Application.g.setColor(Color.red);
-			Application.g.setFont(Application.bitoperatorfont13);
-			Application.g.setColor(Color.white);
+			Application.getGraphical().getGraphics().setColor(Color.red);
+			Application.getGraphical().getGraphics().setFont(Application.getGraphical().getSmallFont());
+			Application.getGraphical().getGraphics().setColor(Color.white);
 			break;
 		case 2:
 			Counter++;
 			Bracket8.save(winner,notWinner,section, Counter);
-			Application.g.setColor(Color.red);
-			Application.g.setFont(Application.bitoperatorfont13);
-			Application.g.setColor(Color.white);
+			Application.getGraphical().getGraphics().setColor(Color.red);
+			Application.getGraphical().getGraphics().setFont(Application.getGraphical().getSmallFont());
+			Application.getGraphical().getGraphics().setColor(Color.white);
 			break;
 		case 3:
 			Counter++;
 			Bracket4.save(winner,notWinner,section, Counter);
-			Application.g.setColor(Color.red);
-			Application.g.setFont(Application.bitoperatorfont13);
-			Application.g.setColor(Color.white);
+			Application.getGraphical().getGraphics().setColor(Color.red);
+			Application.getGraphical().getGraphics().setFont(Application.getGraphical().getSmallFont());
+			Application.getGraphical().getGraphics().setColor(Color.white);
 			break;
 		
 	//	g.setFont(Game.bitoperatorfont13);

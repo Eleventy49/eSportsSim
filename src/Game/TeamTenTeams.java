@@ -112,7 +112,7 @@ public class TeamTenTeams {
 			}
 			break;
 		}
-		Application.drawString2(Application.g, output, Application.WIDTH/2, 50);
+		Application.getGraphical().drawString2(output, Application.WIDTH/2, 50);
 	}
 	public static void clear()
 	{

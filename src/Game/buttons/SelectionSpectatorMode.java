@@ -26,7 +26,7 @@ public class SelectionSpectatorMode extends NormalButton implements ButtonInterf
 	}
 	@Override
 	public void init() {
-		Application.getGame().addMouseListener(this);;
+		Application.getGraphical().addMouseListener(this);;
 	}
 	
 	public void mouseClicked(MouseEvent e) {
