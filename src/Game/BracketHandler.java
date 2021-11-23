@@ -43,7 +43,6 @@ public class BracketHandler {
 			Application.getGraphical().getGraphics().setFont(Application.getGraphical().getSmallFont());
 			Application.getGraphical().getGraphics().setColor(Color.white);
 			break;
-		
 	//	g.setFont(Game.bitoperatorfont13);
 		
 		
