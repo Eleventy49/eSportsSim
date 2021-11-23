@@ -1,3 +1,4 @@
+import java.text.NumberFormat;
 import java.util.*;
 
 public class player implements java.lang.Comparable<player> {
@@ -20,9 +21,6 @@ public class player implements java.lang.Comparable<player> {
 	final static int lanePressure = 16;
 	final static int starFactor = 17;
 
-	int MajorTitlesWon;
-	int MinorTitlesWon;
-	int WorldTitlesWon;
 	String name = "";
 	int statsTotal = 0;
 	int[] stats = new int[18];
@@ -36,6 +34,18 @@ public class player implements java.lang.Comparable<player> {
 
 	public int compareTo(player p) {
 		return (this.statsTotal - p.statsTotal) * -1;
+	}
+
+	public int getStatsTotal() {
+		int counter = 0;
+		for (int x : stats)
+			counter += x;
+		return counter;
+	}
+
+	public int getTournamentWins() {
+		System.out.println(this.MajorTitles + this.MinorTitles + WorldTitles);
+		return MajorTitles + MinorTitles + WorldTitles;
 	}
 
 	public String save() {
@@ -64,7 +74,6 @@ public class player implements java.lang.Comparable<player> {
 			for (int x : stats)
 				statsTotal += x;
 
-			System.out.println("Done");
 			org = null;
 			database.playerdatabase.add(this);
 			MinorTitles = 0;
@@ -73,7 +82,20 @@ public class player implements java.lang.Comparable<player> {
 		}
 	}
 
-	public player(String n, int r, int World, int Major, int Minor, int[] s) {
+	public void update() {
+		Random r = new Random();
+		for (int i = stats[statGrowth]; i > 0; i--)
+			stats[r.nextInt(18)]++;
+		for (int i = 0; i < 18; i++)
+			if (stats[i] >= 512) {
+				stats[i] -= (int) Math.sqrt(stats[i]) - r.nextInt((int) Math.sqrt(stats[i]));
+			}
+		if (stats[statGrowth] >= 512)
+			stats[statGrowth] = 15;
+
+	}
+
+	public player(String n, int r, int World, int Major, int Minor, int[] s, int e) {
 		if (!(n == null || n.isEmpty())) {
 
 			for (int i = 0; i < stats.length; i++)
@@ -85,8 +107,7 @@ public class player implements java.lang.Comparable<player> {
 
 			for (int x : stats)
 				statsTotal += x;
-
-			System.out.println("Done");
+			earnings = e;
 			org = null;
 			role = r;
 			// database.playerdatabase.add(this);
@@ -96,33 +117,43 @@ public class player implements java.lang.Comparable<player> {
 		}
 	}
 
+	public String getFullName() {
+		if(org != null)
+		return org.Abbreviation + "." + name;
+		else return name;
+	}
+
 	public String toString() {
+		NumberFormat n = NumberFormat.getCurrencyInstance(Locale.US);
+		// double doublePayment = 100.13;
+		String s = n.format(earnings);
 		if (org == null)
-			return "\tName: " + name + "\n\tCurrent Team: None" + "\n\n\tWorld Titles won: " + WorldTitles
-					+ "\n\tMajor Titles won: " + MajorTitles + "\n\tMinor Titles won: " + MinorTitles
-					+ "\n\n\tReaction Time: " + stats[reactionTime] + "\n\tLast Hitting Ability: " + stats[farmingLane]
-					+ "\n\tFarming Pattern: " + stats[farmingPattern] + "\n\tFighting Priority: "
-					+ stats[fightingPriority] + "\n\tCalmness: " + stats[calmness] + "\n\tCommunication: "
-					+ stats[communication] + "\n\tConsistency: " + stats[consistency] + "\n\tAttention Span: "
-					+ stats[attention] + "\n\tPatch Understanding: " + stats[patchUnderstanding]
-					+ "\n\tAbility to pull off Cheese: " + stats[cheeseAbility] + "\n\tWard Placement: "
-					+ stats[wardPlacement] + "\n\tDe-warding the enemy: " + stats[dewarding] + "\n\tHero Pool: "
-					+ stats[heroPool] + "\n\tAwareness to Ganks: " + stats[gankAwareness]
+			return "\tName: " + name + "\nRole: " + role + "\n\tCurrent Team: None" + "\nEarnings: " + s
+					+ "\n\n\tWorld Titles won: " + WorldTitles + "\n\tMajor Titles won: " + MajorTitles
+					+ "\n\tMinor Titles won: " + MinorTitles + "\n\n\tReaction Time: " + stats[reactionTime]
+					+ "\n\tLast Hitting Ability: " + stats[farmingLane] + "\n\tFarming Pattern: "
+					+ stats[farmingPattern] + "\n\tFighting Priority: " + stats[fightingPriority] + "\n\tCalmness: "
+					+ stats[calmness] + "\n\tCommunication: " + stats[communication] + "\n\tConsistency: "
+					+ stats[consistency] + "\n\tAttention Span: " + stats[attention] + "\n\tPatch Understanding: "
+					+ stats[patchUnderstanding] + "\n\tAbility to pull off Cheese: " + stats[cheeseAbility]
+					+ "\n\tWard Placement: " + stats[wardPlacement] + "\n\tDe-warding the enemy: " + stats[dewarding]
+					+ "\n\tHero Pool: " + stats[heroPool] + "\n\tAwareness to Ganks: " + stats[gankAwareness]
 					+ "\n\tAbility to pull off Ganks: " + stats[gankAbility] + "\n\tPlayer Growth Factor: "
 					+ stats[statGrowth] + "\n\tAbility to Pressure enemy lane: " + stats[lanePressure]
 					+ "\n\tStar Factor: " + stats[starFactor];
-		return "\tName: " + name + "\n\tCurrent Team: " + org.name + "\n\n\tWorld Titles won: " + WorldTitles
-				+ "\n\tMajor Titles won: " + MajorTitles + "\n\tMinor Titles won: " + MinorTitles
-				+ "\n\n\tReaction Time: " + stats[reactionTime] + "\n\tLast Hitting Ability: " + stats[farmingLane]
-				+ "\n\tFarming Pattern: " + stats[farmingPattern] + "\n\tFighting Priority: " + stats[fightingPriority]
-				+ "\n\tCalmness: " + stats[calmness] + "\n\tCommunication: " + stats[communication]
-				+ "\n\tConsistency: " + stats[consistency] + "\n\tAttention Span: " + stats[attention]
-				+ "\n\tPatch Understanding: " + stats[patchUnderstanding] + "\n\tAbility to pull off Cheese: "
-				+ stats[cheeseAbility] + "\n\tWard Placement: " + stats[wardPlacement] + "\n\tDe-warding the enemy: "
-				+ stats[dewarding] + "\n\tHero Pool: " + stats[heroPool] + "\n\tAwareness to Ganks: "
-				+ stats[gankAwareness] + "\n\tAbility to pull off Ganks: " + stats[gankAbility]
-				+ "\n\tPlayer Growth Factor: " + stats[statGrowth] + "\n\tAbility to Pressure enemy lane: "
-				+ stats[lanePressure] + "\n\tStar Factor: " + stats[starFactor];
+		return "\tName: " + name + "\nRole: " + role + "\n\tCurrent Team: " + org.name + "\nEarnings: " + s
+				+ "\n\n\tWorld Titles won: " + WorldTitles + "\n\tMajor Titles won: " + MajorTitles
+				+ "\n\tMinor Titles won: " + MinorTitles + "\n\n\tReaction Time: " + stats[reactionTime]
+				+ "\n\tLast Hitting Ability: " + stats[farmingLane] + "\n\tFarming Pattern: " + stats[farmingPattern]
+				+ "\n\tFighting Priority: " + stats[fightingPriority] + "\n\tCalmness: " + stats[calmness]
+				+ "\n\tCommunication: " + stats[communication] + "\n\tConsistency: " + stats[consistency]
+				+ "\n\tAttention Span: " + stats[attention] + "\n\tPatch Understanding: " + stats[patchUnderstanding]
+				+ "\n\tAbility to pull off Cheese: " + stats[cheeseAbility] + "\n\tWard Placement: "
+				+ stats[wardPlacement] + "\n\tDe-warding the enemy: " + stats[dewarding] + "\n\tHero Pool: "
+				+ stats[heroPool] + "\n\tAwareness to Ganks: " + stats[gankAwareness]
+				+ "\n\tAbility to pull off Ganks: " + stats[gankAbility] + "\n\tPlayer Growth Factor: "
+				+ stats[statGrowth] + "\n\tAbility to Pressure enemy lane: " + stats[lanePressure] + "\n\tStar Factor: "
+				+ stats[starFactor];
 
 	}
 

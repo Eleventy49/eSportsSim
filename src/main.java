@@ -26,12 +26,90 @@ public class main {
 	final static int lanePressure = 16;
 	final static int starFactor = 17;
 
-	// Remember you have to pass the stats you are comparing
-	public static double determine(int x, int y) {
+	public static double determine(team x, team y) {
+		double teamFactor = 0;
+		double CarryFactor = 0;
+		double MidFactor = 0;
+		double OfflaneFactor = 0;
+		double Support4Factor = 0;
+		double Support5Factor = 0;
+		double Average = 0;
 
-		double x3 = 50 + ((x - y) * 0.03);
+		player carry1 = null;
+		player carry2 = null;
+		player mid1 = null;
+		player mid2 = null;
+		player offlane1 = null;
+		player offlane2 = null;
+		player support41 = null;
+		player support42 = null;
+		player support51 = null;
+		player support52 = null;
 
-		return x3;
+		for (player a : x.roster) {
+			if (a.role == 1)
+				carry1 = a;
+			if (a.role == 1)
+				mid1 = a;
+			if (a.role == 1)
+				offlane1 = a;
+			if (a.role == 1)
+				support41 = a;
+			if (a.role == 1)
+				support51 = a;
+		}
+
+		for (player a : x.roster) {
+			if (a.role == 1)
+				carry2 = a;
+			if (a.role == 1)
+				mid2 = a;
+			if (a.role == 1)
+				offlane2 = a;
+			if (a.role == 1)
+				support42 = a;
+			if (a.role == 1)
+				support52 = a;
+		}
+
+		teamFactor = 50 + ((x.getTeamStrength() - y.getTeamStrength()) * 0.03);
+
+		if (x.dynasty > y.dynasty) {
+			teamFactor = teamFactor * (1 + Math.sqrt((1.0 / 8 * x.dynasty)));
+		} else {
+			teamFactor = teamFactor * (1 + Math.sqrt((1.0 / 8 * y.dynasty)));
+		}
+
+		CarryFactor = 50 + ((carry1.getStatsTotal() - carry2.getStatsTotal()) * 0.5);
+
+		if (Math.abs(CarryFactor - 50.0) < 0.1)
+			CarryFactor--;
+
+		MidFactor = 50 + ((mid1.getStatsTotal() - mid2.getStatsTotal()) * 0.5);
+
+		if (Math.abs(MidFactor - 50.0) < 0.1)
+			MidFactor--;
+
+		OfflaneFactor = 50 + ((offlane1.getStatsTotal() - offlane2.getStatsTotal()) * 0.5);
+
+		if (Math.abs(OfflaneFactor - 50.0) < 0.1)
+			OfflaneFactor--;
+
+		Support4Factor = 50 + ((support41.getStatsTotal() - support42.getStatsTotal()) * 0.5);
+
+		if (Math.abs(Support4Factor - 50.0) < 0.1)
+			Support4Factor--;
+
+		Support5Factor = 50 + ((support51.getStatsTotal() - support52.getStatsTotal()) * 0.5);
+
+		if (Math.abs(Support5Factor - 50.0) < 0.1)
+			Support5Factor--;
+
+		System.out.print(x.name + " VS. " + y.name + " :: ");
+		System.out
+				.println((teamFactor + CarryFactor + OfflaneFactor + MidFactor + Support4Factor + Support5Factor) / 6);
+
+		return Math.abs((teamFactor + CarryFactor + OfflaneFactor + MidFactor + Support4Factor + Support5Factor) / 6);
 	}
 
 	public static void main(String[] args) {
@@ -50,25 +128,7 @@ public class main {
 		goi.pack();
 		goi.setVisible(true);
 
-		/*
-		 * ArrayList<player> database = new ArrayList<player>();
-		 * 
-		 * for (int i = 0; i < 10; i++) { player abc = new player(i); database.add(abc);
-		 * }
-		 * 
-		 * Collections.sort(database); ;
-		 * 
-		 * for (int i = 0; i < 10; i++) System.out.println(database.get(i).name + "\t" +
-		 * database.get(i).statsTotal);
-		 * 
-		 * System.out.
-		 * println("Player 1's chances of beating Player 2 by Star Factor are: " +
-		 * determine(database.get(0).stats[starFactor],
-		 * database.get(1).stats[starFactor]));
-		 * 
-		 * System.out.println(database.get(0).stats[starFactor]);
-		 * System.out.println(database.get(1).stats[starFactor]);
-		 */
+		goi.displayload();
 
 	}
 }

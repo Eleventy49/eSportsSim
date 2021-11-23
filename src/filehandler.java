@@ -13,80 +13,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public class filehandler {
 	final static int ARRAY_SIZE_PLAYER = 18;
-
-	public static ArrayList<player> UpdatePlayers(ArrayList<player> p) {
-		ArrayList<player> list = new ArrayList<player>();
-		int[] a = new int[ARRAY_SIZE_PLAYER];
-
-		try {
-			File f2 = new File("players.csv");
-			f2.createNewFile();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		try {
-			FileInputStream file = new FileInputStream("players.csv");
-
-			Scanner scnr = new Scanner(file);
-			scnr.useDelimiter("[,\r\n]+");
-			while (scnr.hasNext()) {
-				String name = scnr.next();
-				String org = scnr.next();
-				int role = scnr.nextInt();
-				int WorldTitles = scnr.nextInt();
-				int MajorTitles = scnr.nextInt();
-				int MinorTitles = scnr.nextInt();
-				for (int i = 0; i < ARRAY_SIZE_PLAYER; i++) {
-					a[i] = scnr.nextInt();
-					if (i == ARRAY_SIZE_PLAYER - 1)
-						scnr.nextLine();
-				}
-				for (player dfs : p) {
-					if (name.equals(dfs.name))
-						list.add(new player(name));
-				}
-
-			}
-			scnr.close();
-		} catch (IOException e) {
-		}
-		return list;
-	}
-
-	public static ArrayList<team> UpdateTeams(ArrayList<team> t) {
-		ArrayList<team> list = new ArrayList<team>();
-
-		try {
-			File f2 = new File("teams.csv");
-			f2.createNewFile();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		try {
-			FileInputStream file = new FileInputStream("teams.csv");
-
-			Scanner scnr = new Scanner(file);
-			scnr.useDelimiter("[,\r\n]+");
-			while (scnr.hasNext()) {
-				String name = scnr.next();
-				int major = scnr.nextInt();
-				int minor = scnr.nextInt();
-				int world = scnr.nextInt();
-				int earnings = scnr.nextInt();
-
-				for (team dfs : t) {
-					if (name.equals(dfs.name))
-						list.add(new team(name, major, minor, world, earnings));
-				}
-
-			}
-			scnr.close();
-		} catch (IOException e) {
-		}
-		return list;
-	}
+	static boolean loadedPlayers = false;
+	static boolean loadedTeams = false;
 
 	public static void SavePlayers(ArrayList<player> p) {
 		try {
@@ -99,7 +27,7 @@ public class filehandler {
 			w.close();
 
 		} catch (IOException e) {
-			System.out.println("Failed to open the file. Could not save.");
+			System.out.println("Failed to open the Players file. Could not save.");
 		}
 	}
 
@@ -108,13 +36,14 @@ public class filehandler {
 			FileWriter fw = new FileWriter("teams.csv", false);
 			BufferedWriter bw = new BufferedWriter(fw);
 			PrintWriter w = new PrintWriter(bw);
+
 			for (team a : t) {
 				w.print(a.save());
 			}
 			w.close();
 
 		} catch (IOException e) {
-			System.out.println("Failed to open the file. Could not save.");
+			System.out.println("Failed to open the Teams file. Could not save.");
 		}
 	}
 
@@ -145,15 +74,19 @@ public class filehandler {
 				int Minor = scnr.nextInt();
 				for (int i = 0; i < ARRAY_SIZE_PLAYER; i++) {
 					a[i] = scnr.nextInt();
-					if (i == ARRAY_SIZE_PLAYER - 1)
-						scnr.nextLine();
+					if (i == ARRAY_SIZE_PLAYER - 1) {
+					}
+
 				}
-				list.add(new player(name, r, World, Major, Minor, a));
+				int earn = scnr.nextInt();
+				loadedPlayers = true;
+				list.add(new player(name, r, World, Major, Minor, a, earn));
+				scnr.nextLine();
 
 			}
 			scnr.close();
 		} catch (IOException e) {
-			System.out.println("Failed to load data from the file.");
+			System.out.println("Failed to load data from the Players file.");
 		}
 
 		return list;
@@ -187,12 +120,26 @@ public class filehandler {
 				int world = scnr.nextInt();
 				int earnings = scnr.nextInt();
 
-				list.add(new team(name, major, minor, world, earnings));
+				String p1 = scnr.next();
+				int r1 = scnr.nextInt();
+				String p2 = scnr.next();
+				int r2 = scnr.nextInt();
+				String p3 = scnr.next();
+				int r3 = scnr.nextInt();
+				String p4 = scnr.next();
+				int r4 = scnr.nextInt();
+				String p5 = scnr.next();
+				int r5 = scnr.nextInt();
 
+				double d = scnr.nextDouble();
+				String a = scnr.next();
+				list.add(new team(name, major, minor, world, earnings, d, p1, p2, p3, p4, p5, a, r1, r2, r3, r4, r5));
+
+				loadedTeams = true;
 			}
 			scnr.close();
 		} catch (IOException e) {
-			System.out.println("Failed to load data from the file.");
+			System.out.println("Failed to load data from the Teams file.");
 		}
 
 		return list;

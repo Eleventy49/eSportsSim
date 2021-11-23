@@ -1,0 +1,29 @@
+Todo
+- Move graphics commands from Game to their own class
+- Remove class.variable declarations (make getters and setters)
+- Refactor graphics methods to consider colors for teams and players
+- Make a master Draw command for buttons in the graphics class to save code in each individual button
+- confirm that every button works as intended
+- Remove all system.println calls related to testing, those that are helpful must be wrapped in the options detection
+- Get sliders working again
+- Retrofit code to be enterprise level. This stuff needs to be readable.
+- Set the project up for GIT
+- Rejig how the menu works. That is confusing, How do you resume a game?
+- Make an attempt to reduce global variable usage. does runTournament really need to be in Game/Application?
+- Compartmentalize the classes a little bit, there are a lot of them now.
+- Player retirement / new players created over time
+- Rewrite the determine formula. The best teams don't look like the favorites to win tournaments.
+- Post world tournament shuffle
+- "Windows"
+- Trade desire: Teams won't want to trade the players that are performing best for them
+	-This of course means you have to track recent player performance.
+	-This could open the door for a scout as far as org staff. Find good players that aren't on performing teams and try to poach them or something
+- Temporary buttons
+	-"Linksto" function that determines where a temporary button goes so that temporary buttons aren't a pain in the ass to make
+-Make status colors apply universlaly
+-Readd view players
+	-View team has linksto() to players
+-Keyboard shortcuts
+-Tracking teams/players performance over time as a graph
+-When sorting by tournament wins, prioritize World/Major over minor
+-Team abbreviations for all player things

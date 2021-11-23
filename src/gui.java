@@ -1,6 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.text.NumberFormat;
 import java.util.*;
 
 /**
@@ -22,8 +23,12 @@ public class gui extends JFrame implements ActionListener {
 	private JButton simRosterswapping;
 	private JButton savePlayers;
 	private JButton saveTeams;
-	private JButton loadPlayers;
-	private JButton loadTeams;
+	private JButton topTenPlayers;
+	private JButton topTenTeams;
+	static boolean newWindow = true;
+
+	private JButton load;
+	static boolean ITellYouTo = true;
 
 	/**
 	 * Constructor for the GUI
@@ -49,8 +54,9 @@ public class gui extends JFrame implements ActionListener {
 		simRosterswapping = new JButton("Sim Roster Swaps");
 		savePlayers = new JButton("Save Players");
 		saveTeams = new JButton("Save Teams");
-		loadPlayers = new JButton("Load Players");
-		loadTeams = new JButton("Load Teams");
+		load = new JButton("Load");
+		topTenPlayers = new JButton("Top Ten Players");
+		topTenTeams = new JButton("Top Ten Teams");
 
 		location.anchor = GridBagConstraints.LINE_START;
 		location.insets = new Insets(5, 5, 5, 5);
@@ -72,17 +78,19 @@ public class gui extends JFrame implements ActionListener {
 		location.gridx++;
 		add(GameTick, location);
 		location.gridx++;
-		add(about, location);
+		add(load, location);
 		location.gridx = 1;
 		location.gridy++;
 		add(savePlayers, location);
 		location.gridx++;
 		add(saveTeams, location);
 		location.gridx++;
-		add(loadPlayers, location);
+		add(topTenPlayers, location);
 		location.gridx++;
-		add(loadTeams, location);
-		location.gridx++;
+		add(topTenTeams, location);
+		// location.gridy++;
+		// location.gridx = 1;
+		// add(about, location);
 
 		addPlayer.addActionListener(this);
 		addTeam.addActionListener(this);
@@ -94,8 +102,9 @@ public class gui extends JFrame implements ActionListener {
 		simRosterswapping.addActionListener(this);
 		savePlayers.addActionListener(this);
 		saveTeams.addActionListener(this);
-		loadPlayers.addActionListener(this);
-		loadTeams.addActionListener(this);
+		load.addActionListener(this);
+		topTenTeams.addActionListener(this);
+		topTenPlayers.addActionListener(this);
 
 	}
 
@@ -119,12 +128,29 @@ public class gui extends JFrame implements ActionListener {
 						x.roster.add(y);
 						displayPlayerSigning(x, y);
 					}
+
 			}
+		//	System.out.println(x.roster.size());
+			if (x.roster.size() == 5) {
+				x.giveRoles();
+			}
+
 		}
 
 		if (((r.nextInt(5) + 1) == 5) && database.teamdatabase.size() > 1) {
-			int TeamSwap1 = (r.nextInt(database.teamdatabase.size() - 1) + 1);
-			int TeamSwap2 = (r.nextInt(database.teamdatabase.size() - 1) + 1);
+			int TeamSwap1 = (r.nextInt(database.teamdatabase.size() - 1));
+
+			int TeamSwap2 = (r.nextInt(database.teamdatabase.size() - 1));
+
+			if (TeamSwap2 == TeamSwap1)
+				if (TeamSwap2 == database.teamdatabase.size() - 1)
+					TeamSwap2 -= 1;
+				else if (TeamSwap2 == 0)
+					TeamSwap2 += 1;
+				else
+					TeamSwap2 -= 1;
+			if (TeamSwap2 == TeamSwap1)
+				System.out.println("You are an idiot");
 			int temp;
 			for (int i = 0; i != 1;) {
 				temp = r.nextInt(5 - 1) - 1;
@@ -133,16 +159,16 @@ public class gui extends JFrame implements ActionListener {
 					i = 1;
 				}
 			}
-			int PlayerSwap1 = (r.nextInt(database.teamdatabase.get(TeamSwap1).roster.size() - 1) + 1);
-			int PlayerSwap2 = (r.nextInt(database.teamdatabase.get(TeamSwap2).roster.size() - 1) + 1);
+			int PlayerSwap1 = (r.nextInt(database.teamdatabase.get(TeamSwap1).roster.size() - 1)) + 1;
+			int PlayerSwap2 = (r.nextInt(database.teamdatabase.get(TeamSwap2).roster.size() - 1)) + 1;
 
 			//
 			player player1 = database.teamdatabase.get(TeamSwap1).roster.get(PlayerSwap1);
 			player player2 = database.teamdatabase.get(TeamSwap2).roster.get(PlayerSwap2);
 			player1.org = database.teamdatabase.get(TeamSwap2);
 			player2.org = database.teamdatabase.get(TeamSwap1);
-			database.teamdatabase.get(TeamSwap1).roster.remove(PlayerSwap1);
-			database.teamdatabase.get(TeamSwap2).roster.remove(PlayerSwap2);
+			database.teamdatabase.get(TeamSwap1).roster.remove(player1);
+			database.teamdatabase.get(TeamSwap2).roster.remove(player2);
 			database.teamdatabase.get(TeamSwap1).roster.add(player2);
 			database.teamdatabase.get(TeamSwap2).roster.add(player1);
 			displayTeamTrade(player1, player2, database.teamdatabase.get(TeamSwap1),
@@ -150,7 +176,8 @@ public class gui extends JFrame implements ActionListener {
 			//
 
 		}
-
+		for (player x : database.playerdatabase)
+			x.update();
 	}
 
 	private team hasNameTeam(String name) {
@@ -159,7 +186,7 @@ public class gui extends JFrame implements ActionListener {
 				return x;
 			}
 		}
-		System.out.println("Something Broke");
+		System.out.println("Something Broke in hasNameTeam");
 		return null;
 	}
 
@@ -194,6 +221,16 @@ public class gui extends JFrame implements ActionListener {
 		}
 		if (buttonPressed == about) {
 			displayAbout();
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+
+					team sec = secondaryGui.main(database.teamdatabase);
+
+					System.out.println(cache.b);
+				}
+			});
+
 		}
 		if (buttonPressed == GameTick) {
 			displayGameTick();
@@ -204,11 +241,14 @@ public class gui extends JFrame implements ActionListener {
 		if (buttonPressed == saveTeams) {
 			displaysaveTeams();
 		}
-		if (buttonPressed == loadPlayers) {
-			displayloadPlayers();
+		if (buttonPressed == load) {
+			displayload();
 		}
-		if (buttonPressed == loadTeams) {
-			displayloadTeams();
+		if (buttonPressed == topTenPlayers) {
+			displayTopTenPlayers();
+		}
+		if (buttonPressed == topTenTeams) {
+			displayTopTenTeams();
 		}
 	}
 
@@ -246,6 +286,7 @@ public class gui extends JFrame implements ActionListener {
 		else {
 			String selection = (String) JOptionPane.showInputDialog(null, "Select team", "Select team",
 					JOptionPane.PLAIN_MESSAGE, null, displayTeams(), null);
+
 			JOptionPane.showConfirmDialog(null, hasNameTeam(selection).toString(), "Player Data", 2);
 			tick();
 		}
@@ -263,8 +304,9 @@ public class gui extends JFrame implements ActionListener {
 	}
 
 	public void displayPlayerSigning(team team, player player) {
-		JOptionPane.showConfirmDialog(null, "" + team.name + " has signed " + player.name + " to their roster!",
-				"Alert!", 2);
+		// JOptionPane.showConfirmDialog(null, "" + team.name + " has signed " +
+		// player.name + " to their roster!",
+		// "Alert!", 2);
 		tick();
 	}
 
@@ -278,19 +320,24 @@ public class gui extends JFrame implements ActionListener {
 			if (database.teamdatabase.size() >= 32
 					&& database.teamdatabase.get(database.teamdatabase.size() - 1).roster.size() == 5) {
 				ArrayList<team> displayTeams = new ArrayList<team>();
-				for (team x : database.teamdatabase)
-					displayTeams.add(x);
+				for (int i = 0; i < database.teamdatabase.size(); i++)
+					if (database.teamdatabase.get(i) != null)
+						displayTeams.add(database.teamdatabase.get(i));
 
 				String selector;
 				ArrayList<team> teamsintournament = new ArrayList<team>();
 				ArrayList<String> displaynames = new ArrayList<String>();
-				for (team x : displayTeams)
-					displaynames.add(x.name);
+				// int z = 0;
+				for (team x : displayTeams) {
+					if (!displaynames.contains(x.name))
+						displaynames.add(x.name);
+				}
+				if(database.teamdatabase.size() != 32) {
 				for (int i = 0; i < 32; i++) {
 
 					Object[] displayNamesplz = displaynames.toArray();
 
-					selector = (String) JOptionPane.showInputDialog(null, "Select team " + i, "Tournament Teams",
+					selector = (String) JOptionPane.showInputDialog(null, "Select team " + (i + 1), "Tournament Teams",
 							JOptionPane.PLAIN_MESSAGE, null, displayNamesplz, null);
 					if (selector != null) {
 						displayTeams.remove(hasNameTeam(selector));
@@ -300,6 +347,12 @@ public class gui extends JFrame implements ActionListener {
 					displaynames.remove(selector);
 				}
 				simTournament.World(teamsintournament);
+				}
+				else { 
+					teamsintournament = database.teamdatabase;
+					simTournament.World(teamsintournament);
+					
+				}
 
 				String results = "";
 				for (team x : teamsintournament) {
@@ -309,6 +362,7 @@ public class gui extends JFrame implements ActionListener {
 						x.WorldTitlesWon += 1;
 						for (player y : x.roster) {
 							y.WorldTitles += 1;
+							y.earnings += 1666666 / 5;
 						}
 					}
 				}
@@ -316,25 +370,34 @@ public class gui extends JFrame implements ActionListener {
 					if (x.positionInTournament == 2) {
 						results += "\nRunner-up: " + x.name + "\t Rating: " + x.getTeamStrength();
 						x.tournamentEarnings += 1111111;
+						for (player y : x.roster)
+							y.earnings += 1111111 / 5;
+
 					}
 				}
 				for (team x : teamsintournament) {
 					if (x.positionInTournament == 3) {
 						results += "\nBronze: " + x.name + "\t Rating: " + x.getTeamStrength();
 						x.tournamentEarnings += 370000;
+						for (player y : x.roster)
+							y.earnings += 370000 / 5;
 					}
 				}
 				for (team x : teamsintournament) {
-					if (x.positionInTournament == 3) {
+					if (x.positionInTournament == 4) {
 						results += "\n4th Place: " + x.name + "\t Rating: " + x.getTeamStrength();
 						x.tournamentEarnings += 123450;
+						for (player y : x.roster)
+							y.earnings += 123450 / 5;
 					}
 				}
 				results += "\n5th-6th:";
 				for (team x : teamsintournament) {
-					if (x.positionInTournament == 4) {
+					if (x.positionInTournament == 5) {
 						results += "\n" + x.name + "\t Rating: " + x.getTeamStrength();
 						x.tournamentEarnings += 22000;
+						for (player y : x.roster)
+							y.earnings += 22000 / 5;
 					}
 				}
 				results += "\n7th-8th:";
@@ -342,6 +405,8 @@ public class gui extends JFrame implements ActionListener {
 					if (x.positionInTournament == 7) {
 						results += "\n" + x.name + "\t Rating: " + x.getTeamStrength();
 						x.tournamentEarnings += 3425;
+						for (player y : x.roster)
+							y.earnings += 3425 / 5;
 					}
 				}
 				results += "\n9th-12th:";
@@ -373,6 +438,13 @@ public class gui extends JFrame implements ActionListener {
 					}
 				}
 				JOptionPane.showConfirmDialog(null, results, "Tournament Results!", 2);
+				for (team x : database.teamdatabase) {
+					if (Math.abs(x.dynasty - 0) > 0.01)
+						x.dynasty -= 0.15;
+					if (x.dynasty < 0)
+						x.dynasty = 0;
+
+				}
 
 			} else {
 				JOptionPane.showConfirmDialog(null, "There are not enough teams to form a World tournament.", "Error!",
@@ -383,7 +455,9 @@ public class gui extends JFrame implements ActionListener {
 		case 1:// major
 			if (database.teamdatabase.size() >= 16
 					&& database.teamdatabase.get(database.teamdatabase.size() - 1).roster.size() == 5) {
-				ArrayList<team> displayTeams = database.teamdatabase;
+				ArrayList<team> displayTeams = new ArrayList<team>();
+				for (team x : database.teamdatabase)
+					displayTeams.add(x);
 				String selector;
 				ArrayList<team> teamsintournament = new ArrayList<team>();
 				ArrayList<String> displaynames = new ArrayList<String>();
@@ -394,10 +468,14 @@ public class gui extends JFrame implements ActionListener {
 
 					selector = (String) JOptionPane.showInputDialog(null, "Select team " + i, "Tournament Teams",
 							JOptionPane.PLAIN_MESSAGE, null, displayNamesplz, null);
-					teamsintournament.add(hasNameTeam(selector));
+					if (selector != null) {
+						displayTeams.remove(hasNameTeam(selector));
+						teamsintournament.add(hasNameTeam(selector));
+					} else
+						i--;
+					displaynames.remove(selector);
 					displayTeams.remove(hasNameTeam(selector));
 
-					teamsintournament.add(hasNameTeam(selector));
 					displaynames.clear();
 				}
 				simTournament.Major(teamsintournament);
@@ -410,38 +488,54 @@ public class gui extends JFrame implements ActionListener {
 						x.MajorTitlesWon += 1;
 						for (player y : x.roster) {
 							y.MajorTitles += 1;
+							y.earnings += (1666666 / 5) / 5;
+
 						}
+						x.positionInTournament = 0;
 					}
 				}
 				for (team x : teamsintournament) {
 					if (x.positionInTournament == 2) {
 						results += "\nRunner-up: " + x.name + "\t Rating: " + x.getTeamStrength();
 						x.tournamentEarnings += 1111111 / 5;
+						for (player y : x.roster)
+							y.earnings += (1111111 / 5) / 5;
+						x.positionInTournament = 0;
 					}
 				}
 				for (team x : teamsintournament) {
 					if (x.positionInTournament == 3) {
 						results += "\nBronze: " + x.name + "\t Rating: " + x.getTeamStrength();
 						x.tournamentEarnings += 370000 / 5;
+						for (player y : x.roster)
+							y.earnings += (370000 / 5) / 5;
+						x.positionInTournament = 0;
 					}
 				}
 				for (team x : teamsintournament) {
-					if (x.positionInTournament == 3) {
+					if (x.positionInTournament == 4) {
 						results += "\n4th Place: " + x.name + "\t Rating: " + x.getTeamStrength();
 						x.tournamentEarnings += 123450 / 5;
+						for (player y : x.roster)
+							y.earnings += (123450 / 5) / 5;
+						x.positionInTournament = 0;
 					}
 				}
 				results += "\n5th-6th:";
 				for (team x : teamsintournament) {
-					if (x.positionInTournament == 4) {
+					if (x.positionInTournament == 5) {
 						results += "\n" + x.name + "\t Rating: " + x.getTeamStrength();
 						x.tournamentEarnings += 22000 / 5;
+						for (player y : x.roster)
+							y.earnings += (22000 / 5) / 5;
+						x.positionInTournament = 0;
 					}
 				}
 				results += "\n7th-8th:";
 				for (team x : teamsintournament) {
 					if (x.positionInTournament == 7) {
 						results += "\n" + x.name + "\t Rating: " + x.getTeamStrength();
+						x.positionInTournament = 0;
 
 					}
 				}
@@ -449,13 +543,14 @@ public class gui extends JFrame implements ActionListener {
 				for (team x : teamsintournament) {
 					if (x.positionInTournament == 9) {
 						results += "\n" + x.name + "\t Rating: " + x.getTeamStrength();
-
+						x.positionInTournament = 0;
 					}
 				}
 				results += "\n13th-16th:";
 				for (team x : teamsintournament) {
-					if (x.positionInTournament == 9) {
+					if (x.positionInTournament == 13) {
 						results += "\n" + x.name + "\t Rating: " + x.getTeamStrength();
+						x.positionInTournament = 0;
 
 					}
 				}
@@ -478,7 +573,9 @@ public class gui extends JFrame implements ActionListener {
 			if (resulta == 0) {
 				if (database.teamdatabase.size() >= 8
 						&& database.teamdatabase.get(database.teamdatabase.size() - 1).roster.size() == 5) {
-					ArrayList<team> displayTeams = database.teamdatabase;
+					ArrayList<team> displayTeams = new ArrayList<team>();
+					for (team x : database.teamdatabase)
+						displayTeams.add(x);
 					String selector;
 					ArrayList<team> teamsintournament = new ArrayList<team>();
 					ArrayList<String> displaynames = new ArrayList<String>();
@@ -489,12 +586,18 @@ public class gui extends JFrame implements ActionListener {
 
 						selector = (String) JOptionPane.showInputDialog(null, "Select team " + i, "Tournament Teams",
 								JOptionPane.PLAIN_MESSAGE, null, displayNamesplz, null);
-						teamsintournament.add(hasNameTeam(selector));
-						displayTeams.remove(hasNameTeam(selector));
+						if (selector != null) {
+							displayTeams.remove(hasNameTeam(selector));
+							teamsintournament.add(hasNameTeam(selector));
+						} else
+							i--;
+						displaynames.remove(selector);
+						// displayTeams.remove(hasNameTeam(selector));
+						System.out.println("We've been here");
 
-						teamsintournament.add(hasNameTeam(selector));
 						displaynames.clear();
 					}
+
 					simTournament.Minor8(teamsintournament);
 
 					String results = "";
@@ -505,6 +608,7 @@ public class gui extends JFrame implements ActionListener {
 							x.MinorTitlesWon += 1;
 							for (player y : x.roster) {
 								y.MinorTitles += 1;
+								y.earnings += (1666666 / 10) / 5;
 							}
 						}
 					}
@@ -512,25 +616,33 @@ public class gui extends JFrame implements ActionListener {
 						if (x.positionInTournament == 2) {
 							results += "\nRunner-up: " + x.name + "\t Rating: " + x.getTeamStrength();
 							x.tournamentEarnings += 1111111 / 10;
+							for (player y : x.roster)
+								y.earnings += (1111111 / 10) / 5;
 						}
 					}
 					for (team x : teamsintournament) {
 						if (x.positionInTournament == 3) {
 							results += "\nBronze: " + x.name + "\t Rating: " + x.getTeamStrength();
 							x.tournamentEarnings += 370000 / 10;
+							for (player y : x.roster)
+								y.earnings += (370000 / 10) / 5;
 						}
 					}
 					for (team x : teamsintournament) {
-						if (x.positionInTournament == 3) {
+						if (x.positionInTournament == 4) {
 							results += "\n4th Place: " + x.name + "\t Rating: " + x.getTeamStrength();
 							x.tournamentEarnings += 123450 / 10;
+							for (player y : x.roster)
+								y.earnings += (123450 / 10) / 5;
 						}
 					}
 					results += "\n5th-6th:";
 					for (team x : teamsintournament) {
-						if (x.positionInTournament == 4) {
+						if (x.positionInTournament == 5) {
 							results += "\n" + x.name + "\t Rating: " + x.getTeamStrength();
 							x.tournamentEarnings += 22000 / 10;
+							for (player y : x.roster)
+								y.earnings += (22000 / 10) / 5;
 						}
 					}
 					results += "\n7th-8th:";
@@ -561,11 +673,18 @@ public class gui extends JFrame implements ActionListener {
 
 						selector = (String) JOptionPane.showInputDialog(null, "Select team " + i, "Tournament Teams",
 								JOptionPane.PLAIN_MESSAGE, null, displayNamesplz, null);
-						displayTeams.remove(hasNameTeam(selector));
+						if (selector != null) {
+							displayTeams.remove(hasNameTeam(selector));
+							teamsintournament.add(hasNameTeam(selector));
+						} else
+							i--;
+						displaynames.remove(selector);
+						// displayTeams.remove(hasNameTeam(selector));
+						System.out.println("We've been here");
 
-						teamsintournament.add(hasNameTeam(selector));
 						displaynames.clear();
 					}
+
 					simTournament.Minor4(teamsintournament);
 
 					String results = "";
@@ -577,6 +696,7 @@ public class gui extends JFrame implements ActionListener {
 							x.MinorTitlesWon += 1;
 							for (player y : x.roster) {
 								y.MinorTitles += 1;
+								y.earnings += (1666666 / 20) / 5;
 
 							}
 
@@ -586,6 +706,8 @@ public class gui extends JFrame implements ActionListener {
 						if (x.positionInTournament == 2) {
 							results += "\nRunner-up: " + x.name + "\t Rating: " + x.getTeamStrength();
 							x.tournamentEarnings += 1111111 / 20;
+							for (player y : x.roster)
+								y.earnings += (1111111 / 20) / 5;
 							x.positionInTournament = 0;
 
 						}
@@ -594,6 +716,8 @@ public class gui extends JFrame implements ActionListener {
 						if (x.positionInTournament == 3) {
 							results += "\nBronze: " + x.name + "\t Rating: " + x.getTeamStrength();
 							x.tournamentEarnings += 370000 / 20;
+							for (player y : x.roster)
+								y.earnings += (370000 / 20) / 5;
 							x.positionInTournament = 0;
 
 						}
@@ -602,6 +726,8 @@ public class gui extends JFrame implements ActionListener {
 						if (x.positionInTournament == 4) {
 							results += "\n4th Place: " + x.name + "\t Rating: " + x.getTeamStrength();
 							x.tournamentEarnings += 123450 / 20;
+							for (player y : x.roster)
+								y.earnings += (123450 / 20) / 5;
 							x.positionInTournament = 0;
 
 						}
@@ -617,13 +743,58 @@ public class gui extends JFrame implements ActionListener {
 				break;
 
 			}
+
 		}
 
 	}
 
 	private void displaySimRosterswapping() // SHOULD BE MADE TO NOT BE PURELY RANDOM IN THE FUTURE
 	{
+		Random r = new Random();
+		int swaps = (int) (Math.random() * database.teamdatabase.size());
+		String output = "";
+		for (int i = 0; i < swaps; i++) {
+			int TeamSwap1 = (r.nextInt(database.teamdatabase.size() - 1)) + 1;
 
+			int TeamSwap2 = (r.nextInt(database.teamdatabase.size() - 1)) + 1;
+
+			if (TeamSwap2 == TeamSwap1)
+				if (TeamSwap2 == database.teamdatabase.size() - 1)
+					TeamSwap2 -= 1;
+				else if (TeamSwap2 == 0)
+					TeamSwap2 += 1;
+				else
+					TeamSwap2 -= 1;
+			if (TeamSwap2 == TeamSwap1)
+				System.out.println("You are an idiot");
+			int temp;
+			for (int n = 0; n != 1;) {
+				temp = r.nextInt(5 - 1) - 1;
+				if (temp != TeamSwap1) {
+					temp = TeamSwap2;
+					n = 1;
+				}
+			}
+			int PlayerSwap1 = (r.nextInt(database.teamdatabase.get(TeamSwap1).roster.size() - 1)) + 1;
+			int PlayerSwap2 = (r.nextInt(database.teamdatabase.get(TeamSwap2).roster.size() - 1)) + 1;
+
+			//
+			player player1 = database.teamdatabase.get(TeamSwap1).roster.get(PlayerSwap1);
+			player player2 = database.teamdatabase.get(TeamSwap2).roster.get(PlayerSwap2);
+			player1.org = database.teamdatabase.get(TeamSwap2);
+			player2.org = database.teamdatabase.get(TeamSwap1);
+			database.teamdatabase.get(TeamSwap1).roster.remove(player1);
+			database.teamdatabase.get(TeamSwap2).roster.remove(player2);
+			database.teamdatabase.get(TeamSwap1).roster.add(player2);
+			database.teamdatabase.get(TeamSwap2).roster.add(player1);
+			output += database.teamdatabase.get(TeamSwap1).name + " has traded " + player1.name + " to "
+					+ database.teamdatabase.get(TeamSwap2).name + " in exchange for " + player2.name + "\n";
+
+			// displayTeamTrade(player1, player2, database.teamdatabase.get(TeamSwap1),
+			// database.teamdatabase.get(TeamSwap2));
+
+		}
+		JOptionPane.showConfirmDialog(null, output, "Alert!", 2);
 	}
 
 	private void displayAbout() {
@@ -652,17 +823,150 @@ public class gui extends JFrame implements ActionListener {
 		JOptionPane.showConfirmDialog(null, "The teams have been saved.", "Alert!", 2);
 	}
 
-	public void displayloadPlayers() {
+	public void displayload() {
 		database.playerdatabase = filehandler.LoadPlayers();
-		JOptionPane.showConfirmDialog(null, "The players have been loaded.", "Alert!", 2);
+		database.teamdatabase = filehandler.LoadTeams();
+		// JOptionPane.showConfirmDialog(null, "The files have been loaded.", "Alert!",
+		// 2);
 	}
 
-	public void displayloadTeams() {
+	public void displayTopTenPlayers() {
+		double statCounterD = 0;
+		int statCounter = 0;
+		player tdd = null;
+		ArrayList<player> temp = new ArrayList<player>();
+		String[] j = { "Skill Rating", "Tournament Wins", "Earnings" };
+		Object[] options1 = j;
+		int result = JOptionPane.showOptionDialog(null, "Sort by?", "Top Ten Players", JOptionPane.YES_NO_CANCEL_OPTION,
+				JOptionPane.PLAIN_MESSAGE, null, options1, null);
+		for (player x : database.playerdatabase)
+			temp.add(x);
+		String output = "";
+		switch (result) {
+		case 0: // Skill Rating
+			for (int i = 0; i < 10; i++) {
+				for (player x : temp)
+					if (x.getStatsTotal() > statCounter) {
+						tdd = x;
+						statCounter = tdd.getStatsTotal();
+					}
 
-		for (team x : filehandler.LoadTeams())
-			database.teamdatabase.add(x);
+				output += "" + tdd.getFullName() + " (" + tdd.getStatsTotal() + ")\n";
+				temp.remove(tdd);
+				statCounter = 0;
+			}
+			break;
+		case 1: // tournament wins
+			for (int i = 0; i < 10; i++) {
+				System.out.println(i);
+				for (player x : temp)
+					if (x.getTournamentWins() > statCounter) {
+						tdd = x;
+						statCounter = tdd.getTournamentWins();
+					}
+				System.out.println(tdd.name);
+				output += "" + tdd.getFullName() + " (" + tdd.getTournamentWins() + ")\n";
+				temp.remove(tdd);
+				statCounter = 0;
+			}
+			break;
+		case 2: // Earnings
+			NumberFormat n = NumberFormat.getCurrencyInstance(Locale.US);
 
-		JOptionPane.showConfirmDialog(null, "The teams have been loaded.", "Alert!", 2);
+			for (int i = 0; i < 10; i++) {
+				for (player x : temp)
+					if (x.earnings > statCounter) {
+						tdd = x;
+						statCounter = x.earnings;
+					}
+				String s = n.format(tdd.earnings);
+				output += "" + tdd.getFullName() + " (" + s + ")\n";
+				temp.remove(tdd);
+				statCounter = 0;
+			}
+			break;
+		}
+
+		JOptionPane.showConfirmDialog(null, output, "Top Ten Teams", 2);
+	}
+
+	public void displayTopTenTeams() {
+		double statCounter = 0;
+		team tdd = null;
+		ArrayList<team> temp = new ArrayList<team>();
+		String[] j = { "Skill Rating", "Dynasty Factor", "Earnings" };
+		Object[] options1 = j;
+		int result = JOptionPane.showOptionDialog(null, "Sort by?", "Top Ten Teams", JOptionPane.YES_NO_CANCEL_OPTION,
+				JOptionPane.PLAIN_MESSAGE, null, options1, null);
+		for (team x : database.teamdatabase)
+			temp.add(x);
+		String output = "";
+		switch (result) {
+		case 0: // Skill Rating
+			for (int i = 0; i < 10; i++) {
+				for (team x : temp)
+					if (x.getTeamStrength() > statCounter) {
+						tdd = x;
+						statCounter = tdd.getTeamStrength();
+					}
+				try {
+					if (tdd.equals(null))
+						tdd = temp.get(0);
+				} catch (NullPointerException e) {
+					tdd = temp.get(0);
+				}
+
+				output += "" + tdd.name + " (" + tdd.getTeamStrength() + ")\n";
+				temp.remove(tdd);
+				statCounter = 0;
+				tdd = null;
+			}
+			break;
+		case 1: // Dynasty Factor
+			for (int i = 0; i < 10; i++) {
+				for (team x : temp)
+					if (x.dynasty > statCounter) {
+						tdd = x;
+						statCounter = tdd.dynasty;
+					}
+				try {
+					if (tdd.equals(null))
+						tdd = temp.get(0);
+				} catch (NullPointerException e) {
+					tdd = temp.get(0);
+				}
+
+				output += "" + tdd.name + " (" + tdd.dynasty + ")\n";
+				temp.remove(tdd);
+				statCounter = 0;
+				tdd = null;
+			}
+			break;
+		case 2: // Earnings
+			NumberFormat n = NumberFormat.getCurrencyInstance(Locale.US);
+
+			for (int i = 0; i < 10; i++) {
+				for (team x : temp)
+					if (x.tournamentEarnings > statCounter) {
+						tdd = x;
+						statCounter = tdd.tournamentEarnings;
+					}
+				try {
+					if (tdd.equals(null))
+						tdd = temp.get(0);
+				} catch (NullPointerException e) {
+					tdd = temp.get(0);
+				}
+				String s = n.format(tdd.tournamentEarnings);
+				output += "" + tdd.name + " (" + s + ")\n";
+				temp.remove(tdd);
+				statCounter = 0;
+				tdd = null;
+			}
+			break;
+		}
+
+		JOptionPane.showConfirmDialog(null, output, "Top Ten Teams", 2);
 	}
 
 }
