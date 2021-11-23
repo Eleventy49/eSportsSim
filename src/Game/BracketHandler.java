@@ -12,7 +12,7 @@ public class BracketHandler {
 		g = g1;
 	}
 	public BracketHandler(Team winner, Team notWinner, String section, int match, int type)
-	{ 	System.out.println("Sorry for party rocking");
+	{ 	
 		switch(type)
 		{
 		case 0:
