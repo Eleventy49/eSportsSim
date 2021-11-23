@@ -12,7 +12,7 @@ public class BracketHandler {
 		g = g1;
 	}
 	public BracketHandler(Team winner, Team notWinner, String section, int match, int type)
-	{ 	
+	{ 	System.out.println("Sorry for party rocking");
 		switch(type)
 		{
 		case 0:
@@ -43,6 +43,7 @@ public class BracketHandler {
 			Application.getGraphical().getGraphics().setFont(Application.getGraphical().getSmallFont());
 			Application.getGraphical().getGraphics().setColor(Color.white);
 			break;
+		
 	//	g.setFont(Game.bitoperatorfont13);
 		
 		
