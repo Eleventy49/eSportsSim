@@ -23,7 +23,7 @@ public class ViewTeamsSlot9 extends NormalButton implements ButtonInterface, Mou
 
 	@Override
 	public void init() {
-		Application.getGraphical().addMouseListener(this);
+		Application.getGame().addMouseListener(this);
 	}
 
 	@Override

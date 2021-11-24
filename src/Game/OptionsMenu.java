@@ -11,21 +11,21 @@ public class OptionsMenu {
 	public static void drawCenteredCircle(int x, int y, int r) {
 		  x = x-(r/2);
 		  y = y-(r/2);
-		  Application.getGraphical().getGraphics().fillOval(x,y,r,r);
+		  Application.getGame().getGraphics().fillOval(x,y,r,r);
 		}
 	
 	public static void render()
 	{
-		Application.getGraphical().getGraphics().setColor(Color.white);
-		Application.getGraphical().getGraphics().drawLine(200, 100, 400, 100);
+		Application.getGame().getGraphics().setColor(Color.white);
+		Application.getGame().getGraphics().drawLine(200, 100, 400, 100);
 		drawCenteredCircle(mousex,100,15);
 		
-		Application.getGraphical().getGraphics().drawLine(200, 400, 400, 400);
+		Application.getGame().getGraphics().drawLine(200, 400, 400, 400);
 		drawCenteredCircle(mousex2,400,15);
-		Application.getGraphical().getGraphics().drawString("Music Volume", 430, 115);
-		Application.getGraphical().getGraphics().drawString("Console Output [Developer Intended]", 430, 215);
-		Application.getGraphical().getGraphics().drawString("Quick Function Opens Tournament Bracket", 430, 315);
-		Application.getGraphical().getGraphics().drawString("Effects Volume", 430, 415);
+		Application.getGame().getGraphics().drawString("Music Volume", 430, 115);
+		Application.getGame().getGraphics().drawString("Console Output [Developer Intended]", 430, 215);
+		Application.getGame().getGraphics().drawString("Quick Function Opens Tournament Bracket", 430, 315);
+		Application.getGame().getGraphics().drawString("Effects Volume", 430, 415);
 		songVolume = (float)((mousex - 200) / 2.5) - 80;
 		effectVolume = (float)((mousex2 - 200) / 2.5) - 80;
 		

@@ -24,16 +24,16 @@ public class TeamViewer {
 				try {
 				if(!Database.teamdatabase.get(x).equals(null)) {
 					if(Database.teamdatabase.get(x).wChampion)
-						Application.getGraphical().getGraphics().setColor(Color.yellow);
+						Application.getGame().getGraphics().setColor(Color.yellow);
 					else if(Database.teamdatabase.get(x).maChampion)
-						Application.getGraphical().getGraphics().setColor(Color.gray);
+						Application.getGame().getGraphics().setColor(Color.gray);
 					else if(Database.teamdatabase.get(x).miChampion)
-						Application.getGraphical().getGraphics().setColor(Color.pink);
+						Application.getGame().getGraphics().setColor(Color.pink);
 					
-				Application.getGraphical().getGraphics().drawString(Database.teamdatabase.get(x).name, 200, i * 60);
-				Application.getGraphical().getGraphics().setColor(Color.white);
+				Application.getGame().getGraphics().drawString(Database.teamdatabase.get(x).name, 200, i * 60);
+				Application.getGame().getGraphics().setColor(Color.white);
 				}
-				Application.getGraphical().getGraphics().drawString("" + page, 550, 700);}
+				Application.getGame().getGraphics().drawString("" + page, 550, 700);}
 				catch(IndexOutOfBoundsException e)
 				{
 					

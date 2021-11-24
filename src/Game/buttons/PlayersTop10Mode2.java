@@ -31,7 +31,7 @@ public class PlayersTop10Mode2 extends NormalButton implements ButtonInterface,M
 	}
 	@Override
 	public void init() {
-		Application.getGraphical().addMouseListener(this);;
+		Application.getGame().addMouseListener(this);;
 	}
 	
 	public void mouseClicked(MouseEvent e) {
@@ -98,7 +98,7 @@ public class PlayersTop10Mode2 extends NormalButton implements ButtonInterface,M
 	}
 	public void draw(Graphics g, Graphics2D g2d)
 	{
-		super.draw(g, g2d);	
+		super.draw();	
 		//Set the correct color for the button
 	/*	if(Hovered)
 		{

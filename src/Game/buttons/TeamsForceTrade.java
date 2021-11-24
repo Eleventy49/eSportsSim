@@ -21,7 +21,7 @@ public class TeamsForceTrade extends NormalButton implements ButtonInterface,Mou
 	}
 	@Override
 	public void init() {
-		Application.getGraphical().addMouseListener(this);;
+		Application.getGame().addMouseListener(this);;
 	}
 	
 	public void mouseClicked(MouseEvent e) {
@@ -75,7 +75,7 @@ public class TeamsForceTrade extends NormalButton implements ButtonInterface,Mou
 		Application.isInGame = true;
 		Timer.forceTrade();
 		Application.WarningQuery = true;
-		Application.getGraphical().resetAlpha();
+		Application.getGame().resetAlpha();
 		Application.WarningMessage = "Forced Trade";
 		Music.mouseClick();
 	}
@@ -100,7 +100,7 @@ public class TeamsForceTrade extends NormalButton implements ButtonInterface,Mou
 		
 
 			
-		super.draw(g, g2d);	
+		super.draw();	
 		//Set the correct color for the button
 	/*	if(Hovered)
 		{

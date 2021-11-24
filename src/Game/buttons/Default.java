@@ -10,7 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 
 import Game.ButtonInterface;
-import Game.Graphical;
+
 import Game.Application;
 
 public class Default extends NormalButton implements ButtonInterface, MouseListener {
@@ -22,7 +22,7 @@ public class Default extends NormalButton implements ButtonInterface, MouseListe
 
 	@Override
 	public void init() {
-		Application.getGraphical().addMouseListener(this);
+		Application.getGame().addMouseListener(this);
 	}
 
 	@Override

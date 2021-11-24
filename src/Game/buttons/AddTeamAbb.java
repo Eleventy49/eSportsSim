@@ -36,6 +36,7 @@ public class AddTeamAbb extends NormalButton implements ButtonInterface, MouseLi
 
 	@Override
 	public void init() {
-		Application.getGraphical().addMouseListener(this);
+		Application.getGame().addMouseListener(this);
 	}
+
 }

@@ -20,7 +20,7 @@ public class ViewTeamPageDown extends NormalButton implements ButtonInterface,Mo
 	}
 	@Override
 	public void init() {
-		Application.getGraphical().addMouseListener(this);;
+		Application.getGame().addMouseListener(this);;
 	}
 	
 	public void mouseClicked(MouseEvent e) {
@@ -90,7 +90,7 @@ public class ViewTeamPageDown extends NormalButton implements ButtonInterface,Mo
 	{
 		
 			
-		super.draw(g, g2d);	
+		super.draw();	
 		//Set the correct color for the button
 	/*	if(Hovered)
 		{

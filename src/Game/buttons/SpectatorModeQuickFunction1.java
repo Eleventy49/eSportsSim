@@ -25,7 +25,7 @@ public class SpectatorModeQuickFunction1 extends NormalButton implements ButtonI
 	}
 	@Override
 	public void init() {
-		Application.getGraphical().addMouseListener(this);;
+		Application.getGame().addMouseListener(this);;
 	}
 	
 	public void mouseClicked(MouseEvent e) {
@@ -100,7 +100,7 @@ public class SpectatorModeQuickFunction1 extends NormalButton implements ButtonI
 	{
 		
 			
-		super.draw(g, g2d);	
+		super.draw();	
 		//Set the correct color for the button
 	/*	if(Hovered)
 		{

@@ -7,7 +7,7 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 
 public interface ButtonInterface {	
-	void draw(Graphics g, Graphics2D g2d);
+	void draw();
 	void mouseLeftClicked(MouseEvent e);
 	void mouseMiddleClicked(MouseEvent e);
 	void mouseRightClicked(MouseEvent e);

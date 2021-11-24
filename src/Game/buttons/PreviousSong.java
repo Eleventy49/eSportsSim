@@ -22,7 +22,7 @@ public class PreviousSong extends SpecialButton implements ButtonInterface, Mous
 
 	@Override
 	public void init() {
-		Application.getGraphical().addMouseListener(this);
+		Application.getGame().addMouseListener(this);
 		
 	}
 

@@ -23,7 +23,7 @@ public class IncreaseGameSpeed extends SpecialButton implements ButtonInterface,
 	}
 	@Override
 	public void init() {
-		Application.getGraphical().addMouseListener(this);;
+		Application.getGame().addMouseListener(this);;
 	}
 	
 	@Override

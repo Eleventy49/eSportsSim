@@ -21,7 +21,7 @@ public class NotificationDismissSlot14 extends NormalButton implements ButtonInt
 	}
 	@Override
 	public void init() {
-		Application.getGraphical().addMouseListener(this);;
+		Application.getGame().addMouseListener(this);;
 	}
 	
 	@Override
@@ -31,9 +31,9 @@ public class NotificationDismissSlot14 extends NormalButton implements ButtonInt
 		Music.mouseClick();
 	}
 
-	public void draw(Graphics g, Graphics2D g2d) {
-		if (NotificationHandler.coll.size() >= 10 && Application.State == Application.STATE.SpectatorMode) {
-			super.draw(Application.getGraphical().getGraphics(), (Graphics2D) Application.getGraphical().getGraphics());
+	public void draw() {
+		if (NotificationHandler.coll.size() >= 14 && Application.State == Application.STATE.SpectatorMode) {
+			super.draw();
 		}
 	}
 }

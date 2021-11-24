@@ -47,7 +47,7 @@ public class NotificationHandler {
 				}
 				else
 				{
-				Application.getGraphical().getGraphics().drawString(coll.get(i).txt, 200, (coll.get(i).uniqueid + 3)* 50);
+				Application.g.drawString(coll.get(i).txt, 200, (coll.get(i).uniqueid + 3)* 50);
 				}
 			}
 			}

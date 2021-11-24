@@ -10,7 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 
 import Game.ButtonInterface;
-import Game.Graphical;
+
 import Game.Application;
 import Game.Application.STATE;
 
@@ -23,7 +23,7 @@ public class CornerMenu extends SpecialButton implements ButtonInterface, MouseL
 
 	@Override
 	public void init() {
-		Application.getGraphical().addMouseListener(this);
+		Application.getGame().addMouseListener(this);
 	}
 
 	@Override

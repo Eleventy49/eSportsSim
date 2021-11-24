@@ -83,10 +83,10 @@ public class MultiColorNotification extends Notification {
 	public void render(int pos)
 	{
 		double running = 0;
-		FontMetrics fm   = Application.getGraphical().getGraphics().getFontMetrics(Application.getGraphical().getLargeFont());
+		FontMetrics fm   = Application.g.getFontMetrics(Application.bitoperatorfont36);
 		for(int i = 0; i < c.size(); i++)
 		{
-			Rectangle2D rect = fm.getStringBounds(s.get(i), Application.getGraphical().getGraphics());
+			Rectangle2D rect = fm.getStringBounds(s.get(i), Application.g);
 			
 			int textHeight = pos * 50;
 			int panelHeight = (pos * 50) - 40;
@@ -94,10 +94,10 @@ public class MultiColorNotification extends Notification {
 			
 			int y = ((panelHeight - textHeight) / 2  + fm.getAscent());
 			
-			Application.getGraphical().getGraphics().setColor(c.get(i));
-			Application.getGraphical().getGraphics().drawString(s.get(i), 200 + (int )running, (NotificationHandler.coll.get(pos).uniqueid + 3)* 50);
+			Application.g.setColor(c.get(i));
+			Application.g.drawString(s.get(i), 200 + (int )running, (NotificationHandler.coll.get(pos).uniqueid + 3)* 50);
 			running = rect.getMaxX() + running;
-			Application.getGraphical().getGraphics().setColor(Color.white);
+			Application.g.setColor(Color.white);
 		//	System.out.println("We are using the right render method");
 			
 			

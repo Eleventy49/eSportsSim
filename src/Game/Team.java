@@ -473,9 +473,9 @@ public class Team {
 		String s = n.format(tournamentEarnings);
 		switch (roster.size()) {
 		default:
-			if(wChampion) Application.getGraphical().getGraphics().setColor(Color.yellow);
-			else if(maChampion) Application.getGraphical().getGraphics().setColor(Color.lightGray);
-			else if(miChampion) Application.getGraphical().getGraphics().setColor(Color.orange);
+			if(wChampion) Application.getGame().getGraphics().setColor(Color.yellow);
+			else if(maChampion) Application.getGame().getGraphics().setColor(Color.lightGray);
+			else if(miChampion) Application.getGame().getGraphics().setColor(Color.orange);
 			return "\tTeam Name: " + name;
 	}
 }
@@ -493,7 +493,7 @@ public class Team {
 	public String toStringN3(int j) {
 
 		if(roster.get(j).wChampion)
-			Application.getGraphical().getGraphics().setColor(Color.yellow);
+			Application.getGame().getGraphics().setColor(Color.yellow);
 		return roster.get(j).name + " (" + roster.get(j).getStatsTotal() + ")";
 	}
 

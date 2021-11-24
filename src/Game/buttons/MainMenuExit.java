@@ -30,6 +30,6 @@ public class MainMenuExit extends NormalButton implements ButtonInterface, Mouse
 
 	@Override
 	public void init() {
-		Application.getGraphical().addMouseListener(this);
+		Application.getGame().addMouseListener(this);
 	}
 }

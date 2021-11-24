@@ -23,7 +23,7 @@ public class MainMenuCredits extends NormalButton implements ButtonInterface, Mo
 
 	@Override
 	public void init() {
-		Application.getGraphical().addMouseListener(this);
+		Application.getGame().addMouseListener(this);
 	}
 
 	@Override

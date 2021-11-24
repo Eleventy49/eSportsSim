@@ -28,7 +28,7 @@ public class MainMenuPlayButton extends NormalButton implements ButtonInterface,
 
 	@Override
 	public void init() {
-		Application.getGraphical().addMouseListener(this);
+		Application.getGame().addMouseListener(this);
 	}
 
 	public void mouseLeftClicked(MouseEvent e) {

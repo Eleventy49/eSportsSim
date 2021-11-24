@@ -19,7 +19,7 @@ import Game.Application;
 
 import Game.MusicHandler;
 import Game.Application.STATE;
-import Game.Graphical;
+
 
 public class NormalButton implements MouseListener {
 	public Rectangle bounds; // The phyisical button
@@ -66,8 +66,9 @@ public class NormalButton implements MouseListener {
 
 	}
 
-	public void draw(Graphics g, Graphics2D g2d) {
-		Application.getGraphical().drawButton(this);
+	public void draw() {
+		if(Application.getGame().gameStateIsPartOf(Application.getGame().State, prereq))
+		Application.getGame().drawButton(this);
 	}
 
 	public void init() {
@@ -102,7 +103,7 @@ public class NormalButton implements MouseListener {
 		// TODO Auto-generated method stub
 		int x = e.getX();
 		int y = e.getY();
-		if (bounds.contains(x, y)) {
+		if (bounds.contains(x, y) && Application.getGame().gameStateIsPartOf(Application.State, prereq)) {
 			if (e.getButton() == MouseEvent.BUTTON1) {
 				mouseLeftClicked(e);
 			} else if (e.getButton() == MouseEvent.BUTTON2) {
@@ -114,12 +115,12 @@ public class NormalButton implements MouseListener {
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		hovered = true;
+	public void mouseEntered(MouseEvent e) {
+		
 	}
 
 	@Override
-	public void mouseExited(MouseEvent arg0) {
+	public void mouseExited(MouseEvent e) {
 		hovered = false;
 	}
 
@@ -133,8 +134,11 @@ public class NormalButton implements MouseListener {
 
 	}
 
-	public void mouseMoved(MouseEvent arg0) {
-
+	public void mouseMoved(MouseEvent e) {
+		if(bounds.contains(new Rectangle(e.getX(),e.getY())))
+			hovered = true;
+			else
+			hovered = false;
 	}
 
 }

@@ -31,7 +31,7 @@ public class MainMenuTutorial extends NormalButton implements ButtonInterface, M
 
 	@Override
 	public void init() {
-		Application.getGraphical().addMouseListener(this);
+		Application.getGame().addMouseListener(this);
 		;
 	}
 
