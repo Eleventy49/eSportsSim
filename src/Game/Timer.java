@@ -86,9 +86,7 @@ public class Timer {
 		Application.g.drawLine(1, 2, length, 2);
 		Application.g.drawLine(1, 3, length, 3);
 		Application.g.drawLine(1, 4, length, 4);
-		Application.g.drawLine(1, 5, length, 5);
-		System.out.println("We draw some" + Application.g.getColor() + " line");
-		
+		Application.g.drawLine(1, 5, length, 5);	
 		
 		FontMetrics fm   = Application.g.getFontMetrics(Application.bitoperatorfont36);
 		Rectangle2D rect = fm.getStringBounds(dateAsString(), Application.g);

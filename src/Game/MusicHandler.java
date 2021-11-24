@@ -79,21 +79,18 @@ public class MusicHandler {
 							if(event.getType() == Type.STOP) {
 							timer++;
 							
-							}
-						
-						
+							}	
 				
 					}
 					};
-					
-			
+	
 			if(sound.isOpen()) {
 			songgainControl = (FloatControl) sound.getControl(FloatControl.Type.MASTER_GAIN);
 			songgainControl.setValue(OptionsMenu.songVolume);
 			muteControl = (BooleanControl) sound.getControl(BooleanControl.Type.MUTE);}
 			nowPlaying(index);
-			//sound.addLineListener(listener);
-			// sound.start();
+			sound.addLineListener(listener);
+			sound.start();
 	
 		} catch (IOException e2) {
 			e2.printStackTrace();
@@ -280,11 +277,10 @@ public class MusicHandler {
 		}
 	}
 	public static void setVolumeSong(float passing) {
-		// TODO Auto-generated method stub
+		if(songgainControl != null)
 		songgainControl.setValue(passing);
 	}
 	public static void setVolumeEffect(float passing) {
-		// TODO Auto-generated method stub
 		effectsgainControl.setValue(passing);
 	}
 }
