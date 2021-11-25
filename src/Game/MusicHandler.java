@@ -105,52 +105,52 @@ public class MusicHandler {
 		
 	}
 	private void nowPlaying(int index2) {
-		Application.getGame().setFrameCounter(0);
+		Graphical.setFrameCounter(0);
 		switch(index2) {
 		case 0:
 			Application.WarningQuery = true;
 			Application.WarningMessage = "Now playing: Eleventy 49 - This Finally Thought Everyone";
-			Application.getGame().resetAlpha();break;
+			Graphical.resetAlpha();break;
 		case 1:
 			Application.WarningQuery = true;
 			Application.WarningMessage = "Now playing: Eleventy 49 - Crabs"; 
-			Application.getGame().resetAlpha();break;
+			Graphical.resetAlpha();break;
 		case 2:
 			Application.WarningQuery = true;
 			Application.WarningMessage = "Now playing: Eleventy 49 - The Best Number is 74";
-			Application.getGame().resetAlpha();break;
+			Graphical.resetAlpha();break;
 		case 3:
 			Application.WarningQuery = true;
 			Application.WarningMessage = "Now playing: Eleventy 49 - Invasion of Pumpkins"; 
-			Application.getGame().resetAlpha();break;
+			Graphical.resetAlpha();break;
 		case 4:
 			Application.WarningQuery = true;
 			Application.WarningMessage = "Now playing: Eleventy 49 - A Collection of Melodies";
-			Application.getGame().resetAlpha();break;
+			Graphical.resetAlpha();break;
 		case 5:
 			Application.WarningQuery = true;
 			Application.WarningMessage = "Now playing: Eleventy 49 - Welcome to Winter";
-			Application.getGame().resetAlpha();break;
+			Graphical.resetAlpha();break;
 		case 6:
 			Application.WarningQuery = true;
 			Application.WarningMessage = "Now playing: Eleventy 49 - Welcome to Spring"; 
-			Application.getGame().resetAlpha();break;
+			Graphical.resetAlpha();break;
 		case 7:
 			Application.WarningQuery = true;
 			Application.WarningMessage = "Now playing: Eleventy 49 - For the House";
-			Application.getGame().resetAlpha();break;
+			Graphical.resetAlpha();break;
 		case 8:
 			Application.WarningQuery = true;
 			Application.WarningMessage = "Now playing: Eleventy 49 - Welcome to Summer";
-			Application.getGame().resetAlpha();break;
+			Graphical.resetAlpha();break;
 		case 9:
 			Application.WarningQuery = true;
 			Application.WarningMessage = "Now playing: Eleventy 49 - Welcome to Autumn";
-			Application.getGame().resetAlpha();break;
+			Graphical.resetAlpha();break;
 		case 10:
 			Application.WarningQuery = true;
 			Application.WarningMessage = "Now playing: Eleventy 49 - In Collaboration"; 
-			Application.getGame().resetAlpha();break;
+			Graphical.resetAlpha();break;
 			
 			
 		
@@ -281,6 +281,7 @@ public class MusicHandler {
 		songgainControl.setValue(passing);
 	}
 	public static void setVolumeEffect(float passing) {
+		if(effectsgainControl != null)
 		effectsgainControl.setValue(passing);
 	}
 }

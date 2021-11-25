@@ -45,7 +45,7 @@ public class Slider {
 		
 	//Actually do the drawing to the screen	
 
-		FontMetrics fm   = g.getFontMetrics(Application.getGame().getLargeFont());
+		FontMetrics fm   = g.getFontMetrics(Application.bitoperatorfont36);
 		Rectangle2D rect = fm.getStringBounds(txt, g);
 
 		int textHeight = (int)(rect.getHeight()); 

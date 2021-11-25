@@ -19,6 +19,7 @@ import Game.Application;
 
 import Game.MusicHandler;
 import Game.Application.STATE;
+import Game.Graphical;
 
 
 public class NormalButton implements MouseListener {
@@ -68,7 +69,7 @@ public class NormalButton implements MouseListener {
 
 	public void draw() {
 		if(Application.getGame().gameStateIsPartOf(Application.getGame().State, prereq))
-		Application.getGame().drawButton(this);
+		Application.graphical.drawButton(this);
 	}
 
 	public void init() {

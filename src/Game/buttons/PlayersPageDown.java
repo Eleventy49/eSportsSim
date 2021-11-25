@@ -18,7 +18,7 @@ public class PlayersPageDown extends NormalButton implements ButtonInterface,Mou
 
 	public PlayersPageDown()
 	{
-		super(new Rectangle(400, 700, 50, 50),  "-", Color.white, Color.GRAY,new Application.STATE[]{Application.STATE.SpectatorModePlayers}, Application.STATE.SpectatorModeViewPlayer, "PlayersViewPlayer");
+		super(new Rectangle(400, 700, 50, 50),  "-", Color.white, Color.GRAY,new Application.STATE[]{Application.STATE.SpectatorModeViewPlayer}, Application.STATE.SpectatorModeViewPlayer, "PlayersViewPlayer");
 	
 	}
 	@Override

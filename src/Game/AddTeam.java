@@ -19,7 +19,7 @@ public class AddTeam{
 	public static void Team(Graphics g)  {		//Declaring a "Method", which is a collection of code that can be run over and over again from somewhere else. (This just draws the text)
 		Graphics2D g2d = (Graphics2D)g;
 		g.setColor(Color.WHITE);
-		FontMetrics fm   = g.getFontMetrics(Application.getGame().getLargeFont());
+		FontMetrics fm   = g.getFontMetrics(Application.bitoperatorfont36);
 		Rectangle2D rect = fm.getStringBounds(text, g);
 
 		int textHeight = (int)(rect.getHeight()); 
@@ -37,7 +37,7 @@ public class AddTeam{
 		
 		g.setColor(Color.WHITE);
 	
-		fm   = g.getFontMetrics(Application.getGame().getLargeFont());
+		fm   = g.getFontMetrics(Application.bitoperatorfont36);
 		 rect = fm.getStringBounds(abb, g);
 
 		textHeight = (int)(rect.getHeight()); 

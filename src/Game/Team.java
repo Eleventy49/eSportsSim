@@ -225,7 +225,8 @@ public class Team {
 	public String save() {
 
 		return name + "," + MajorTitlesWon + "," + MinorTitlesWon + "," + WorldTitlesWon + "," + tournamentEarnings
-				+ "," + subSave() + "," + dynasty + "," + Abbreviation + "," + wChampion + "," + maChampion + "," + miChampion + "," + cash.getAmount() + "," 
+				+ "," + subSave() + "," + dynasty + "," + Abbreviation + "," + wChampion + "," + maChampion + "," + miChampion + "," + cash.getDollars() + ","
+				+ cash.getCents() + ","
 				+ staff.size() + "," + subSave2() + "\n";
 
 	}

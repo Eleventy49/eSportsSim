@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 
 import Game.ButtonInterface;
+import Game.Graphical;
 import Game.Application;
 import Game.TeamViewer;
 import Game.Application.STATE;
@@ -75,7 +76,7 @@ public class TeamsForceTrade extends NormalButton implements ButtonInterface,Mou
 		Application.isInGame = true;
 		Timer.forceTrade();
 		Application.WarningQuery = true;
-		Application.getGame().resetAlpha();
+		Graphical.resetAlpha();
 		Application.WarningMessage = "Forced Trade";
 		Music.mouseClick();
 	}

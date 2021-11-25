@@ -1,5 +1,4 @@
 Todo
-- Remove class.variable declarations (make getters and setters)
 - Refactor graphics methods to consider colors for teams and players
 - confirm that every button works as intended
 - Remove all system.println calls related to testing, those that are helpful must be wrapped in the options detection

@@ -20,11 +20,11 @@ public class Menu {
 	public static Color playColor = Color.white;
 	public void render(Graphics g) {
 		//Draw the main splash text.
-		g.setFont(Application.getGame().getLargeFont());
+		g.setFont(Application.bitoperatorfont36);
 		g.setColor(Color.WHITE);
 		
 		
-		FontMetrics fm   = g.getFontMetrics(Application.getGame().getLargeFont());
+		FontMetrics fm   = g.getFontMetrics(Application.bitoperatorfont36);
 		Rectangle2D rect = fm.getStringBounds("{Virtually} Pro Dota", g);
 
 	//	int textHeight = (int)(rect.getHeight()); 

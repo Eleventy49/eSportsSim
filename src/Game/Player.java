@@ -153,6 +153,7 @@ public class Player implements java.lang.Comparable<Player> {
 		NumberFormat n = NumberFormat.getCurrencyInstance(Locale.US);
 		// double doublePayment = 100.13;
 		String s = n.format(earnings);
+		System.out.println(WorldTitles);
 		if (org == null)
 			return "\tName: " + name + "\nRole: " + role + "\n\tCurrent Team: None" + "\nEarnings: " + s
 					+ "\nSkill Ranking: " + Database.getPlayerPosition(-1, this) + " / " + Database.playerdatabase.size()

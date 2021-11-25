@@ -153,6 +153,7 @@ public class ButtonCollection {
 		collection.add( PlayPause);
 		collection.add(PlayPauseGameSpeed );
 		collection.add(PreviousSong );
+		collection.add(PlayersViewPlayer);
 		collection.add( SelectionManagerMode);
 		collection.add(SelectionSpectatorMode );
 		collection.add(SpectatorModeAdministration );

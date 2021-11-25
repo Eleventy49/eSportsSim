@@ -42,7 +42,7 @@ public class Bracket4 {
 	}
 	
 	public static void load() {
-		Application.getGame().getGraphics().setFont(Application.getGame().getSmallFont());
+		Application.getGame().getGraphics().setFont(Application.bitoperatorfont13);
 		Application.getGame().getGraphics().setColor(Color.white);
 
 		for(Integer x: counter)

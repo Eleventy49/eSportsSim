@@ -93,7 +93,7 @@ public class Filehandler {
 		if (rml == JFileChooser.APPROVE_OPTION)
 		{
 			String x = j.getSelectedFile().getAbsolutePath();
-		ArrayList<Tournament> listo = new ArrayList<Tournament>();
+		//ArrayList<Tournament> listo = new ArrayList<Tournament>();
 		ArrayList<Team> ii = new ArrayList<Team>();
 		ArrayList<Player> list = new ArrayList<Player>();
 		ArrayList<Team> listt = new ArrayList<Team>();
@@ -273,7 +273,7 @@ public class Filehandler {
 						
 						
 					}
-			TournamentScheduler.collection = listo;
+			//TournamentScheduler.collection = listo;
 			
 			
 			

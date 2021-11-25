@@ -9,6 +9,8 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 
 import Game.ButtonInterface;
+import Game.Database;
+import Game.PlayerViewer;
 import Game.Application;
 import Game.Application.STATE;
 
@@ -71,9 +73,13 @@ public class ViewPlayersSlot8 extends NormalButton implements ButtonInterface,Mo
 	@Override
 	public void mouseLeftClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		Application.prevState.add(Application.State);  
 		Application.ourversionofi = 8;
+		Application.trackingPlayer = Database.playerdatabase.get((PlayerViewer.page * 10) - 11 + Application.ourversionofi);
+		Application.prevState.add(Application.State);  
+		
+		Application.State = gameStateOnClick;
 		Music.mouseClick();
+	//	Application.trackingPlayer = Database.playerdatabase.get((PlayerViewer.page * 10) - 11 + Application.ourversionofi);
 	}
 
 	@Override

@@ -10,6 +10,14 @@ public class Cash {
 		centsAmount = c;
 	}
 	
+	public int getDollars()
+	{
+		return dollarAmount;
+	}
+	public int getCents() {
+		return centsAmount;
+	}
+	
 	public float getAmount()
 	{
 		return dollarAmount + (centsAmount / 100);

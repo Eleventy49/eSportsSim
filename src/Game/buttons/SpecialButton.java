@@ -22,15 +22,15 @@ public class SpecialButton extends NormalButton {
 	}
 
 	public void draw() {
-		if(!Application.getGame().gameStateIsPartOf(Application.getGame().State, prereq))
-		Application.getGame().drawButton(this);
+		if(!Application.gameStateIsPartOf(Application.getGame().State, prereq))
+		Application.graphical.drawButton(this);
 	}
 	public void mouseClicked(MouseEvent e) {
 
 		// TODO Auto-generated method stub
 		int x = e.getX();
 		int y = e.getY();
-		if (bounds.contains(x, y) && (!Application.getGame().gameStateIsPartOf(Application.State, prereq))) {
+		if (bounds.contains(x, y) && (!Application.gameStateIsPartOf(Application.State, prereq))) {
 			if (e.getButton() == MouseEvent.BUTTON1) {
 				mouseLeftClicked(e);
 			} else if (e.getButton() == MouseEvent.BUTTON2) {
