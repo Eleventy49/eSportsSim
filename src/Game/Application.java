@@ -76,7 +76,7 @@ public class Application extends Canvas implements Runnable {
 	public static boolean SpectatorMode;
 	public static boolean isMusic = false;
 	public static ButtonCollection buttons;
-	public static Graphical graphical = new Graphical();
+	public Graphical graphical = new Graphical();
 
 	public static Menu getMenu() {
 		return menu;
@@ -152,7 +152,6 @@ public class Application extends Canvas implements Runnable {
 	public static Team viewingTeam = null;
 	public static Player trackingPlayer;
 
-	// Initializing all the things.
 	public static boolean gameStateIsPartOf(STATE single, ArrayList<STATE> collection) {
 		boolean temp = false;
 		for (STATE x : collection) {
@@ -178,6 +177,10 @@ public class Application extends Canvas implements Runnable {
 	}
 
 	public void init() {
+		BufferStrategy bs = Application.getGame().getBufferStrategy();
+		if (bs == null) {
+			Application.game.createBufferStrategy(3);
+		}
 		buttons = new ButtonCollection();
 		for (Object x : Application.buttons.getCollection()) {
 			NormalButton y = null;
@@ -195,6 +198,7 @@ public class Application extends Canvas implements Runnable {
 				z = (Slider) x;
 				z.init();
 			}
+		}
 			
 			// if(gameStateIsPartOf(Game.State, y.prereq))
 			requestFocus();
@@ -228,10 +232,8 @@ public class Application extends Canvas implements Runnable {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
-			BracketHandler.setGraphics(g);
-			
-		}
+			this.graphical = new Graphical();
+			graphical.init();
 		menu = new Menu();
 		BracketHandler.setGraphics(g);
 		addKeyListener(new KeyInput(this));
@@ -281,17 +283,14 @@ public class Application extends Canvas implements Runnable {
 		game.setPreferredSize(new Dimension(WIDTH, HEIGHT)); // Doing some things with the size of the window
 		game.setMaximumSize(new Dimension(WIDTH, HEIGHT));
 		game.setMinimumSize(new Dimension(WIDTH, HEIGHT));
-
 		frame = new JFrame(game.TITLE); // Defining the window and making it visible.
 		frame.add(game);
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
 		frame.setIconImage(new ImageIcon("res/logo.png").getImage());
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
-
 		game.start(); // Start the game thread.
 	}
 
@@ -299,7 +298,6 @@ public class Application extends Canvas implements Runnable {
 	// will probably be when I acutally implement a time system.
 	private void tick() {
 		if (State == STATE.ManagerMode) {
-
 		}
 		if (gameLoaded) {
 			isMusic = Music.checkPlaying();
@@ -401,6 +399,19 @@ public class Application extends Canvas implements Runnable {
 
 	public static ImageObserver getImageObserver() {
 		return game;
+	}
+
+	public Graphical getGraphical() {
+		return graphical;
+	}
+	
+	public Graphics getGraphics() {
+		return g;
+	}
+
+	public void setGraphics(Graphics drawGraphics) {
+		g = drawGraphics;
+		
 	}
 
 

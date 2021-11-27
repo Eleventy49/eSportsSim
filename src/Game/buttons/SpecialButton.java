@@ -23,7 +23,7 @@ public class SpecialButton extends NormalButton {
 
 	public void draw() {
 		if(!Application.gameStateIsPartOf(Application.getGame().State, prereq))
-		Application.graphical.drawButton(this);
+		Application.getGame().getGraphical().drawButton(this);
 	}
 	public void mouseClicked(MouseEvent e) {
 

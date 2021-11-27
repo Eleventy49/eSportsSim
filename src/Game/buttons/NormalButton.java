@@ -69,7 +69,7 @@ public class NormalButton implements MouseListener {
 
 	public void draw() {
 		if(Application.getGame().gameStateIsPartOf(Application.getGame().State, prereq))
-		Application.graphical.drawButton(this);
+		Application.getGame().getGraphical().drawButton(this);
 	}
 
 	public void init() {

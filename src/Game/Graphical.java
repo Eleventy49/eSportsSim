@@ -16,59 +16,63 @@ import Game.buttons.SpecialButton;
 public class Graphical{
 
 	public static void drawViewPlayers(Player i) {
-		Color color = Application.g.getColor();
-		Application.g.setFont(Application.bitoperatorfont13);
+		Color color = Application.getGame().getGraphics().getColor();
+		Application.getGame().getGraphics().setFont(Application.bitoperatorfont13);
 		System.out.println(i);
 		try {
 			drawString2(i.toStringN(), 700, 100);
 			drawString2(i.toStringN2(), 700, 100);
 
-			Application.g.setColor(Color.WHITE);
+			Application.getGame().getGraphics().setColor(Color.WHITE);
 		} catch (IndexOutOfBoundsException e) {
 
 		}
-		Application.g.setColor(color);
+		Application.getGame().getGraphics().setColor(color);
 	}
 
 	public static void drawString2(String text, int x, int y) {
-		Color color = Application.g.getColor();
-		//Application.g.setFont(Application.bitoperatorfont36);
+		Color color = Application.getGame().getGraphics().getColor();
+		//Application.getGame().getGraphics().setFont(Application.bitoperatorfont36);
 		for (String line : text.split("\n"))
-			Application.g.drawString(line, x, y += Application.g.getFontMetrics().getHeight());
-		Application.g.setColor(color);
+			Application.getGame().getGraphics()
+			.drawString(line, x, y += Application.getGame().getGraphics().getFontMetrics().getHeight());
+		Application.getGame().getGraphics().setColor(color);
+		
+		System.out.println(Application.getGame().getGraphics());
+		System.out.println(Application.getGame().getGraphics());
 	}
 	
 	public static void drawViewTeams(int i) {
-		Color color = Application.g.getColor();
+		Color color = Application.getGame().getGraphics().getColor();
 		if (Application.viewingTeam == null)
 			Application.viewingTeam = Database.teamdatabase.get((TeamViewer.page * 10) - 11 + i);
 
-		Application.g.setFont(Application.bitoperatorfont36);
-		Application.g.setColor(Color.white);
+		Application.getGame().getGraphics().setFont(Application.bitoperatorfont36);
+		Application.getGame().getGraphics().setColor(Color.white);
 		try {
 			drawString2(Application.viewingTeam.toStringN(), 700, 100);
-			Application.g.setColor(Color.white);
+			Application.getGame().getGraphics().setColor(Color.white);
 			drawString2(Application.viewingTeam.toStringN2(), 700, 150);
 
 			for (int j = 0; j < Application.viewingTeam.roster.size(); j++) {
 				drawString2(Application.viewingTeam.toStringN3(j), 700, 550 + (50 * j));
-				Application.g.setColor(Color.white);
+				Application.getGame().getGraphics().setColor(Color.white);
 			}
 		} catch (IndexOutOfBoundsException e) {
 
 		}
-		Application.g.setColor(color);
+		Application.getGame().getGraphics().setColor(color);
 	}
 
 	public static void drawViewTeams(Team i) {
-		Color color = Application.g.getColor();
-		Application.g.setFont(Application.bitoperatorfont13);
+		Color color = Application.getGame().getGraphics().getColor();
+		Application.getGame().getGraphics().setFont(Application.bitoperatorfont13);
 		try {
 			drawString2(i.toString(), 700, 100);
 		} catch (IndexOutOfBoundsException e) {
 
 		}
-		Application.g.setColor(color);
+		Application.getGame().getGraphics().setColor(color);
 	}
 
 	public void render() {
@@ -77,12 +81,11 @@ public class Graphical{
 			Application.game.createBufferStrategy(3);
 			return;
 		}
-
-		Application.g = bs.getDrawGraphics(); // Making sure the graphics environment is in check.
-		Application.g.drawImage(Application.background, 0, 0, Application.WIDTH, Application.HEIGHT, Application.getImageObserver()); // The background is always the first thing drawn
-																		// to the screen.
-		Application.g.setFont(getLargeFont()); // Set the default font and color
-		Application.g.setColor(Color.WHITE);
+		Application.getGame().setGraphics(bs.getDrawGraphics());
+		Application.getGame().getGraphics().drawImage(Application.background, 0, 0, Application.WIDTH, Application.HEIGHT, Application.getImageObserver()); // The background is always the first thing drawn
+													// to the screen.
+		Application.getGame().getGraphics().setFont(getLargeFont()); // Set the default font and color
+		Application.getGame().getGraphics().setColor(Color.WHITE);
 		for (Object x : Application.buttons.getCollection()) {
 			NormalButton y = null;
 			SpecialButton w = null;
@@ -128,11 +131,11 @@ public class Graphical{
 			OptionsMenu.render();
 		}
 		if (Application.State == STATE.SpectatorModeAddTeam) {
-			AddTeam.Team(Application.g);
+			AddTeam.Team(Application.getGame().getGraphics());
 		}
 		if (Application.State == STATE.Tournaments) {
 
-			BracketHandler.setGraphics(Application.g);
+			BracketHandler.setGraphics(Application.getGame().getGraphics());
 			Bracket32.clearTournament();
 			Bracket16.clearTournament();
 			Application.runTournament = true;
@@ -142,7 +145,7 @@ public class Graphical{
 
 			if (Application.runTournament) {
 				Bracket32.clearTournament();
-				BracketHandler.setGraphics(Application.g);
+				BracketHandler.setGraphics(Application.getGame().getGraphics());
 				// SimTournament.World(Database.teamdatabase);
 				Application.runTournament = false;
 				Bracket32.printBracket();
@@ -157,7 +160,7 @@ public class Graphical{
 
 			if (Application.runTournament) {
 				Bracket16.clearTournament();
-				BracketHandler.setGraphics(Application.g);
+				BracketHandler.setGraphics(Application.getGame().getGraphics());
 				// SimTournament.Major(Database.getStrongBois(16));
 				Application.runTournament = false;
 				Bracket16.printBracket();
@@ -171,7 +174,7 @@ public class Graphical{
 
 			if (Application.runTournament) {
 				Bracket4.clearTournament();
-				BracketHandler.setGraphics(Application.g);
+				BracketHandler.setGraphics(Application.getGame().getGraphics());
 				// SimTournament.Minor4(Database.getWeakBois(4));
 				Application.runTournament = false;
 				Bracket4.printBracket();
@@ -242,14 +245,14 @@ public class Graphical{
 		// HEIGHT = windowSize.height;
 		
 		
-		Application.g.dispose(); // We are done drawing this frame.
+		Application.getGame().getGraphics().dispose(); // We are done drawing this frame.
 		bs.show(); // Display the frame.
 
 	}
 
 	public static void drawCenteredText(String txt, int x1, int y1, int x2, int y2) {
-		Color color = Application.g.getColor();
-		FontMetrics fm = Application.g.getFontMetrics(Application.bitoperatorfont36);
+		Color color = Application.getGame().getGraphics().getColor();
+		FontMetrics fm = Application.getGame().getGraphics().getFontMetrics(Application.bitoperatorfont36);
 		Rectangle2D rect = fm.getStringBounds(txt, Application.g);
 
 		int textHeight = y1;
@@ -261,24 +264,24 @@ public class Graphical{
 		int x = ((panelWidth - textWidth) / 2);
 		int y = ((panelHeight - textHeight) / 2 + fm.getAscent());
 
-		Application.g.drawString(txt, x, y); // Draw the string.
-		Application.g.setColor(color);
+		Application.getGame().getGraphics().drawString(txt, x, y); // Draw the string.
+		Application.getGame().getGraphics().setColor(color);
 	}
 
 	public void drawButton(NormalButton button) {
-		Color color = Application.g.getColor();
+		Color color = Application.getGame().getGraphics().getColor();
 		if(Application.gameStateIsPartOf(Application.State, button.prereq))
 		{
 		Graphics2D g2d = (Graphics2D) Application.g;
 		if (button.hovered) {
-			Application.g.setColor(button.getHoveredColor());
+			Application.getGame().getGraphics().setColor(button.getHoveredColor());
 		} else {
-			Application.g.setColor(button.getDefaultcolor());
+			Application.getGame().getGraphics().setColor(button.getDefaultcolor());
 		}
 
 		// Actually do the drawing to the screen
 
-		FontMetrics fm = Application.g.getFontMetrics(Application.bitoperatorfont36);
+		FontMetrics fm = Application.getGame().getGraphics().getFontMetrics(Application.bitoperatorfont36);
 		Rectangle2D rect = fm.getStringBounds(button.txt, Application.g);
 
 		int textHeight = (int) (rect.getHeight());
@@ -290,12 +293,25 @@ public class Graphical{
 		int x = ((panelWidth - textWidth) / 2) + button.bounds.x;
 		int y = ((panelHeight - textHeight) / 2 + fm.getAscent()) + button.bounds.y;
 		
-		Application.g.drawString(button.txt, x, y); // Draw the string.
+		Application.getGame().getGraphics().drawString(button.txt, x, y); // Draw the string.
 		g2d.draw(button.bounds);
-		Application.g.setColor(color);
+		Application.getGame().getGraphics().setColor(color);
 //			g.drawString(txt, bounds.x + 5, bounds.y + 40);	
 		}
 
+	}
+	
+	public void init() {
+		BufferStrategy bs = Application.getGame().getBufferStrategy();
+		if (bs == null) {
+			Application.game.createBufferStrategy(3);
+		}
+		bs = Application.getGame().getBufferStrategy();
+		Application.getGame().setGraphics(bs.getDrawGraphics());
+		System.out.println("1\t"+Application.g);
+		System.out.println("2\t"+Application.getGame().getGraphics());
+		System.out.println("3\t"+ Application.g.equals(Application.getGame().getGraphics()));
+		
 	}
 
 	public void drawButton(SpecialButton button) {
