@@ -12,9 +12,6 @@ public class BracketHoverHandler {
 		
 		}
 		
-		
-		
-		
 		else Bracket32.setHoveredPlayer(-1);
 		
 	}
