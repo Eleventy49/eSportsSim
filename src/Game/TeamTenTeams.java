@@ -111,8 +111,29 @@ public class TeamTenTeams {
 				tdd = null;
 			}
 			break;
+		case 4: // Recent Wins
+			for (int i = 0; i < 10; i++) {
+					for (Team x : temp)
+						if (x.getRecentWins() > statCounter) {
+							tdd = x;
+							statCounter = (tdd.getRecentWins());
+						}
+					try {
+						if (tdd.equals(null))
+							tdd = temp.get(0);
+					} catch (NullPointerException e) {
+						tdd = temp.get(0);
+					}
+				
+					String s = "" + tdd.getRecentWins();
+					output += "" + tdd.name + " (" + s + ")\n";
+					temp.remove(tdd);
+					statCounter = 0;
+					tdd = null;
+				}
+				break;	
 		}
-		Graphical.drawString2(output, Application.WIDTH/2, 50);
+		Graphical.drawStringWithLineBreaks(output, Application.WIDTH/2, 50);
 	}
 	public static void clear()
 	{

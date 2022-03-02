@@ -5,24 +5,28 @@ import java.util.ArrayList;
 public class NotificationHandler {
 	
 	public static ArrayList<Notification> coll = new ArrayList<Notification>();
+	public static boolean editing = false;
 
 	public static void delete(int n)
 	{
+		editing = true;
 		coll.remove(n);
 		Notification.id--;
 		for(int i = n; i < coll.size(); i++)
 			coll.get(i).uniqueid--;
 			
 			
-			
+		editing = false;	
 	}
 	public static void add(Notification n)
 	{
+		editing = true;
 		coll.add(n);
+		editing = false;
 	}
 	public static void render()
 	{	
-		
+		editing = true;
 		if(Application.State == Application.STATE.SpectatorMode)
 		{Team champ;
 		ArrayList<Player> p1 = new ArrayList<Player>();
@@ -52,5 +56,11 @@ public class NotificationHandler {
 			}
 			}
 		}
+		editing = false;
+	}
+	public static void clear() {
+		coll.clear();
+		Notification.resetID();
+		
 	}
 }

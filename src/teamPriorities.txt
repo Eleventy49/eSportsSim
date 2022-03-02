@@ -1,0 +1,51 @@
+S9 Blitz		1 Carry		2 Midlane	3 Offlane	4 Support	5 Support
+ Traditional
+
+S4 Cobalt		1 Carry		2 Offlane	3 Midlane	4 Support	5 Support
+ Offlane heroes are build to fight, so give them what they need to fight
+
+S2 Xydeco		1 Carry		2 Offlane	3 Support	4 Midlane	5 Support
+ The midlaner is in prime fighting position, so make them fight, not farm
+
+S8 Nirvana		1 Carry		2 Support	3 Midlane	4 Offlane	5 Support
+ Give 1 support farming space to capitalize on their early power, keep everything else the same
+
+S1 Valkyrie		1 Midlaner 	2 Carry 	3 Offlane 	4 Support 	5 Support
+ The mid is the one with the positional advantage anyway, treat them like it.
+
+S5 Standin.Ovation	1 Midlaner	2 Carry 	3 Offlane	4 Support	5 Support
+ The mid is the one with the positional advantage anyway, treat them like it.
+
+S3 Detrimentum		1 Midlaner	2 Carry		3 Support	4 Offlane	5 Support
+ Sack the offlaner (that's their traditional job anyway) so the mid and carry are as big as possible
+
+S7 Stealth		1 Midlane	2 Offlane	3 Carry		4 Support	5 Support
+ Play cool until the lategame, farm up the key fighting positions enough to make sure you get there
+
+S6 Making New Meta	1 Support	2 Support	3 Carry		4 Midlaner	5 Offlane
+ Supports are best early, give them gold to be the best when they are the best, don't give the enemy
+ a chance to come back
+
+A8 Phenom		1		2		3		4		5
+C5 Revolution		1		2		3		4		5
+B1 Leviathan		1		2		3		4		5
+A9 Renegade		1		2		3		4		5
+B2 Phoenix		1		2		3		4		5
+B3 Enigma		1		2		3		4		5
+A1 Elementum		1		2		3		4		5	
+A2 Hyperion		1		2		3		4		5
+C4 DragonStyle		1		2		3		4		5
+B4 Alpha		1		2		3		4		5
+B5 KappaChamp		1		2		3		4		5
+C3 Triumphirant		1		2		3		4		5
+A3 N.M.C		1		2		3		4		5
+C2 Effervescent		1		2		3		4		5
+B6 Incognitio		1		2		3		4		5
+A4 Bad Axe		1		2		3		4		5
+A5 Carnival Of Filth	1		2		3		4		5	
+C1 Team Public		1		2		3		4		5
+A6 Dwarven Inc.		1		2		3		4		5
+B7 Luminescence		1		2		3		4		5
+A7 Rust & Ruin		1		2		3		4		5
+B8 Mercurial		1		2		3		4		5
+B9 Phosphorescent	1		2		3		4		5

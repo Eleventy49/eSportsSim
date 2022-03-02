@@ -24,7 +24,8 @@ public class ViewPlayersSlot1 extends NormalButton implements ButtonInterface,Mo
 	}
 	@Override
 	public void init() {
-		Application.getGame().addMouseListener(this);;
+		Application.getGame().addMouseListener(this);
+		Application.getGame().addMouseMotionListener(this);
 	}
 	
 	public void mouseClicked(MouseEvent e) {
@@ -77,12 +78,6 @@ public class ViewPlayersSlot1 extends NormalButton implements ButtonInterface,Mo
 	//	try {
 		Application.ourversionofi = 1;
 		Application.trackingPlayer = Database.playerdatabase.get((PlayerViewer.page * 10) - 11 + Application.ourversionofi);
-		System.out.println(Database.playerdatabase.size() + "\t" + ((PlayerViewer.page * 10) - 11 + Application.ourversionofi));
-		System.out.println("It's because we clicked" + Application.trackingPlayer);
-		//}
-		//catch(Exception ex)
-		//{ex.printStackTrace();}
-		System.out.println("We did do the code in the button");
 		Application.prevState.add(Application.State);
 		Application.State = gameStateOnClick;
 	

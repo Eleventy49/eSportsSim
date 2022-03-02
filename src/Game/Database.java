@@ -22,6 +22,16 @@ public class Database {
 		return temp.indexOf(p) + 1;
 		
 	}
+	
+	public static int getTeamPosition(Team t)
+	{
+		ArrayList<Team> temp = new ArrayList<Team>();
+		for(Team t1 : teamdatabase)
+			temp.add(t1);
+			temp = sortTeamsGeneral(temp);
+		return temp.indexOf(t) + 1;
+		
+	}
 	public static ArrayList<Player> sortPlayersGeneral(ArrayList<Player> t)
 	{	
 		
@@ -52,16 +62,11 @@ public class Database {
 				ITellYouToKeepGoing =  false;
 			}
 			zebra = 0;
-		
-			
 		}
-	/*	for(Team x: teamdatabase)
-		{
-			System.out.println(x.getTeamStrength());
-		}*/
 		return t;
 	
 	}
+
 	public static ArrayList<Player> sortPlayersByStat(ArrayList<Player> t,int j)
 	{	
 		
@@ -100,6 +105,38 @@ public class Database {
 	
 	}
 	
+	public static ArrayList<Team> sortTeamsGeneral(ArrayList<Team> t ) {
+
+		Team T1;
+		Team T2;
+		Team temp1;
+		Team temp2;
+		int zebra = 0;
+		boolean ITellYouToKeepGoing = true;
+		while(ITellYouToKeepGoing)
+		{
+			for(int i = 0; i < t.size() - 1; i++)
+			{ 
+				if(t.get(i).getTeamStrength() < t.get(i+1).getTeamStrength())
+				{
+					zebra++;
+			
+					temp1 = t.get(i);
+					temp2 = t.get(i+1);
+					t.remove(temp1);
+					t.remove(temp2);
+					t.add(i, temp2);
+					t.add(i+1,temp1);
+				}
+			}
+			if(zebra == 0)
+			{
+				ITellYouToKeepGoing =  false;
+			}
+			zebra = 0;
+		}
+		return t;
+	}
 	
 	
 	public static ArrayList<Team> sortTeamsBySkill()
@@ -134,7 +171,6 @@ public class Database {
 			}
 			zebra = 0;
 		
-			System.out.println("We did something");
 		}
 	
 		return teamdatabase;
@@ -150,9 +186,12 @@ public class Database {
 			for(int i = 0; i < 8; i++)
 				returnyboi.add(goingfrom.get(i));
 		else if(n == 16)
-			for(int i = 0; i < 16; i++)
+			for(int i = 0; i < 16; i++) {
 				returnyboi.add(goingfrom.get(i));
+				System.out.println("Added " + goingfrom.get(i).name);
+			}
 		return returnyboi;
+		
 			
 	}
 	public static ArrayList<Team> getWeakBois(int n)
@@ -161,7 +200,6 @@ public class Database {
 		Random r = new Random();
 		
 		ArrayList<Team> goingfrom = sortTeamsBySkill();
-		System.out.println("goingfrom" + goingfrom.size() );
 		ArrayList<Team> returnyboi = new ArrayList<Team>();
 		for(int i = 0; i < n; ++i)
 		{

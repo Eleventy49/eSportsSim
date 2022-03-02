@@ -141,58 +141,40 @@ public class TournamentScheduler {
 			
 			if(x.Month - 1 == Timer.month)
 			{
-				System.out.println(x.type);	
-				System.out.println(x.type);
-				System.out.println(x.type);
-				System.out.println(x.type);
-				System.out.println(x.type);
-				System.out.println(x.type);
-				System.out.println(x.type);
 				if(x.type == Tournament.FORMAT.Minor8)
 				{
-					System.out.println(x.participating.size());
 				x.runQualifiers();		
-				System.out.println("We ran qualifiers minor 8");
+				
 				}
 				if(x.type == Tournament.FORMAT.Major)
 				{
-					System.out.println(x.participating.size());
 				x.runQualifiers();		
-				System.out.println("We ran qualifiers major");
+				
 				}
-				System.out.println("We ran qualifiers");
+				
 				
 				
 				
 			}
 			else if(x.Month == 1 && Timer.month == 12 && x.Year == Timer.year + 1)
 			{
-				System.out.println(x.type);	
-				System.out.println(x.type);
-				System.out.println(x.type);
-				System.out.println(x.type);
-				System.out.println(x.type);
-				System.out.println(x.type);
-				System.out.println(x.type);
 				if(x.type == Tournament.FORMAT.Minor8)
 				{
-					System.out.println(x.participating.size());
 				x.runQualifiers();		
-				System.out.println("We ran qualifiers minor 8 using the extra");
+				
 				
 				}
 				if(x.type == Tournament.FORMAT.Major)
-				{System.out.println(x.participating.size());
 				x.runQualifiers();		
-				System.out.println("We ran qualifiers major using the extra");
+				
 				}
-				System.out.println("We ran qualifiers using the extra");
 				
 				
 				
 				
 				
-			}
+				
+			
 			
 			
 			

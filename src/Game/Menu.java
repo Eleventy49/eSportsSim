@@ -19,13 +19,14 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class Menu {
 	public static Color playColor = Color.white;
 	public void render(Graphics g) {
+		Color current = g.getColor();
 		//Draw the main splash text.
 		g.setFont(Application.bitoperatorfont36);
 		g.setColor(Color.WHITE);
 		
 		
 		FontMetrics fm   = g.getFontMetrics(Application.bitoperatorfont36);
-		Rectangle2D rect = fm.getStringBounds("{Virtually} Pro Dota", g);
+		Rectangle2D rect = fm.getStringBounds("{Virtually} Pro MobA", g);
 
 	//	int textHeight = (int)(rect.getHeight()); 
 		int textWidth  = (int)(rect.getWidth());
@@ -37,6 +38,10 @@ public class Menu {
 	//	int y = ((panelHeight - textHeight) / 2  + fm.getAscent()) + bounds.y;
 		
 		
-		g.drawString("{Virtually} Pro Dota", x, 100);
+		Graphical.drawCenteredText("{Virtually} Pro MobA", x, 100, x, 100);
+		g.setFont(Application.bitoperatorfont13);
+		g.setColor(Color.red);
+		Graphical.drawStringWithLineBreaks("For testing purposes this window is resizable\n Resizing the window will not work as expected", textWidth, 50);
+		g.setColor(current);
 	}
 }

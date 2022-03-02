@@ -22,7 +22,8 @@ public class TopTenTeamsMode3 extends NormalButton implements ButtonInterface,Mo
 	}
 	@Override
 	public void init() {
-		Application.getGame().addMouseListener(this);;
+		Application.getGame().addMouseListener(this);
+		Application.getGame().addMouseMotionListener(this);
 	}
 	
 	public void mouseClicked(MouseEvent e) {

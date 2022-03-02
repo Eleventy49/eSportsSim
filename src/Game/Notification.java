@@ -10,9 +10,6 @@ public class Notification {
 		txt = text;
 		uniqueid = id;
 		id++;
-	
-	
-		
 	}
 	
 	public String toString()
@@ -20,5 +17,9 @@ public class Notification {
 		return txt + "\t" + uniqueid + "\t" + id; 
 	}
 	
+	public static void resetID()
+	{
+		id = 0;
+	}
 	
 }

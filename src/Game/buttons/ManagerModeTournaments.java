@@ -26,6 +26,7 @@ public class ManagerModeTournaments extends NormalButton implements ButtonInterf
 	@Override
 	public void init() {
 		Application.getGame().addMouseListener(this);
+		Application.getGame().addMouseMotionListener(this);
 		
 	}
 

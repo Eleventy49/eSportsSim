@@ -15,7 +15,7 @@ import Game.MusicHandler;
 
 public class MainMenuTutorial extends NormalButton implements ButtonInterface, MouseListener {
 	public MainMenuTutorial() {
-		super(new Rectangle((Application.WIDTH / 2) - 50, 700, 100, 50), "Tutorial", Color.white, Color.GRAY,
+		super(new Rectangle((Application.WIDTH / 2) - 50, 800, 100, 50), "Tutorial", Color.white, Color.GRAY,
 				new Application.STATE[] { Application.STATE.Menu }, Application.STATE.Tutorial, "MainMenuTutorial");
 	}
 
@@ -24,7 +24,7 @@ public class MainMenuTutorial extends NormalButton implements ButtonInterface, M
 		// TODO Auto-generated method stub
 		Music.mouseClick();
 		Application.prevState.add(Application.State);
-
+		Application.State = gameStateOnClick;
 		Application.isInGame = false;
 
 	}
@@ -32,6 +32,7 @@ public class MainMenuTutorial extends NormalButton implements ButtonInterface, M
 	@Override
 	public void init() {
 		Application.getGame().addMouseListener(this);
+		Application.getGame().addMouseMotionListener(this);
 		;
 	}
 

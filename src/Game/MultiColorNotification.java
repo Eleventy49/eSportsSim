@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 
 public class MultiColorNotification extends Notification {
 	String txt;
@@ -112,6 +113,8 @@ public class MultiColorNotification extends Notification {
 	}
 
 	public static void resetAll() {
+		if(!NotificationHandler.editing) {
+		NotificationHandler.editing = true;
 		for(Player x: Database.playerdatabase)
 		{
 			x.bestPlayer = false;
@@ -121,9 +124,10 @@ public class MultiColorNotification extends Notification {
 		Player bestPlayer  = Database.sortPlayersGeneral(Database.playerdatabase).get(0);
 		bestPlayer.bestPlayer = true;
 		
-		Player worstPlayer  = Database.sortPlayersGeneral(Database.playerdatabase).get(Database.playerdatabase.size()-1); //.get(Database.playerdatabase.size()-1);
-		System.out.println("Worst player is" + worstPlayer.getFullName());
+		Player worstPlayer  = Database.sortPlayersGeneral(Database.playerdatabase).get(Database.playerdatabase.size()-1);
 		worstPlayer.worstPlayer = true;
+		NotificationHandler.editing = true;
+		try {
 		for(Notification b: NotificationHandler.coll)
 		{
 			if(b instanceof MultiColorNotification) {
@@ -131,7 +135,14 @@ public class MultiColorNotification extends Notification {
 				tempN.reset();
 			}
 		}
-		
+		}
+		catch(ConcurrentModificationException e)
+		{
+			Application.WarningQuery = true;
+		    Application.WarningMessage = "Something went wrong with a Notification";
+		}
+		NotificationHandler.editing = false;
+		}
 	}
 	
 	

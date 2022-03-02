@@ -20,7 +20,7 @@ import Game.TournamentScheduler;
 
 public class MainMenuSave extends NormalButton implements ButtonInterface, MouseListener {
 	public MainMenuSave() {
-		super(new Rectangle((Application.WIDTH / 2) - 50, 400, 100, 50), "Save Game", Color.red, Color.GRAY,
+		super(new Rectangle((Application.WIDTH / 2) - 50, 500, 100, 50), "Save Game", Color.red, Color.GRAY,
 				new Application.STATE[] { Application.STATE.Menu }, Application.STATE.Menu, "MainMenuSaveGame");
 	}
 
@@ -43,6 +43,7 @@ public class MainMenuSave extends NormalButton implements ButtonInterface, Mouse
 	@Override
 	public void init() {
 		Application.getGame().addMouseListener(this);
+		Application.getGame().addMouseMotionListener(this);
 		;
 	}
 

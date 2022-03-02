@@ -1,6 +1,7 @@
 package Game;
 
 import java.util.*;
+
 import java.io.*;
 import javax.swing.*;
 import java.io.IOException;
@@ -8,9 +9,80 @@ import java.awt.*;
 import javax.swing.plaf.metal.*;
 import java.awt.Graphics;
 
+	
+
 public class SimTournament {
+	
+	final static double teamStrengthBias = 100.0; //Increasing this number decreases the probability
+												  //of the stronger team winning
+	final static double dynastyBias = 0.125;		  //Increasing this number increases the effect
+												  //of dynasty4
+	final static double upperCap = 98.0;
+	final static double lowerCap = 2.0;
+	public static double determineTeamFactor(int x, int y, double z, double w) {
+		double temp = 50 + (((double)x - (double)y)/teamStrengthBias) - (w-z)/Math.sqrt(dynastyBias);
+		if(temp > upperCap)
+		{
+			return upperCap;
+		}
+		else if(temp < lowerCap)
+		{
+			return lowerCap;
+		}
+		else return temp;
+		
+	}
+	
+	public static double determinePlayerFactor(int x, int y) {
+		double temp = 50 + (((double)x - (double)y)/50)/Math.sqrt(1);
+		if(temp > upperCap)
+		{
+			return upperCap;
+		}
+		else if(temp < lowerCap)
+		{
+			return lowerCap;
+		}
+		else return temp;
+	}
+	
+	public static double determineLaneFactor(double a, double b, double c, double d, double e) {
+		double astar = a;
+		double bstar = b;
+		double cstar = c;
+		double dstar = d;
+		double estar = e;
+		double[] array = {astar,bstar,cstar,dstar,estar};
+		for(int x = 0; x<4; x++)
+		{
+			for(int i=x; i<4; i++)
+			if(array[i] < array[i+1])
+			{
+				double temp = array[i+1];
+				array[i+1] = array[i];
+				array[i] = temp;
+			}
+		}
+		
+		return (array[0]*2 + array[1] + array[2])/4;
+	}
 
 	public static double determine(Team x, Team y) {
+		Team max;
+		Team min;
+		int maxi = Math.max(x.getTeamStrength(), y.getTeamStrength());
+		if(x.getTeamStrength() == maxi)
+		{
+			max = x;
+			min = y;
+		}
+		else
+		{
+			max = y;
+			min = x;
+		}
+		
+		
 		double teamFactor = 0;
 		double CarryFactor = 0;
 		double MidFactor = 0;
@@ -18,19 +90,20 @@ public class SimTournament {
 		double Support4Factor = 0;
 		double Support5Factor = 0;
 		double Average = 0;
+		double TotalLaneFactor = 0;
 
 		Player carry1 = null;
 		Player carry2 = null;
-		Player mid1 = null;
-		Player mid2 = null;
 		Player offlane1 = null;
 		Player offlane2 = null;
+		Player mid1 = null;
+		Player mid2 = null;
 		Player support41 = null;
 		Player support42 = null;
 		Player support51 = null;
 		Player support52 = null;
 
-		for (Player a : x.roster) {
+		for (Player a : max.roster) {
 			if (a.role == 1) {
 				carry1 = a;
 			} else if (a.role == 2) {
@@ -45,7 +118,7 @@ public class SimTournament {
 				throw new NullPointerException();
 		}
 
-		for (Player a : y.roster) {
+		for (Player a : min.roster) {
 			if (a.role == 1) {
 				carry2 = a;
 			} else if (a.role == 2) {
@@ -61,55 +134,31 @@ public class SimTournament {
 				throw new NullPointerException();
 		}
 
-		teamFactor = Math.abs((((double)x.getTeamStrength() * 100) / y.getTeamStrength()) / 100);
-		System.out.println("The team factor \t\tbetween " + x.name + " and " + y.name + " is " 
-		+ Math.abs((50 + ((x.getTeamStrength() - y.getTeamStrength()) * 0.03))));
-
-		if (x.dynasty > y.dynasty) {
-			teamFactor = teamFactor * (1 + Math.sqrt((1.0 / 8 * x.dynasty)));
-		} else {
-			teamFactor = teamFactor * (1 + Math.sqrt((1.0 / 8 * y.dynasty)));
-		}
-
-		CarryFactor = 50 + ((carry1.getStatsTotal() - carry2.getStatsTotal()) * 0.5);
-
-		if (Math.abs(CarryFactor - 50.0) < 0.1)
-			CarryFactor--;
-
-		MidFactor = 50 + ((mid1.getStatsTotal() - mid2.getStatsTotal()) * 0.5);
-
-		if (Math.abs(MidFactor - 50.0) < 0.1)
-			MidFactor--;
-
-		OfflaneFactor = 50 + ((offlane1.getStatsTotal() - offlane2.getStatsTotal()) * 0.5);
-
-		if (Math.abs(OfflaneFactor - 50.0) < 0.1)
-			OfflaneFactor--;
-
-		Support4Factor = 50 + ((support41.getStatsTotal() - support42.getStatsTotal()) * 0.5);
-
-		if (Math.abs(Support4Factor - 50.0) < 0.1)
-			Support4Factor--;
-
-		Support5Factor = 50 + ((support51.getStatsTotal() - support52.getStatsTotal()) * 0.5);
-
-		if (Math.abs(Support5Factor - 50.0) < 0.1)
-			Support5Factor--;
-
-		if (Application.ConsoleOutput)
-			System.out.print(x.name + " VS. " + y.name + " :: ");
-		if (Application.ConsoleOutput)
-			System.out.println(
-					(teamFactor + CarryFactor + OfflaneFactor + MidFactor + Support4Factor + Support5Factor) / 6);
-
-		System.out.println("The value determine give \tbetween " + x.name + " and " + y.name + " is " 
-		+ (Math.abs((teamFactor + CarryFactor + OfflaneFactor + MidFactor + Support4Factor + Support5Factor) / 6)));
-		Double temp = Math.abs((teamFactor + CarryFactor + OfflaneFactor + MidFactor + Support4Factor + Support5Factor) / 6);
 		
+		teamFactor = determineTeamFactor(max.getTeamStrength(), 
+				min.getTeamStrength(), max.dynasty, min.dynasty);
+		
+		CarryFactor = determinePlayerFactor(carry1.getStatsTotal(), carry2.getStatsTotal());
+		MidFactor = determinePlayerFactor(mid1.getStatsTotal(), mid2.getStatsTotal());
+		OfflaneFactor = determinePlayerFactor(offlane1.getStatsTotal(), offlane2.getStatsTotal());
+		Support4Factor = determinePlayerFactor(support41.getStatsTotal(), support42.getStatsTotal());
+		Support5Factor = determinePlayerFactor(support51.getStatsTotal(), support52.getStatsTotal());
+		
+		TotalLaneFactor = determineLaneFactor(CarryFactor, MidFactor, OfflaneFactor, Support4Factor, Support5Factor);
+
+		if(Application.ConsoleOutput)
+			System.out.println("Team factor between " + max.name + " (" + max.getTeamStrength() + ") and " + min.name
+					+ " (" + min.getTeamStrength() + ") is " + teamFactor + "\n" + CarryFactor + "\n" + MidFactor + "\n" + OfflaneFactor + "\n" + Support4Factor
+					+"\n" + Support5Factor);
+		Double temp = Math.abs((teamFactor + TotalLaneFactor) / 2.0);
+
+		if(Application.ConsoleOutput)
+		System.out.println("The chances including lanes is " + temp);
 		if(temp >= 98.0)
 			return 98.0;
-		else 
-			return temp;
+		else if(temp < 2.0)
+			return 2.0;
+		return temp / 100;
 	
 	}
 
@@ -117,6 +166,7 @@ public class SimTournament {
 		
 		if(Teams.size() != 16)
 		{
+			System.out.println("Your qualifier fix didn't work" + Teams.size());
 		Teams.add(Database.getRandomBoi(Teams));
 		Teams.add(Database.getRandomBoi(Teams));
 		Teams.add(Database.getRandomBoi(Teams));
@@ -126,7 +176,8 @@ public class SimTournament {
 		Teams.add(Database.getRandomBoi(Teams));
 		Teams.add(Database.getRandomBoi(Teams));
 		}
-		
+		System.out.println(Teams.size());
+		Collections.shuffle(Teams);
 		for(Team x: Database.teamdatabase)
 		{
 			x.maChampion = false;
@@ -155,8 +206,14 @@ public class SimTournament {
 		for (int i = 8; i > 0; i--) { // first round
 			T1 = Teams.get((i * 2) - 1);
 			T2 = Teams.get((i * 2) - 2);
+			if(T2.getTeamStrength() > T1.getTeamStrength())
+			{
+				Team temp = T2;
+				T2=T1;
+				T1=temp;
+			}
 			probability = determine(T1, T2);
-			reel = Math.random() * 100;
+			reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 			if (reel < probability) {
 				UBR2.add(T1); // first Team is winner
 				BH = new BracketHandler(T1, T2, "Round1", i, 1);
@@ -171,8 +228,14 @@ public class SimTournament {
 		for (int i = 4; i > 0; i--) { // lowerbracket Round 1
 			T1 = LBR1.get((i * 2) - 1);
 			T2 = LBR1.get((i * 2) - 2);
+			if(T2.getTeamStrength() > T1.getTeamStrength())
+			{
+				Team temp = T2;
+				T2=T1;
+				T1=temp;
+			}
 			probability = determine(T1, T2);
-			reel = Math.random() * 100;
+			reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 			if (reel < probability) {
 				LBR2.add(T1); // first Team is winner
 				T2.positionInTournament = 13;
@@ -189,8 +252,14 @@ public class SimTournament {
 		for (int i = 4; i > 0; i--) { // upperbracket Round 2
 			T1 = UBR2.get((i * 2) - 1);
 			T2 = UBR2.get((i * 2) - 2);
+			if(T2.getTeamStrength() > T1.getTeamStrength())
+			{
+				Team temp = T2;
+				T2=T1;
+				T1=temp;
+			}
 			probability = determine(T1, T2);
-			reel = Math.random() * 100;
+			reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 			if (reel < probability) {
 				UBR3.add(T1); // first Team is winner
 				LBR2.add(T2);
@@ -205,8 +274,14 @@ public class SimTournament {
 		for (int i = 4; i > 0; i--) { // lowerbracket Round 2
 			T1 = LBR2.get((i * 2) - 1);
 			T2 = LBR2.get((i * 2) - 2);
+			if(T2.getTeamStrength() > T1.getTeamStrength())
+			{
+				Team temp = T2;
+				T2=T1;
+				T1=temp;
+			}
 			probability = determine(T1, T2);
-			reel = Math.random() * 100;
+			reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 			if (reel < probability) {
 				LBR3.add(T1); // first Team is winner
 				T2.positionInTournament = 9;
@@ -223,19 +298,23 @@ public class SimTournament {
 		for (int i = 2; i > 0; i--) { // upperbracket Round 3
 			T1 = UBR3.get((i * 2) - 1);
 			T2 = UBR3.get((i * 2) - 2);
+			if(T2.getTeamStrength() > T1.getTeamStrength())
+			{
+				Team temp = T2;
+				T2=T1;
+				T1=temp;
+			}
 			probability = determine(T1, T2);
-			reel = Math.random() * 100;
+			reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 			if (reel < probability) {
 				SEMI.add(T1); // first Team is winner
 				LBR4.add(T2);
 				BH = new BracketHandler(T1, T2, "UBR3", i, 1);
-				SEMI.remove(T2); // second Team is loser
 
 			} else {
 				SEMI.add(T2); // first Team is winner
 				LBR4.add(T1);
-				BH = new BracketHandler(T2, T1, "UBR3", i, 1);
-				SEMI.remove(T1); // second Team is loser
+				BH = new BracketHandler(T2, T1, "UBR3", i, 1);		
 
 			}
 
@@ -243,8 +322,14 @@ public class SimTournament {
 		for (int i = 2; i > 0; i--) { // lowerbracket Round 3
 			T1 = LBR3.get((i * 2) - 1);
 			T2 = LBR3.get((i * 2) - 2);
+			if(T2.getTeamStrength() > T1.getTeamStrength())
+			{
+				Team temp = T2;
+				T2=T1;
+				T1=temp;
+			}
 			probability = determine(T1, T1);
-			reel = Math.random() * 100;
+			reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 			if (reel < probability) {
 				LBR4.add(T1); // first Team is winner
 				T2.positionInTournament = 7;
@@ -261,8 +346,14 @@ public class SimTournament {
 		for (int i = 2; i > 0; i--) { // lowerbracket Round 4
 			T1 = LBR4.get((i * 2) - 1);
 			T2 = LBR4.get((i * 2) - 2);
+			if(T2.getTeamStrength() > T1.getTeamStrength())
+			{
+				Team temp = T2;
+				T2=T1;
+				T1=temp;
+			}
 			probability = determine(T1, T1);
-			reel = Math.random() * 100;
+			reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 			if (reel < probability) {
 				LBR5.add(T1); // first Team is winner
 				T2.positionInTournament = 5;
@@ -279,8 +370,14 @@ public class SimTournament {
 		for (int i = 1; i > 0; i--) { // semi
 			T1 = SEMI.get((i * 2) - 1);
 			T2 = SEMI.get((i * 2) - 2);
+			if(T2.getTeamStrength() > T1.getTeamStrength())
+			{
+				Team temp = T2;
+				T2=T1;
+				T1=temp;
+			}
 			probability = determine(T1, T2);
-			reel = Math.random() * 100;
+			reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 			if (reel < probability) {
 				FINAL.add(T1); // first Team is winner
 				BH = new BracketHandler(T1, T2, "SEMI", i, 1);
@@ -297,8 +394,14 @@ public class SimTournament {
 		for (int i = 1; i > 0; i--) { // lowerbracket Round 5
 			T1 = LBR5.get((i * 2) - 1);
 			T2 = LBR5.get((i * 2) - 2);
+			if(T2.getTeamStrength() > T1.getTeamStrength())
+			{
+				Team temp = T2;
+				T2=T1;
+				T1=temp;
+			}
 			probability = determine(T1, T2);
-			reel = Math.random() * 100;
+			reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 			if (reel < probability) {
 				LBR6.add(T1); // first Team is winner
 				T2.positionInTournament = 4;
@@ -315,8 +418,14 @@ public class SimTournament {
 		for (int i = 1; i > 0; i--) { // lowerbracket Round 6
 			T1 = LBR6.get((i * 2) - 1);
 			T2 = LBR6.get((i * 2) - 2);
+			if(T2.getTeamStrength() > T1.getTeamStrength())
+			{
+				Team temp = T2;
+				T2=T1;
+				T1=temp;
+			}
 			probability = determine(T1, T2);
-			reel = Math.random() * 100;
+			reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 			if (reel < probability) {
 				FINAL.add(T1); // first Team is winner
 				T2.positionInTournament = 3;
@@ -333,8 +442,14 @@ public class SimTournament {
 		for (int i = 1; i > 0; i--) { // final
 			T1 = FINAL.get((i * 2) - 1);
 			T2 = FINAL.get((i * 2) - 2);
+			if(T2.getTeamStrength() > T1.getTeamStrength())
+			{
+				Team temp = T2;
+				T2=T1;
+				T1=temp;
+			}
 			probability = determine(T1, T2);
-			reel = Math.random() * 100;
+			reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 			if (reel < probability) {
 				T1.positionInTournament = 1;
 				T1.MajorTitlesWon++;
@@ -352,6 +467,7 @@ public class SimTournament {
 				NotificationHandler.add(temp);
 			
 				MultiColorNotification.resetAll();
+				T1.recentWins[23][1] += 1;
 
 			} else {
 				T1.positionInTournament = 2;
@@ -370,6 +486,7 @@ public class SimTournament {
 				NotificationHandler.add(temp);
 		
 				MultiColorNotification.resetAll();
+				T2.recentWins[23][1] += 1;
 			}
 
 		}
@@ -392,8 +509,9 @@ public class SimTournament {
 	public static void World(ArrayList<Team> Teams) {
 		if(Teams.size() != 32)
 		{
-			Teams = Database.getStrongBois(32);
+			Teams = Database.getStrongBois(32);	
 		}
+		
 		double probability;
 		double reel;
 		ArrayList<Team> LBR1 = new ArrayList<Team>();
@@ -446,6 +564,7 @@ public class SimTournament {
 			}
 			zebra = 0;
 		} // Now the teams are sorted by skill
+		Collections.shuffle(Teams);
 		int a;
 		ArrayList<Team> temporary = new ArrayList<Team>();
 		for (int i = 0; i < 16; i++) {
@@ -461,10 +580,15 @@ public class SimTournament {
 			for (int i = 16; i > 0; i--) { // first round
 				T1 = Teams.get((i * 2) - 1);
 				T2 = Teams.get((i * 2) - 2);
-				// System.out.println(i);
+				if(T2.getTeamStrength() > T1.getTeamStrength())
+				{
+					Team temp = T2;
+					T2=T1;
+					T1=temp;
+				}
 
 				probability = determine(T1, T2);
-				reel = Math.random() * 100;
+				reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 				if (reel < probability) {
 					BH = new BracketHandler(T1, T2, "Round1", i, 0);
 					UBR2.add(0, T1); // first Team is winner
@@ -481,8 +605,14 @@ public class SimTournament {
 			for (int i = 8; i > 0; i--) { // lowerbracket Round 1
 				T1 = LBR1.get((i * 2) - 1);
 				T2 = LBR1.get((i * 2) - 2);
+				if(T2.getTeamStrength() > T1.getTeamStrength())
+				{
+					Team temp = T2;
+					T2=T1;
+					T1=temp;
+				}
 				probability = determine(T1, T2);
-				reel = Math.random() * 100;
+				reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 				if (reel < probability) {
 					BH = new BracketHandler(T1, T2, "LBR1", i, 0);
 					LBR2.add(0, T1); // first Team is winner
@@ -502,8 +632,14 @@ public class SimTournament {
 			for (int i = 8; i > 0; i--) { // upperbracket Round 2
 				T1 = UBR2.get((i * 2) - 1);
 				T2 = UBR2.get((i * 2) - 2);
+				if(T2.getTeamStrength() > T1.getTeamStrength())
+				{
+					Team temp = T2;
+					T2=T1;
+					T1=temp;
+				}
 				probability = determine(T1, T2);
-				reel = Math.random() * 100;
+				reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 				if (reel < probability) {
 					BH = new BracketHandler(T1, T2, "UBR2", i, 0);
 
@@ -523,8 +659,14 @@ public class SimTournament {
 			for (int i = 8; i > 0; i--) { // lowerbracket Round 2
 				T1 = LBR2.get((i * 2) - 1);
 				T2 = LBR2.get((i * 2) - 2);
+				if(T2.getTeamStrength() > T1.getTeamStrength())
+				{
+					Team temp = T2;
+					T2=T1;
+					T1=temp;
+				}
 				probability = determine(T1, T2);
-				reel = Math.random() * 100;
+				reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 				if (reel < probability) {
 					BH = new BracketHandler(T1, T2, "LBR2", i, 0);
 					LBR3.add(0, T1); // first Team is winner
@@ -543,8 +685,14 @@ public class SimTournament {
 			for (int i = 4; i > 0; i--) { // upperbracket Round 3
 				T1 = UBR3.get((i * 2) - 1);
 				T2 = UBR3.get((i * 2) - 2);
+				if(T2.getTeamStrength() > T1.getTeamStrength())
+				{
+					Team temp = T2;
+					T2=T1;
+					T1=temp;
+				}
 				probability = determine(T1, T2);
-				reel = Math.random() * 100;
+				reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 				if (reel < probability) {
 					BH = new BracketHandler(T1, T2, "UBR3", i, 0);
 					UBR4.add(0, T1); // first Team is winner
@@ -563,8 +711,14 @@ public class SimTournament {
 			for (int i = 4; i > 0; i--) { // lowerbracket Round 3
 				T1 = LBR3.get((i * 2) - 1);
 				T2 = LBR3.get((i * 2) - 2);
+				if(T2.getTeamStrength() > T1.getTeamStrength())
+				{
+					Team temp = T2;
+					T2=T1;
+					T1=temp;
+				}
 				probability = determine(T1, T2);
-				reel = Math.random() * 100;
+				reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 				if (reel < probability) {
 					BH = new BracketHandler(T1, T2, "LBR3", i, 0);
 					LBR4.add(0, T1); // first Team is winner
@@ -583,8 +737,14 @@ public class SimTournament {
 			for (int i = 4; i > 0; i--) { // lowerbracket Round 4
 				T1 = LBR4.get((i * 2) - 1);
 				T2 = LBR4.get((i * 2) - 2);
+				if(T2.getTeamStrength() > T1.getTeamStrength())
+				{
+					Team temp = T2;
+					T2=T1;
+					T1=temp;
+				}
 				probability = determine(T1, T2);
-				reel = Math.random() * 100;
+				reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 				if (reel < probability) {
 					BH = new BracketHandler(T1, T2, "LBR4", i, 0);
 					LBR5.add(0, T1); // first Team is winner
@@ -603,8 +763,14 @@ public class SimTournament {
 			for (int i = 2; i > 0; i--) { // upperbracket Round 4
 				T1 = UBR4.get((i * 2) - 1);
 				T2 = UBR4.get((i * 2) - 2);
+				if(T2.getTeamStrength() > T1.getTeamStrength())
+				{
+					Team temp = T2;
+					T2=T1;
+					T1=temp;
+				}
 				probability = determine(T1, T2);
-				reel = Math.random() * 100;
+				reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 				if (reel < probability) {
 					BH = new BracketHandler(T1, T2, "UBR4", i, 0);
 					SEMI.add(0, T1); // first Team is winner
@@ -621,10 +787,16 @@ public class SimTournament {
 			for (int i = 2; i > 0; i--) { // lowerbracket Round 5
 				T1 = LBR5.get((i * 2) - 1);
 				T2 = LBR5.get((i * 2) - 2);
+				if(T2.getTeamStrength() > T1.getTeamStrength())
+				{
+					Team temp = T2;
+					T2=T1;
+					T1=temp;
+				}
 				probability = determine(T1, T2);
 				// System.out.println("[LBR5] The chances of " + T1.name + " beating " + T2.name
 				// + " are " + probability);
-				reel = Math.random() * 100;
+				reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 				if (reel < probability) {
 					BH = new BracketHandler(T1, T2, "LBR5", i, 0);
 					LBR6.add(0, T1); // first Team is winner
@@ -645,10 +817,16 @@ public class SimTournament {
 			for (int i = 2; i > 0; i--) { // lowerbracket Round 6
 				T1 = LBR6.get((i * 2) - 1);
 				T2 = LBR6.get((i * 2) - 2);
+				if(T2.getTeamStrength() > T1.getTeamStrength())
+				{
+					Team temp = T2;
+					T2=T1;
+					T1=temp;
+				}
 				probability = determine(T1, T2);
 				// System.out.println("[LBR6] The chances of " + T1.name + " beating " + T2.name
 				// + " are " + probability);
-				reel = Math.random() * 100;
+				reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 				if (reel < probability) {
 					BH = new BracketHandler(T1, T2, "LBR6", i, 0);
 					LBR7.add(0, T1); // first Team is winner
@@ -669,10 +847,16 @@ public class SimTournament {
 			for (int i = 1; i > 0; i--) { // Semi
 				T1 = SEMI.get((i * 2) - 1);
 				T2 = SEMI.get((i * 2) - 2);
+				if(T2.getTeamStrength() > T1.getTeamStrength())
+				{
+					Team temp = T2;
+					T2=T1;
+					T1=temp;
+				}
 				probability = determine(T1, T2);
 				// System.out.println("[SEMI] The chances of " + T1.name + " beating " + T2.name
 				// + " are " + probability);
-				reel = Math.random() * 100;
+				reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 				if (reel < probability) {
 					BH = new BracketHandler(T1, T2, "SEMI", i, 0);
 					FINAL.add(T1); // first Team is winner
@@ -689,10 +873,16 @@ public class SimTournament {
 			for (int i = 1; i > 0; i--) { // lowerbracket Round 7
 				T1 = LBR7.get(0);
 				T2 = LBR7.get(1);
+				if(T2.getTeamStrength() > T1.getTeamStrength())
+				{
+					Team temp = T2;
+					T2=T1;
+					T1=temp;
+				}
 				probability = determine(T1, T2);
 				// System.out.println("[LBR7] The chances of " + T1.name + " beating " + T2.name
 				// + " are " + probability);
-				reel = Math.random() * 100;
+				reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 				if (reel < probability) {
 					BH = new BracketHandler(T1, T2, "LBR7", i, 0);
 					LBR8.add(0, T1); // first Team is winner
@@ -713,10 +903,16 @@ public class SimTournament {
 			for (int i = 1; i > 0; i--) { // lowerbracket Round 8
 				T1 = LBR8.get((i * 2) - 1);
 				T2 = LBR8.get((i * 2) - 2);
+				if(T2.getTeamStrength() > T1.getTeamStrength())
+				{
+					Team temp = T2;
+					T2=T1;
+					T1=temp;
+				}
 				probability = determine(T1, T2);
 				// System.out.println("[LBR8] The chances of " + T1.name + " beating " + T2.name
 				// + " are " + probability);
-				reel = Math.random() * 100;
+				reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 				if (reel < probability) {
 					BH = new BracketHandler(T1, T2, "LBR8", i, 0);
 					FINAL.add(0, T1); // first Team is winner
@@ -737,10 +933,16 @@ public class SimTournament {
 			for (int i = 1; i > 0; i--) { // FINAL
 				T1 = FINAL.get((i * 2) - 1);
 				T2 = FINAL.get((i * 2) - 2);
+				if(T2.getTeamStrength() > T1.getTeamStrength())
+				{
+					Team temp = T2;
+					T2=T1;
+					T1=temp;
+				}
 				probability = determine(T1, T2);
 				// System.out.println("[FINAL] The chances of " + T1.name + " beating " +
 				// T2.name + " are " + probability);
-				reel = Math.random() * 100;
+				reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 				if (reel < probability) {
 					BH = new BracketHandler(T1, T2, "FINAL", i, 0);
 					// FINAL.add(LBR1.get((i * 2)+1)); //first Team is winner
@@ -764,6 +966,7 @@ public class SimTournament {
 					NotificationHandler.add(temp);
 		
 					MultiColorNotification.resetAll();
+					T1.recentWins[23][0] += 1;
 
 					// System.out.println("[FINAL] " + T1.name + " has placed 1st.");
 				} else {
@@ -790,6 +993,7 @@ public class SimTournament {
 						x.wChampion = true;
 					T2.wChampion = true;
 					MultiColorNotification.resetAll();
+					T2.recentWins[23][0] += 1;
 				}
 
 			}
@@ -1002,6 +1206,7 @@ public class SimTournament {
 		{
 			x.miChampion = false;
 		}
+		Collections.shuffle(Teams);
 		double probability;
 		double reel;
 		ArrayList<Team> LBR1 = new ArrayList<Team>();
@@ -1019,8 +1224,14 @@ public class SimTournament {
 		for (int i = 4; i > 0; i--) { // first round
 			T1 = Teams.get((i * 2) - 1);
 			T2 = Teams.get((i * 2) - 2);
+			if(T2.getTeamStrength() > T1.getTeamStrength())
+			{
+				Team temp = T2;
+				T2=T1;
+				T1=temp;
+			}
 			probability = determine(T1, T2);
-			reel = Math.random() * 100;
+			reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 			if (reel < probability) {
 				UBR2.add(T1); // first Team is winner
 				LBR1.add(T2); // second Team is loser
@@ -1035,8 +1246,14 @@ public class SimTournament {
 		for (int i = 2; i > 0; i--) { // lowerbracket Round 1
 			T1 = LBR1.get((i * 2) - 1);
 			T2 = LBR1.get((i * 2) - 2);
+			if(T2.getTeamStrength() > T1.getTeamStrength())
+			{
+				Team temp = T2;
+				T2=T1;
+				T1=temp;
+			}
 			probability = determine(T1, T2);
-			reel = Math.random() * 100;
+			reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 			if (reel < probability) {
 				LBR2.add(T1); // first Team is winner
 				T2.positionInTournament = 7;
@@ -1053,8 +1270,14 @@ public class SimTournament {
 		for (int i = 2; i > 0; i--) { // upperbracket Round 2
 			T1 = UBR2.get((i * 2) - 1);
 			T2 = UBR2.get((i * 2) - 2);
+			if(T2.getTeamStrength() > T1.getTeamStrength())
+			{
+				Team temp = T2;
+				T2=T1;
+				T1=temp;
+			}
 			probability = determine(T1, T2);
-			reel = Math.random() * 100;
+			reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 			if (reel < probability) {
 				SEMI.add(T1); // first Team is winner
 				LBR2.add(T2);
@@ -1072,8 +1295,14 @@ public class SimTournament {
 		for (int i = 2; i > 0; i--) { // lowerbracket Round 2
 			T1 = LBR2.get((i * 2) - 1);
 			T2 = LBR2.get((i * 2) - 2);
+			if(T2.getTeamStrength() > T1.getTeamStrength())
+			{
+				Team temp = T2;
+				T2=T1;
+				T1=temp;
+			}
 			probability = determine(T1, T2);
-			reel = Math.random() * 100;
+			reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 			if (reel < probability) {
 				LBR3.add(T1); // first Team is winner
 				T2.positionInTournament = 5;
@@ -1090,8 +1319,14 @@ public class SimTournament {
 		for (int i = 1; i > 0; i--) { // semi
 			T1 = SEMI.get((i * 2) - 1);
 			T2 = SEMI.get((i * 2) - 2);
+			if(T2.getTeamStrength() > T1.getTeamStrength())
+			{
+				Team temp = T2;
+				T2=T1;
+				T1=temp;
+			}
 			probability = determine(T1, T2);
-			reel = Math.random() * 100;
+			reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 			if (reel < probability) {
 				FINAL.add(T1); // first Team is winner
 				LBR4.add(T2);;
@@ -1113,9 +1348,15 @@ public class SimTournament {
 			T1 = LBR3.get((i * 2) - 1);
 
 			T2 = LBR3.get((i * 2) - 2);
+			if(T2.getTeamStrength() > T1.getTeamStrength())
+			{
+				Team temp = T2;
+				T2=T1;
+				T1=temp;
+			}
 
 			probability = determine(T1, T2);
-			reel = Math.random() * 100;
+			reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 			if (reel < probability) {
 				LBR4.add(T1); // first Team is winner
 
@@ -1136,8 +1377,14 @@ public class SimTournament {
 		for (int i = 1; i > 0; i--) { // lowerbracket Round 4
 			T1 = LBR4.get((i * 2) - 1);
 			T2 = LBR4.get((i * 2) - 2);
+			if(T2.getTeamStrength() > T1.getTeamStrength())
+			{
+				Team temp = T2;
+				T2=T1;
+				T1=temp;
+			}
 			probability = determine(T1, T2);
-			reel = Math.random() * 100;
+			reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 			if (reel < probability) {
 				FINAL.add(T1); // first Team is winner
 				T2.positionInTournament = 3;
@@ -1158,8 +1405,14 @@ public class SimTournament {
 
 			T1 = FINAL.get((i * 2) - 1);
 			T2 = FINAL.get((i * 2) - 2);
+			if(T2.getTeamStrength() > T1.getTeamStrength())
+			{
+				Team temp = T2;
+				T2=T1;
+				T1=temp;
+			}
 			probability = determine(T1, T2);
-			reel = Math.random() * 100;
+			reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 			if (reel < probability) {
 				T1.positionInTournament = 1;
 				T1.MinorTitlesWon++;
@@ -1179,6 +1432,7 @@ public class SimTournament {
 				NotificationHandler.add(temp);
 
 				MultiColorNotification.resetAll();
+				T1.recentWins[23][2] += 1;
 
 			} else {
 				T2.positionInTournament = 1;
@@ -1198,6 +1452,7 @@ public class SimTournament {
 				NotificationHandler.add(temp);
 
 				MultiColorNotification.resetAll();
+				T2.recentWins[23][2] += 1;
 			}
 
 		}
@@ -1216,6 +1471,7 @@ public class SimTournament {
 	public static void Minor4(ArrayList<Team> Teams) {
 		if(Teams.size() != 4)
 		{
+			System.out.println("Your calendar fix didn't work");
 			Teams.add(Database.getRandomBoi(Teams));
 			Teams.add(Database.getRandomBoi(Teams));
 			Teams.add(Database.getRandomBoi(Teams));
@@ -1229,6 +1485,7 @@ public class SimTournament {
 		{
 			x.miChampion = false;
 		}
+		Collections.shuffle(Teams);
 		double probability;
 		double reel;
 		ArrayList<Team> LBR1 = new ArrayList<Team>();
@@ -1244,8 +1501,14 @@ public class SimTournament {
 		for (int i = 2; i > 0; i--) { // first round
 			T1 = Teams.get((i * 2) - 1);
 			T2 = Teams.get((i * 2) - 2);
+			if(T2.getTeamStrength() > T1.getTeamStrength())
+			{
+				Team temp = T2;
+				T2=T1;
+				T1=temp;
+			}
 			probability = determine(T1, T2);
-			reel = Math.random() * 100;
+			reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 			// System.out.println("[ROUND 1] Probability for " + T1.name + " to beat " +
 			// T2.name + " is: " + probability);
 			// System.out.println("[ROUND 1] The number generated was: " + reel);
@@ -1263,8 +1526,14 @@ public class SimTournament {
 		for (int i = 1; i > 0; i--) { // semi
 			T1 = SEMI.get((i * 2) - 1);
 			T2 = SEMI.get((i * 2) - 2);
+			if(T2.getTeamStrength() > T1.getTeamStrength())
+			{
+				Team temp = T2;
+				T2=T1;
+				T1=temp;
+			}
 			probability = determine(T1, T2);
-			reel = Math.random() * 100;
+			reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 			// System.out.println("[SEMI] Probability for " + T1.name + " to beat " +
 			// T2.name + " is: " + probability);
 			// System.out.println("[SEMI] The number generated was: " + reel);
@@ -1284,8 +1553,14 @@ public class SimTournament {
 		for (int i = 1; i > 0; i--) { // lowerbracket Round 1
 			T1 = LBR1.get((i * 2) - 1);
 			T2 = LBR1.get((i * 2) - 2);
+			if(T2.getTeamStrength() > T1.getTeamStrength())
+			{
+				Team temp = T2;
+				T2=T1;
+				T1=temp;
+			}
 			probability = determine(T1, T2);
-			reel = Math.random() * 100;
+			reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 			// System.out.println("[LBR1] Probability for " + T1.name + " to beat " +
 			// T2.name + " is: " + probability);
 			// System.out.println("[LBR1] The number generated was: " + reel);
@@ -1307,8 +1582,14 @@ public class SimTournament {
 		for (int i = 1; i > 0; i--) { // lowerbracket Round2
 			T1 = LBR2.get((i * 2) - 1);
 			T2 = LBR2.get((i * 2) - 2);
+			if(T2.getTeamStrength() > T1.getTeamStrength())
+			{
+				Team temp = T2;
+				T2=T1;
+				T1=temp;
+			}
 			probability = determine(T1, T2);
-			reel = Math.random() * 100;
+			reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 			// System.out.println("[LBR2] Probability for " + T1.name + " to beat " +
 			// T2.name + " is: " + probability);
 			// System.out.println("[LBR2] The number generated was: " + reel);
@@ -1330,9 +1611,15 @@ public class SimTournament {
 		for (int i = 1; i > 0; i--) { // final
 			T1 = FINAL.get((i * 2) - 1);
 			T2 = FINAL.get((i * 2) - 2);
+			if(T2.getTeamStrength() > T1.getTeamStrength())
+			{
+				Team temp = T2;
+				T2=T1;
+				T1=temp;
+			}
 			probability = determine(T1, T2);
 
-			reel = Math.random() * 100;
+			reel = Math.random(); if(Application.ConsoleOutput) System.out.println("The random chance was: " + reel + "\n");
 
 			// System.out.println("[FINAL] Probability for " + T1.name + " to beat " +
 			// T2.name + " is: " + probability);
@@ -1354,10 +1641,12 @@ public class SimTournament {
 				NotificationHandler.add(temp);
 
 				MultiColorNotification.resetAll();
+				T1.recentWins[23][2] += 1;
 
 			} else {
 				T1.positionInTournament = 2;
 				T2.positionInTournament = 1;
+				
 				for(Player x: T2.roster)
 					x.miChampion = true;
 				T2.miChampion = true;
@@ -1372,6 +1661,7 @@ public class SimTournament {
 				NotificationHandler.add(temp);
 
 				MultiColorNotification.resetAll();
+				T2.recentWins[23][2] += 1;
 			}
 
 		}

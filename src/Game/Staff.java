@@ -72,7 +72,7 @@ public class Staff {
 			
 			break;
 		case FinancialManager:
-			System.out.println(fmanBonus);
+		//	System.out.println(fmanBonus);
 			
 			
 			break;

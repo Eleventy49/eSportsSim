@@ -8,8 +8,7 @@ Todo
 - Make an attempt to reduce global variable usage. does runTournament really need to be in Game/Application?
 - Compartmentalize the classes a little bit, there are a lot of them now.
 - Player retirement / new players created over time
-- Rewrite the determine formula. The best teams don't look like the favorites to win tournaments.
-- Post world tournament shuffle
+	-Draft?
 - "Windows"
 - Trade desire: Teams won't want to trade the players that are performing best for them
 	-This of course means you have to track recent player performance.
@@ -22,6 +21,20 @@ Todo
 -Keyboard shortcuts
 -Tracking teams/players performance over time as a graph
 -When sorting by tournament wins, prioritize World/Major over minor
--Team abbreviations for all player things
 
 -Clean up button code after NotificaitonDismissSlot9
+
+- Players much more important in the determine method
+	- Simulate lanes, winning 2/3 lanes should make winning incredibly likely, winning 3/3 lanes should make winning basically a formality
+	- Individual players should have some sort of fame and momentum level
+		- Higher momentum players should have a better chance at winning their lanes
+
+		
+When managing a team, you can determine how roles are selected
+
+Get random number of teams from index X-Y (sorted by best to worst)
+
+Display champions on right side, players and teams
+
+There is a big where teams can be put up against themselves in a tournament
+	This seems to consistantly happen in major tournaments, 7th and 8th games from finals, 5th and 6th can also be affected

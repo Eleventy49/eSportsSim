@@ -48,7 +48,6 @@ public class Tournament {
 			if(participating.size() <= 4)
 			for(int i = 0; i < 4; i++) {
 				participating.add(Database.getRandomBoi(participating));
-			System.out.println("We added some teams");
 			}
 			else
 			{

@@ -20,7 +20,8 @@ public class TeamsViewTop10 extends NormalButton implements ButtonInterface,Mous
 	}
 	@Override
 	public void init() {
-		Application.getGame().addMouseListener(this);;
+		Application.getGame().addMouseListener(this);
+		Application.getGame().addMouseMotionListener(this);
 	}
 	
 	public void mouseClicked(MouseEvent e) {

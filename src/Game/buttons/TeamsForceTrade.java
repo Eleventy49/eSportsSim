@@ -22,30 +22,8 @@ public class TeamsForceTrade extends NormalButton implements ButtonInterface,Mou
 	}
 	@Override
 	public void init() {
-		Application.getGame().addMouseListener(this);;
-	}
-	
-	public void mouseClicked(MouseEvent e) {
-		
-		// TODO Auto-generated method stub
-		int x = e.getX();
-		int y = e.getY();
-		System.out.println("Some fuckery goin on here\t" + x + "\t" + y + "\t" + Application.State);
-		if(bounds.contains(x,y) && Application.gameStateIsPartOf(Application.State, prereq)) {
-			System.out.println("Some fuckery goin on here\t" + x + "\t" + y);
-		if(e.getButton() == MouseEvent.BUTTON1)
-		{
-			mouseLeftClicked(e);
-		}
-		else if(e.getButton() == MouseEvent.BUTTON2)
-		{
-			mouseRightClicked(e);
-		}
-		else if(e.getButton() == MouseEvent.BUTTON3)
-		{
-			mouseMiddleClicked(e);
-		}
-		}
+		Application.getGame().addMouseListener(this);
+		Application.getGame().addMouseMotionListener(this);
 	}
 	
 	public void mouseEntered(MouseEvent e) {

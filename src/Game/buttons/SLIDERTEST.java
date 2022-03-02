@@ -9,7 +9,12 @@ public class SLIDERTEST extends Slider{
 	
 	public SLIDERTEST()
 	{
-		super(new Rectangle(200, 450, 200, 100), "TEST", Color.white, Color.GRAY,new Application.STATE[]{Application.STATE.Options}, 200  );
+		super(new Rectangle(200, 475, 200, 50), "TEST", Color.white, Color.GRAY,new Application.STATE[]{Application.STATE.Options}, 200  );
 	}
 
+	public void init() {
+		Application.getGame().addMouseListener(this);
+		Application.getGame().addMouseMotionListener(this);
+	}
+	
 }

@@ -30,6 +30,7 @@ public class ManagerModeQuickFunction1 extends NormalButton implements ButtonInt
 	@Override
 	public void init() {
 		Application.getGame().addMouseListener(this);
+		Application.getGame().addMouseMotionListener(this);
 	}
 
 	@Override

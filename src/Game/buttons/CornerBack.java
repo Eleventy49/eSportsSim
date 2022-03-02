@@ -24,6 +24,7 @@ public class CornerBack extends SpecialButton implements ButtonInterface, MouseL
 	@Override
 	public void init() {
 		Application.getGame().addMouseListener(this);
+		Application.getGame().addMouseMotionListener(this);
 	}
 
 	@Override

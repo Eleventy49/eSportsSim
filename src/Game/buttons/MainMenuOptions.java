@@ -16,7 +16,7 @@ import Game.Application.STATE;
 public class MainMenuOptions extends NormalButton implements ButtonInterface, MouseListener {
 
 	public MainMenuOptions() {
-		super(new Rectangle((Application.WIDTH / 2) - 50, 500, 100, 50), "Options", Color.white, Color.GRAY,
+		super(new Rectangle((Application.WIDTH / 2) - 50, 600, 100, 50), "Options", Color.white, Color.GRAY,
 				new Application.STATE[] { Application.STATE.Menu }, Application.STATE.Options, "MainMenuOptions");
 
 	}
@@ -24,6 +24,7 @@ public class MainMenuOptions extends NormalButton implements ButtonInterface, Mo
 	@Override
 	public void init() {
 		Application.getGame().addMouseListener(this);
+		Application.getGame().addMouseMotionListener(this);
 	}
 
 	@Override

@@ -18,7 +18,7 @@ import Game.ButtonInterface;
 import Game.Application;
 import Game.Application.STATE;
 
-public class MainMenuPlayButton extends NormalButton implements ButtonInterface, MouseListener {
+public class MainMenuPlayButton extends ScalingButton implements ButtonInterface, MouseListener {
 
 	public MainMenuPlayButton() {
 		super(new Rectangle(((Application.WIDTH / 2) - 50), 200, 100, 50), "New Game", Color.white, Color.gray,
@@ -27,8 +27,13 @@ public class MainMenuPlayButton extends NormalButton implements ButtonInterface,
 	}
 
 	@Override
+	public void scaleFunction() {
+		bounds = new Rectangle(((Application.WIDTH / 2) - 50), 200, 100, 50);
+	}
+	@Override
 	public void init() {
 		Application.getGame().addMouseListener(this);
+		Application.getGame().addMouseMotionListener(this);
 	}
 
 	public void mouseLeftClicked(MouseEvent e) {

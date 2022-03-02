@@ -23,6 +23,7 @@ public class NextSong extends SpecialButton implements ButtonInterface, MouseLis
 	@Override
 	public void init() {
 		Application.getGame().addMouseListener(this);
+		Application.getGame().addMouseMotionListener(this);
 		
 	}
 

@@ -35,7 +35,7 @@ public class Bracket16 {
 	
 	public static void save(Team winner, Team notWinner, String Section, int Counter)
 	{
-		winners.add(winner.name);
+		winners.add(winner.name + "*");
 		notWinners.add(notWinner.name);
 
 		section.add(Section);

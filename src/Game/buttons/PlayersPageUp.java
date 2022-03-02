@@ -23,7 +23,8 @@ public class PlayersPageUp extends NormalButton implements ButtonInterface ,Mous
 	}
 	@Override
 	public void init() {
-		Application.getGame().addMouseListener(this);;
+		Application.getGame().addMouseListener(this);
+		Application.getGame().addMouseMotionListener(this);
 	}
 	
 	@Override

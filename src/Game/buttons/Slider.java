@@ -5,11 +5,14 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
 
 import Game.Application;
 
-public class Slider {
+public class Slider implements MouseListener, MouseMotionListener{
 	
 	public Rectangle outside;
 	public String txt;
@@ -31,7 +34,6 @@ public class Slider {
 		color2 = co2;
 		gamestates = states;
 		coordx = startpoint;
-		
 	}
 	
 	public void init()
@@ -68,5 +70,41 @@ public class Slider {
 		//g2d.draw(outside);
 //		
 }
+	}
+	@Override
+	public void mouseDragged(MouseEvent arg0) {
+		if(outside.contains(arg0.getX(),arg0.getY()))
+		coordx = arg0.getX();
+		
+	}
+	@Override
+	public void mouseMoved(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		if(outside.contains(arg0.getX(),arg0.getY()))
+			coordx = arg0.getX();
+	}
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -24,6 +24,7 @@ public class PlayPause extends SpecialButton implements ButtonInterface, MouseLi
 	@Override
 	public void init() {
 		Application.getGame().addMouseListener(this);
+		Application.getGame().addMouseMotionListener(this);
 		;
 	}
 

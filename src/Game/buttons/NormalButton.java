@@ -22,7 +22,7 @@ import Game.Application.STATE;
 import Game.Graphical;
 
 
-public class NormalButton implements MouseListener {
+public class NormalButton implements MouseListener, MouseMotionListener {
 	public Rectangle bounds; // The phyisical button
 	public String txt; // What the button displays as text
 	Color cDefault; // The default color when the button is NOT highlighted
@@ -117,7 +117,7 @@ public class NormalButton implements MouseListener {
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		
+	
 	}
 
 	@Override
@@ -136,10 +136,14 @@ public class NormalButton implements MouseListener {
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		if(bounds.contains(new Rectangle(e.getX(),e.getY())))
+		if(bounds.contains(e.getX(),e.getY()))
 			hovered = true;
 			else
 			hovered = false;
 	}
 
+	@Override
+	public void mouseDragged(MouseEvent arg0) {
+		
+	}
 }

@@ -17,13 +17,14 @@ import Game.Timer;
 
 public class MainMenuLoad extends NormalButton implements ButtonInterface, MouseListener {
 	public MainMenuLoad() {
-		super(new Rectangle((Application.WIDTH / 2) - 50, 300, 100, 50), "Load Game", Color.red, Color.GRAY,
+		super(new Rectangle((Application.WIDTH / 2) - 50, 400, 100, 50), "Load Game", Color.red, Color.GRAY,
 				new Application.STATE[] { Application.STATE.Menu }, Application.STATE.LoadGame, "MainMenuLoadGame");
 	}
 
 	@Override
 	public void init() {
 		Application.getGame().addMouseListener(this);
+		Application.getGame().addMouseMotionListener(this);
 	}
 
 	@Override

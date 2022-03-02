@@ -65,7 +65,7 @@ public class TeamTenPlayers {
 					tdd = temp.get(0);
 				}
 				String s = ""+(tdd.getTournamentWins());
-				output += "" + tdd.name + " (" + s + ")\n";
+				output += "" + tdd.org.Abbreviation + "." + tdd.name + " (" + s + ")\n";
 				temp.remove(tdd);
 				statCounter = 0;
 				tdd = null;
@@ -87,14 +87,14 @@ public class TeamTenPlayers {
 				tdd = temp.get(0);
 			}
 			String s = n.format(tdd.earnings);
-			output += "" + tdd.name + " (" + s + ")\n";
+			output += "" + tdd.org.Abbreviation + "." + tdd.name + " (" + s + ")\n";
 			temp.remove(tdd);
 			statCounter = 0;
 			tdd = null;
 		}
 		break;
 		}
-		Graphical.drawString2(output, Application.WIDTH/2, 50);
+		Graphical.drawStringWithLineBreaks(output, Application.WIDTH/2, 50);
 	}
 	public static void clear()
 	{

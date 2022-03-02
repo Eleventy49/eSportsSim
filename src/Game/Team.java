@@ -28,6 +28,8 @@ public class Team {
 	public int TeamScouts;
 	public Cash cash;
 	
+	public ArrayList<Integer> farmPrio = new ArrayList<Integer>();
+	
 	public ArrayList<Staff> staff = new ArrayList<Staff>();
 	
 
@@ -50,6 +52,8 @@ public class Team {
 	final static int lanePressure = 16;
 	final static int starFactor = 17;
 	
+	int[][] recentWins = new int[24][3];
+	
 
 	//Default constructor with just a name.
 	public Team(String n) {
@@ -70,8 +74,34 @@ public class Team {
 		}
 	}
 	
+	public int getRecentWins() {
+		int temp = 0;
+		for(int y=0; y<=2 ; y++) {
+			for(int x=0; x<=23 ; x++)
+			{
+				temp += recentWins[x][y];	
+			}
+		}
+		return temp;
+	}
+	public void monthlyTick() {
+		for(int y=0; y<=2 ; y++) {
+			for(int x=0; x<=22 ; x++)	
+			{
+				if(x == 0 && (recentWins[0][y] == 1))
+				{
+					recentWins[0][y] = 0;
+				}
+				recentWins[x][y] = recentWins[x+1][y];
+				recentWins[x+1][y] = 0;
+				
+			}
+		}
+	}
 	public void Tick()
 	{
+		
+		
 		int fmanagertracker = 0;
 		int coachTracker = 0;
 		int trainerTracker = 0;
@@ -117,7 +147,8 @@ public class Team {
 		}
 	}
 	//Constructor that is used to load part of a player? I actually have no idea where this is used if it even is.
-	public Team(String n, int major, int minor, int world, int earnings, double d, String a, boolean wChamp, boolean maChamp, boolean miChamp, Cash c) {
+	public Team(String n, int major, int minor, int world, int earnings, double d, String a, 
+			boolean wChamp, boolean maChamp, boolean miChamp, Cash c) {
 		if (!(n == null || n.isEmpty())) {
 			name = n;
 			MajorTitlesWon = major;
@@ -133,6 +164,7 @@ public class Team {
 			maChampion = maChamp;
 			miChampion = miChamp;
 			cash = c;
+			
 		}
 	}
 
@@ -147,7 +179,8 @@ public class Team {
 
 	//Full constructor from the file.
 	public Team(String n, int major, int minor, int world, int earnings, double d, String p1, String p2, String p3,
-			String p4, String p5, String a, int r1, int r2, int r3, int r4, int r5, boolean champ, boolean maChamp, boolean miChamp, Cash c) {
+			String p4, String p5, String a, int r1, int r2, int r3, int r4, int r5, boolean champ,
+			boolean maChamp, boolean miChamp, Cash c, ArrayList<Integer> fp) {
 		if (!(n == null || n.isEmpty())) {
 			name = n;
 			MajorTitlesWon = major;
@@ -198,6 +231,8 @@ public class Team {
 			maChampion = false;
 			miChampion =false;
 			cash = c;
+			
+			farmPrio = fp;
 
 		}
 	}
@@ -226,7 +261,7 @@ public class Team {
 
 		return name + "," + MajorTitlesWon + "," + MinorTitlesWon + "," + WorldTitlesWon + "," + tournamentEarnings
 				+ "," + subSave() + "," + dynasty + "," + Abbreviation + "," + wChampion + "," + maChampion + "," + miChampion + "," + cash.getDollars() + ","
-				+ cash.getCents() + ","
+				+ cash.getCents() + "," + farmPrio.get(0) + "," + farmPrio.get(1) + "," + farmPrio.get(2) + "," + farmPrio.get(3) + "," + farmPrio.get(4)
 				+ staff.size() + "," + subSave2() + "\n";
 
 	}
@@ -281,11 +316,11 @@ public class Team {
 
 			if (x.stats[heroPool] > statCounter1)
 				statCounter1 = x.stats[heroPool];
-			if (x.stats[farmingLane] > statCounter1)
+			if (x.stats[farmingLane] > statCounter2)
 				statCounter2 = x.stats[farmingLane];
-			if (x.stats[gankAwareness] > statCounter1)
+			if (x.stats[gankAwareness] > statCounter3)
 				statCounter3 = x.stats[gankAwareness];
-			if (x.stats[gankAbility] > statCounter1)
+			if (x.stats[gankAbility] > statCounter4)
 				statCounter4 = x.stats[gankAbility];
 
 			statCounter5 = statCounter1 + statCounter2 + statCounter3 + statCounter4;
@@ -316,9 +351,9 @@ public class Team {
 
 			if (x.stats[farmingLane] > statCounter1)
 				statCounter1 = x.stats[farmingLane] * 25;
-			if (x.stats[farmingPattern] > statCounter1)
+			if (x.stats[farmingPattern] > statCounter2)
 				statCounter2 = x.stats[farmingPattern] * 50;
-			if (x.stats[fightingPriority] > statCounter1)
+			if (x.stats[fightingPriority] > statCounter3)
 				statCounter3 = x.stats[fightingPriority] * 25;
 
 			statCounter5 = statCounter1 + statCounter2 + statCounter3 + statCounter4;
@@ -345,11 +380,11 @@ public class Team {
 
 			if (x.stats[wardPlacement] > statCounter1)
 				statCounter1 = x.stats[wardPlacement] * 10;
-			if (x.stats[dewarding] > statCounter1)
+			if (x.stats[dewarding] > statCounter2)
 				statCounter2 = x.stats[dewarding] * 10;
-			if (x.stats[gankAbility] > statCounter1)
+			if (x.stats[gankAbility] > statCounter3)
 				statCounter3 = x.stats[gankAbility] * 50;
-			if (x.stats[gankAwareness] > statCounter1)
+			if (x.stats[gankAwareness] > statCounter4)
 				statCounter4 = x.stats[gankAwareness] * 30;
 
 			statCounter5 = statCounter1 + statCounter2 + statCounter3 + statCounter4;
@@ -375,13 +410,13 @@ public class Team {
 
 			if (x.stats[wardPlacement] > statCounter1)
 				statCounter1 = x.stats[wardPlacement] * 20;
-			if (x.stats[dewarding] > statCounter1)
+			if (x.stats[dewarding] > statCounter2)
 				statCounter2 = x.stats[dewarding] * 20;
-			if (x.stats[gankAwareness] > statCounter1)
+			if (x.stats[gankAwareness] > statCounter3)
 				statCounter3 = x.stats[gankAwareness] * 30;
-			if (x.stats[gankAbility] > statCounter1)
+			if (x.stats[gankAbility] > statCounter4)
 				statCounter4 = x.stats[gankAbility] * 10;
-			if (x.stats[communication] > statCounter1)
+			if (x.stats[communication] > statCounter5)
 				statCounter5 = x.stats[communication] * 20;
 
 			statCounter5 = statCounter5 + statCounter1 + statCounter2 + statCounter3 + statCounter4;
@@ -420,19 +455,19 @@ public class Team {
 		default:
 			return "\tTeam Name: " + name + "\nTournament Earnings: " + s + "\nMoney On Hand: " + n.format(cash.getAmount()) + "\nDynasty Multiplier: " + dynasty
 					+ "\n\n\tWorld Championships Won: " + WorldTitlesWon + "\n\tMajor Championships Won: "
-					+ MajorTitlesWon + "\n\tMinor Championships Won: " + MinorTitlesWon 
+					+ MajorTitlesWon + "\n\tMinor Championships Won: " + MinorTitlesWon + "\n\tSkill Ranking: " + Database.getTeamPosition(this)
 					+ "\n\n\tThis team does not have anyone on its roster.";
 		case 1:
 			return "\tTeam Name: " + name + "\nTournament Earnings: " + s + "\nMoney On Hand: " + n.format(cash.getAmount()) + "\nDynasty Multiplier: " + dynasty
 					+ "\n\n\tWorld Championships Won: " + WorldTitlesWon + "\n\tMajor Championships Won: "
-					+ MajorTitlesWon + "\n\tMinor Championships Won: " + MinorTitlesWon +
-					"\n\n\tRoster: \n\t\t"
+					+ MajorTitlesWon + "\n\tMinor Championships Won: " + MinorTitlesWon + "\n\tSkill Ranking: " + Database.getTeamPosition(this)
+					+ "\n\n\tRoster: \n\t\t"
 					+ roster.get(0).name + " (" + roster.get(0).getStatsTotal() + ")";
 
 		case 2:
 			return "\tTeam Name: " + name + "\nTournament Earnings: " + s + "\nMoney On Hand: " + n.format(cash.getAmount()) + "\nDynasty Multiplier: " + dynasty
 					+ "\n\n\tWorld Championships Won: " + WorldTitlesWon + "\n\tMajor Championships Won: "
-					+ MajorTitlesWon + "\n\tMinor Championships Won: " + MinorTitlesWon 
+					+ MajorTitlesWon + "\n\tMinor Championships Won: " + MinorTitlesWon + "\n\tSkill Ranking: " + Database.getTeamPosition(this)
 					+ "\n\n\tRoster: \n"
 					+ roster.get(0).name + " (" + roster.get(0).getStatsTotal() + ")" + "\n\t" + roster.get(1).name
 					+ " (" + roster.get(1).getStatsTotal() + ")";
@@ -440,15 +475,15 @@ public class Team {
 		case 3:
 			return "\tTeam Name: " + name + "\nTournament Earnings: " + s + "\nMoney On Hand: " + n.format(cash.getAmount()) +"\nDynasty Multiplier: " + dynasty
 					+ "\n\n\tWorld Championships Won: " + WorldTitlesWon + "\n\tMajor Championships Won: "
-					+ MajorTitlesWon + "\n\tMinor Championships Won: " + MinorTitlesWon + 
-					"\n\n\tRoster: \n"
+					+ MajorTitlesWon + "\n\tMinor Championships Won: " + MinorTitlesWon + "\n\tSkill Ranking: " + Database.getTeamPosition(this)
+					+ "\n\n\tRoster: \n"
 					+ roster.get(0).name + " (" + roster.get(0).getStatsTotal() + ")" + "\n\t" + roster.get(1).name
 					+ " (" + roster.get(1).getStatsTotal() + ")" + "\n\t" + roster.get(2).name + " ("
 					+ roster.get(2).getStatsTotal() + ")";
 		case 4:
 			return "\tTeam Name: " + name + "\nTournament Earnings: " + s + "\nMoney On Hand: " + n.format(cash.getAmount()) + "\nDynasty Multiplier: " + dynasty
 					+ "\n\n\tWorld Championships Won: " + WorldTitlesWon + "\n\tMajor Championships Won: "
-					+ MajorTitlesWon + "\n\tMinor Championships Won: " + MinorTitlesWon 
+					+ MajorTitlesWon + "\n\tMinor Championships Won: " + MinorTitlesWon + "\\n\tSkill Ranking: " + Database.getTeamPosition(this)
 					+ "\n\n\tRoster: \n"
 					+ roster.get(0).name + " (" + roster.get(0).getStatsTotal() + ")" + "\n\t" + roster.get(1).name
 					+ " (" + roster.get(1).getStatsTotal() + ")" + "\n\t" + roster.get(2).name + " ("
@@ -457,7 +492,7 @@ public class Team {
 		case 5:
 			return "\tTeam Name: " + name + "\nTournament Earnings: " + s +  "\nDynasty Multiplier: " + dynasty
 					+ "\n\n\tWorld Championships Won: " + WorldTitlesWon + "\n\tMajor Championships Won: "
-					+ MajorTitlesWon + "\n\tMinor Championships Won: " + MinorTitlesWon 
+					+ MajorTitlesWon + "\n\tMinor Championships Won: " + MinorTitlesWon + "\n\tSkill Ranking: " + Database.getTeamPosition(this) 
 					+ "\n\n\tRoster: \n"
 					+ roster.get(0).name + " (" + roster.get(0).getStatsTotal() + ")" + "\n\t" + roster.get(1).name
 					+ " (" + roster.get(1).getStatsTotal() + ")" + "\n\t" + roster.get(2).name + " ("
@@ -488,7 +523,7 @@ public class Team {
 	
 		return "\nTournament Earnings: " + s + "\nMoney On Hand: " + n.format(cash.getAmount()) + "\nDynasty Multiplier: " + dynasty
 		+ "\n\n\tWorld Championships Won: " + WorldTitlesWon + "\n\tMajor Championships Won: "
-		+ MajorTitlesWon + "\n\tMinor Championships Won: " + MinorTitlesWon ;
+		+ MajorTitlesWon + "\n\tMinor Championships Won: " + MinorTitlesWon  + "\n\tSkill Ranking: " + Database.getTeamPosition(this) ;
 	}
 
 	public String toStringN3(int j) {

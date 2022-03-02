@@ -14,6 +14,37 @@ public class TeamViewer {
 		ArrayList<Team> temp = new ArrayList<Team>();
 		static int x = 1;
 
+		public static void render (int i) {
+			Color color = Application.getGame().getGraphics().getColor();
+			if (Application.viewingTeam == null)
+				Application.viewingTeam = Database.teamdatabase.get((TeamViewer.page * 10) - 11 + i);
+
+			Application.getGame().getGraphics().setFont(Application.bitoperatorfont36);
+			Application.getGame().getGraphics().setColor(Color.white);
+			try {
+				Graphical.drawStringWithLineBreaks(Application.viewingTeam.toStringN(), 700, 100);
+				Application.getGame().getGraphics().setColor(Color.white);
+				Graphical.drawStringWithLineBreaks(Application.viewingTeam.toStringN2(), 700, 150);
+
+				for (int j = 0; j < Application.viewingTeam.roster.size(); j++) {
+					Graphical.drawStringWithLineBreaks(Application.viewingTeam.toStringN3(j), 700, 650 + (50 * j));
+					Application.getGame().getGraphics().setColor(Color.white);
+				}
+			} catch (IndexOutOfBoundsException e) {
+
+			}
+			Application.getGame().getGraphics().setColor(color);
+		}
+		public static void render(Team i) {
+			Color color = Application.getGame().getGraphics().getColor();
+			Application.getGame().getGraphics().setFont(Application.bitoperatorfont13);
+			try {
+				Graphical.drawStringWithLineBreaks(i.toString(), 700, 100);
+			} catch (IndexOutOfBoundsException e) {
+
+			}
+			Application.getGame().getGraphics().setColor(color);
+		}
 
 		public static void defaultdisplay()
 		{

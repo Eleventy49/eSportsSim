@@ -25,6 +25,7 @@ public class AddTeamName extends NormalButton implements ButtonInterface, MouseL
 	@Override
 	public void init() {
 		Application.getGame().addMouseListener(this);
+		Application.getGame().addMouseMotionListener(this);
 	}
 
 	@Override

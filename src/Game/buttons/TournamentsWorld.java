@@ -23,7 +23,8 @@ public class TournamentsWorld extends NormalButton implements ButtonInterface,Mo
 	}
 	@Override
 	public void init() {
-		Application.getGame().addMouseListener(this);;
+		Application.getGame().addMouseListener(this);
+		Application.getGame().addMouseMotionListener(this);
 	}
 	
 	public void mouseClicked(MouseEvent e) {
@@ -73,7 +74,9 @@ public class TournamentsWorld extends NormalButton implements ButtonInterface,Mo
 	@Override
 	public void mouseLeftClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
+		System.out.println("We did get to the tournament");
 		Application.prevState.add(Application.State);
+		Application.State = gameStateOnClick;
 		Music.mouseClick();
 		Application.isInGame = true;
 	}

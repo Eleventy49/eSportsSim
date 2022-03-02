@@ -16,7 +16,7 @@ import Game.Application.STATE;
 public class MainMenuCredits extends NormalButton implements ButtonInterface, MouseListener {
 
 	public MainMenuCredits() {
-		super(new Rectangle((Application.WIDTH / 2) - 50, 600, 100, 50), "Credits", Color.red, Color.GRAY,
+		super(new Rectangle((Application.WIDTH / 2) - 50, 700, 100, 50), "Credits", Color.red, Color.GRAY,
 				new Application.STATE[] { Application.STATE.Menu }, Application.STATE.Credits, "MainMenuCredits");
 
 	}
@@ -24,6 +24,7 @@ public class MainMenuCredits extends NormalButton implements ButtonInterface, Mo
 	@Override
 	public void init() {
 		Application.getGame().addMouseListener(this);
+		Application.getGame().addMouseMotionListener(this);
 	}
 
 	@Override

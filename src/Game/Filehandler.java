@@ -146,9 +146,6 @@ public class Filehandler {
 				month = scnr.nextInt();
 				year = scnr.nextInt();
 		
-				OptionsMenu.setVolumeSong(songVolume);
-				Application.ConsoleOutput = console;
-				OptionsMenu.setVolumeEffect(effectsVolume);
 				Timer.setWeek(week);
 				Timer.setMonth(month);
 				Timer.setYear(year);
@@ -181,6 +178,12 @@ public class Filehandler {
 					int dollars = scnr.nextInt();
 					int cents = scnr.nextInt();
 					Cash b = new Cash(dollars, cents);
+					ArrayList<Integer> farmPrioList = new ArrayList<Integer>();
+					farmPrioList.add(scnr.nextInt());
+					farmPrioList.add(scnr.nextInt());
+					farmPrioList.add(scnr.nextInt());
+					farmPrioList.add(scnr.nextInt());
+					farmPrioList.add(scnr.nextInt());
 					ArrayList<Staff> temp = new ArrayList<Staff>();
 					for(int i = scnr.nextInt(); i > 0; i--)
 					{
@@ -197,7 +200,7 @@ public class Filehandler {
 						temp.add(new Staff(temp2,level));
 						
 					}
-					listt.add(new Team(name, major, minor, world, earnings, d, p1, p2, p3, p4, p5, a1, r1, r2, r3, r4, r5, c, mac,mic, b));
+					listt.add(new Team(name, major, minor, world, earnings, d, p1, p2, p3, p4, p5, a1, r1, r2, r3, r4, r5, c, mac,mic, b, farmPrioList));
 					listt.get(listt.size() - 1).staff.addAll(temp);
 					listt.get(listt.size() - 1).updateStaff();
 
@@ -345,9 +348,6 @@ public class Filehandler {
 				month = scnr.nextInt();
 				year = scnr.nextInt();
 		
-				OptionsMenu.setVolumeSong(songVolume);
-				Application.ConsoleOutput = console;
-				OptionsMenu.setVolumeEffect(effectsVolume);
 				Timer.setWeek(week);
 				Timer.setMonth(month);
 				Timer.setYear(year);
@@ -381,6 +381,12 @@ public class Filehandler {
 					int dollars = scnr.nextInt();
 					int cents = scnr.nextInt();
 					Cash b = new Cash(dollars, cents);
+					ArrayList<Integer> farmPrioList = new ArrayList<Integer>();
+					farmPrioList.add(scnr.nextInt());
+					farmPrioList.add(scnr.nextInt());
+					farmPrioList.add(scnr.nextInt());
+					farmPrioList.add(scnr.nextInt());
+					farmPrioList.add(scnr.nextInt());
 					ArrayList<Staff> temp = new ArrayList<Staff>();
 					for(int i = scnr.nextInt(); i > 0; i--)
 					{
@@ -397,7 +403,7 @@ public class Filehandler {
 						temp.add(new Staff(temp2,level));
 						
 					}
-					listt.add(new Team(name, major, minor, world, earnings, d, p1, p2, p3, p4, p5, a1, r1, r2, r3, r4, r5, c, mac, mic, b));
+					listt.add(new Team(name, major, minor, world, earnings, d, p1, p2, p3, p4, p5, a1, r1, r2, r3, r4, r5, c, mac, mic, b, farmPrioList));
 					listt.get(listt.size() - 1).staff.addAll(temp);
 					listt.get(listt.size() - 1).updateStaff();
 
@@ -541,10 +547,7 @@ public class Filehandler {
 				week = scnr.nextInt();
 				month = scnr.nextInt();
 				year = scnr.nextInt();
-		
-				OptionsMenu.setVolumeSong(songVolume);
-				Application.ConsoleOutput = console;
-				OptionsMenu.setVolumeEffect(effectsVolume);
+
 				Timer.setWeek(week);
 				Timer.setMonth(month);
 				Timer.setYear(year);
@@ -578,6 +581,12 @@ public class Filehandler {
 					int dollars = scnr.nextInt();
 					int cents = scnr.nextInt();
 					Cash b = new Cash(dollars, cents);
+					ArrayList<Integer> farmPrioList = new ArrayList<Integer>();
+					farmPrioList.add(scnr.nextInt());
+					farmPrioList.add(scnr.nextInt());
+					farmPrioList.add(scnr.nextInt());
+					farmPrioList.add(scnr.nextInt());
+					farmPrioList.add(scnr.nextInt());
 					ArrayList<Staff> temp = new ArrayList<Staff>();
 					for(int i = scnr.nextInt(); i > 0; i--)
 					{
@@ -594,7 +603,7 @@ public class Filehandler {
 						temp.add(new Staff(temp2,level));
 						
 					}
-					listt.add(new Team(name, major, minor, world, earnings, d, p1, p2, p3, p4, p5, a1, r1, r2, r3, r4, r5, c, mac, mic, b));
+					listt.add(new Team(name, major, minor, world, earnings, d, p1, p2, p3, p4, p5, a1, r1, r2, r3, r4, r5, c, mac, mic, b, farmPrioList));
 					listt.get(listt.size() - 1).staff.addAll(temp);
 					listt.get(listt.size() - 1).updateStaff();
 
@@ -666,16 +675,9 @@ public class Filehandler {
 						break;
 					}
 						
-						
-						
 					}
 			TournamentScheduler.collection = listo;
-			
-			
-			
-			
-			
-			
+					
 			scnr.close();
 	
 		} catch (IOException e) {

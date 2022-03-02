@@ -162,11 +162,14 @@ public class MusicHandler {
 
 	
 		try {
+			
 			clip = AudioSystem.getClip();
+			
 			clip.open(AudioSystem.getAudioInputStream(getClass().getResource(file)));
-			clip.start();
 			effectsgainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 			effectsgainControl.setValue(OptionsMenu.effectVolume);
+			clip.start();
+			
 		//	System.out.println(gainControl.getMinimum());
 			muteControl = (BooleanControl) clip.getControl(BooleanControl.Type.MUTE);
 			// sound.start();

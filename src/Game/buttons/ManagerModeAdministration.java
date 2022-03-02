@@ -26,6 +26,7 @@ public class ManagerModeAdministration extends NormalButton implements ButtonInt
 	@Override
 	public void init() {
 		Application.getGame().addMouseListener(this);
+		Application.getGame().addMouseMotionListener(this);
 	}
 
 }

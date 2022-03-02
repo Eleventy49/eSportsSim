@@ -67,4 +67,27 @@ public class PlayerViewer {
 		}
 	}
 
+	public static void render(Player i) {
+		// Store the default color the application had before reaching this subroutine
+				Color color = Application.getGame().getGraphics().getColor();
+
+				// Set the current font to the small font
+				Application.getGame().getGraphics().setFont(Application.bitoperatorfont13);
+
+				// Set the color to white, and then draw the information associated with player
+				// I
+				// drawString2 is a method to draw a string to the screen with line splits.
+				Application.getGame().getGraphics().setColor(Color.WHITE);
+				try {
+					Graphical.drawStringWithLineBreaks(i.toStringN(), 700, 100);
+					Graphical.drawStringWithLineBreaks(i.toStringN2(), 700, 100);
+
+				} catch (IndexOutOfBoundsException e) {
+
+				}
+				
+				//Reset application color.
+				Application.getGame().getGraphics().setColor(color);
+	}
+
 }

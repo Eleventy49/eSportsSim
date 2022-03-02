@@ -25,6 +25,7 @@ public class ManagerModePlayers extends NormalButton implements ButtonInterface,
 	@Override
 	public void init() {
 		Application.getGame().addMouseListener(this);
+		Application.getGame().addMouseMotionListener(this);
 	}
 
 	@Override

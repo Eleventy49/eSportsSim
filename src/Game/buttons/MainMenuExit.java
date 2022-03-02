@@ -17,7 +17,7 @@ import Game.MusicHandler;
 public class MainMenuExit extends NormalButton implements ButtonInterface, MouseListener {
 
 	public MainMenuExit() {
-		super(new Rectangle((Application.WIDTH / 2) - 50, 800, 100, 50), "Exit", Color.white, Color.GRAY,
+		super(new Rectangle((Application.WIDTH / 2) - 50, 900, 100, 50), "Exit", Color.white, Color.GRAY,
 				new Application.STATE[] { Application.STATE.Menu }, Application.STATE.Exit, "MainMenuExit");
 	}
 
@@ -31,5 +31,6 @@ public class MainMenuExit extends NormalButton implements ButtonInterface, Mouse
 	@Override
 	public void init() {
 		Application.getGame().addMouseListener(this);
+		Application.getGame().addMouseMotionListener(this);
 	}
 }

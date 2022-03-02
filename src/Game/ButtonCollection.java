@@ -45,11 +45,13 @@ public class ButtonCollection {
 	static NotificationDismissSlot7 NotificationDismissSlot7 = new  NotificationDismissSlot7();
 	static NotificationDismissSlot8 NotificationDismissSlot8 = new  NotificationDismissSlot8();
 	static NotificationDismissSlot9 NotificationDismissSlot9 = new NotificationDismissSlot9();
+	static NotificationDismissAll NotificationDismissAll = new NotificationDismissAll();
 	static OptionsConsoleEnable OptionsConsoleEnable = new  OptionsConsoleEnable();
 	static PlayersAddPlayer PlayersAddPlayer = new  PlayersAddPlayer();
 	static PlayersPageDown PlayersPageDown = new  PlayersPageDown();
 	static PlayersPageUp PlayersPageUp = new PlayersPageUp ();
 	static PlayersTop10 PlayersTop10 = new PlayersTop10 ();
+	static MainMenuResume MainMenuResume = new MainMenuResume();
 	static PlayersTop10Mode1 PlayersTop10Mode1 = new PlayersTop10Mode1 ();
 	static PlayersTop10Mode2 PlayersTop10Mode2= new  PlayersTop10Mode2();
 	static PlayersTop10Mode3 PlayersTop10Mode3 = new  PlayersTop10Mode3();
@@ -74,6 +76,7 @@ public class ButtonCollection {
 	static TopTenTeamsMode2 TopTenTeamsMode2 = new TopTenTeamsMode2 ();
 	static TopTenTeamsMode3 TopTenTeamsMode3 = new  TopTenTeamsMode3();
 	static TopTenTeamsMode4 TopTenTeamsMode4 = new  TopTenTeamsMode4();
+	static TopTenTeamsMode5 TopTenTeamsMode5 = new  TopTenTeamsMode5();
 	static TournamentsMajor TournamentsMajor = new TournamentsMajor ();
 	static TournamentsMinor4 TournamentsMinor4 = new  TournamentsMinor4();
 	static  TournamentsMinor8 TournamentsMinor8 = new TournamentsMinor8 ();
@@ -101,15 +104,20 @@ public class ButtonCollection {
 	static ViewTeamsSlot8 ViewTeamsSlot8 = new ViewTeamsSlot8();
 	static ViewTeamsSlot9 ViewTeamsSlot9 = new ViewTeamsSlot9();
 	static SLIDERTEST SLIDERTEST = new SLIDERTEST();
+	static OptionsEffectVolume OptionsEffectsVolume = new OptionsEffectVolume();
+	static OptionsMusicVolume OptionsMusicVolume = new OptionsMusicVolume();
 	
 	
 	
 	public ButtonCollection()
 	{
+		collection.add(OptionsEffectsVolume);
+		collection.add(OptionsMusicVolume);
 		collection.add(SLIDERTEST);
 		collection.add(MainMenuPlayButton);
 		collection.add(AddTeamAbb );
 		collection.add(AddTeamName);
+		collection.add(MainMenuResume);
 		collection.add( CornerBack);
 		collection.add(CornerMenu );
 		collection.add(DecreaseGameSpeed );
@@ -142,6 +150,7 @@ public class ButtonCollection {
 		collection.add( NotificationDismissSlot7);
 		collection.add(NotificationDismissSlot8 );
 		collection.add(NotificationDismissSlot9 );
+		collection.add(NotificationDismissAll);
 		collection.add(OptionsConsoleEnable );
 		collection.add( PlayersAddPlayer);
 		collection.add(PlayersPageDown );
@@ -171,6 +180,7 @@ public class ButtonCollection {
 		collection.add(TopTenTeamsMode2 );
 		collection.add(TopTenTeamsMode3 );
 		collection.add(TopTenTeamsMode4 );
+		collection.add(TopTenTeamsMode5 );
 		collection.add(TournamentsMajor );
 		collection.add( TournamentsMinor4);
 		collection.add(TournamentsMinor8 );

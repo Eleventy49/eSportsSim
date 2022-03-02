@@ -103,7 +103,20 @@ public class Timer {
 	}
 	public static void pulse()
 	{
-		if(timer == 0 && running)
+		if(timer == 0 && week == 1 && running)
+		{
+			for(Team x: Database.teamdatabase)
+			{
+				x.monthlyTick();
+			}
+			TournamentScheduler.pulse();
+		oldTick();	
+		// new Notification("This is a notification");
+		 
+		// System.out.println("Creating a notification");
+		}
+		
+		if(length == 0 && running)
 		{
 			for(Team x: Database.teamdatabase)
 			{
@@ -112,14 +125,6 @@ public class Timer {
 			
 		}
 		
-		if(timer == 0 && week == 1 && running)
-		{
-			TournamentScheduler.pulse();
-		oldTick();	
-		// new Notification("This is a notification");
-		 
-		// System.out.println("Creating a notification");
-		}
 	}
 	public static void oldTick()
 	{

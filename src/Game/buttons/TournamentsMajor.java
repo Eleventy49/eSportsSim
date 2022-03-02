@@ -25,7 +25,8 @@ public class TournamentsMajor extends NormalButton implements ButtonInterface,Mo
 	}
 	@Override
 	public void init() {
-		Application.getGame().addMouseListener(this);;
+		Application.getGame().addMouseListener(this);
+		Application.getGame().addMouseMotionListener(this);
 	}
 	
 	public void mouseClicked(MouseEvent e) {
@@ -79,7 +80,6 @@ public class TournamentsMajor extends NormalButton implements ButtonInterface,Mo
 		Music.mouseClick();
 		Application.isInGame = true;
 		Application.State = gameStateOnClick;
-		SimTournament.Major(Database.getRandomTeams(8));
 	}
 
 	@Override

@@ -23,7 +23,8 @@ public class PlayersTop10 extends NormalButton implements ButtonInterface,MouseL
 	}
 	@Override
 	public void init() {
-		Application.getGame().addMouseListener(this);;
+		Application.getGame().addMouseListener(this);
+		Application.getGame().addMouseMotionListener(this);
 	}
 	
 	public void mouseClicked(MouseEvent e) {

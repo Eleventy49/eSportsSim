@@ -30,10 +30,12 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 import Game.Application.STATE;
 import Game.buttons.NormalButton;
 import Game.buttons.OptionsConsoleEnable;
+import Game.buttons.ScalingButton;
 import Game.buttons.Slider;
 import Game.buttons.SpecialButton;
 
@@ -42,11 +44,11 @@ public class Application extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1;
 	public static int WIDTH = 1760;
 	public static int HEIGHT = WIDTH / 16 * 9;
-	public final String TITLE = "{Virtually} Pro Dota";
+	public final String TITLE = "{Virtually} Pro MobA";
 	private boolean running = false;
 	private Thread thread;
 	static JFrame frame;
-	Dimension windowSize;
+	static Dimension windowSize;
 	static Application game;
 	public static Font bitoperatorfont36;
 	public static Font bitoperatorfont13;
@@ -68,7 +70,7 @@ public class Application extends Canvas implements Runnable {
 	public static Cursor handCursor = new Cursor(Cursor.HAND_CURSOR);
 	public static Cursor pointerCursor = new Cursor(Cursor.DEFAULT_CURSOR);
 	static boolean runTournament = true;
-	static boolean gameLoaded = false;
+	public static boolean gameLoaded = false;
 	public static boolean WarningQuery;
 	public static String WarningMessage;
 	public static boolean ConsoleOutput = true;
@@ -177,6 +179,7 @@ public class Application extends Canvas implements Runnable {
 	}
 
 	public void init() {
+		
 		BufferStrategy bs = Application.getGame().getBufferStrategy();
 		if (bs == null) {
 			Application.game.createBufferStrategy(3);
@@ -185,7 +188,9 @@ public class Application extends Canvas implements Runnable {
 		for (Object x : Application.buttons.getCollection()) {
 			NormalButton y = null;
 			SpecialButton w = null;
+			ScalingButton a = null;
 			Slider z = null;
+			
 			if (x instanceof NormalButton) {
 				y = (NormalButton) x;
 				y.init();
@@ -193,11 +198,15 @@ public class Application extends Canvas implements Runnable {
 			if (x instanceof SpecialButton) {
 				w = (SpecialButton) x;
 				w.init();
-			}
+			} else
 			if (x instanceof Slider) {
 				z = (Slider) x;
 				z.init();
-			}
+			} else
+				if (x instanceof ScalingButton) {
+					a = (ScalingButton) x;
+					a.init();
+				}
 		}
 			
 			// if(gameStateIsPartOf(Game.State, y.prereq))
@@ -221,6 +230,7 @@ public class Application extends Canvas implements Runnable {
 			} catch (IOException | FontFormatException e) {
 				e.printStackTrace();
 			}
+			
 			BufferedImageLoader loader = new BufferedImageLoader();
 			try {
 				spriteSheet = loader.loadImage("/SpriteSheet.png");
@@ -288,7 +298,7 @@ public class Application extends Canvas implements Runnable {
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setIconImage(new ImageIcon("res/logo.png").getImage());
-		frame.setResizable(false);
+		//frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		game.start(); // Start the game thread.
@@ -359,7 +369,7 @@ public class Application extends Canvas implements Runnable {
 		int frames = 0; // Keep track of frames rendered since last console display message
 		long notTimer = System.currentTimeMillis();
 		long timer = System.currentTimeMillis(); // Millisecond timer for console output
-		graphical.render();
+		SwingUtilities.invokeLater(graphical.render);
 		
 		while (running) {
 			long now = System.nanoTime();
@@ -370,7 +380,8 @@ public class Application extends Canvas implements Runnable {
 				updates++;
 
 				tick();
-				graphical.render();
+				SwingUtilities.invokeLater(graphical.render);
+				//graphical.render();
 
 				delta--;
 
@@ -379,9 +390,11 @@ public class Application extends Canvas implements Runnable {
 
 			if (System.currentTimeMillis() - timer > 1000) { // Every second
 				timer += 1000;
-
+				if(ConsoleOutput) {
 				System.out.println(updates + " Ticks, FPS " + frames); // Output ticks per second and frames per second.
-
+				System.out.println(ConsoleOutput);
+				
+				}
 				updates = 0;
 				frames = 0;
 
