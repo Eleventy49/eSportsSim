@@ -18,7 +18,5 @@ public class OptionsMenu {
 	{
 		
 		Application.getGame().getGraphics().drawString("Console Output [Developer Intended]", 430, 215);
-
-	
 	}
 }
