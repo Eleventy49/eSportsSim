@@ -40,10 +40,7 @@ public class Timer {
 	}
 	private static String dateAsString()
 	{
-		String ree = "";
-	
-		ree += "Week " + week + ", ";
-		
+		String ree = "Week " + week + ", ";	
 		switch(month)
 		{
 		case 1:
@@ -232,10 +229,11 @@ public class Timer {
 			}
 			//Display notification for team trade
 		}
+		
+		int retirementValue = Database.getStrongestPlayer().getStatsTotal() / 3;
 		for (Player x : Database.playerdatabase)
-		{ if(Application.ConsoleOutput)
-			System.out.println(x.name + " has had their skills increased");
-			x.update();
+		{ 
+			x.update(retirementValue);
 		}
 	}
 	public static void tick()

@@ -47,33 +47,11 @@ public class PlayersAddPlayer extends NormalButton implements ButtonInterface,Mo
 		}
 		}
 	}
-	
-	public void mouseEntered(MouseEvent e) {
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 	@Override
 	public void mouseLeftClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		Application.prevState.add(Application.State); 
-	
+		Application.State = gameStateOnClick;
 		AddPlayer.text = new Name().user;
 		Music.mouseClick();
 		Application.isInGame = true;
@@ -92,44 +70,5 @@ public class PlayersAddPlayer extends NormalButton implements ButtonInterface,Mo
 		Music.quickFunction();
 		
 	}
-
-	@Override
-	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	public void draw(Graphics g, Graphics2D g2d)
-	{
-		super.draw();	
-		//Set the correct color for the button
-	/*	if(Hovered)
-		{
-			g.setColor(cHovered);
-		}
-		else {
-			g.setColor(cDefault);	}
-		
-	//Actually do the drawing to the screen	
-
-		FontMetrics fm   = g.getFontMetrics(Game.bitoperatorfont36);
-		Rectangle2D rect = fm.getStringBounds(txt, g);
-
-		int textHeight = (int)(rect.getHeight()); 
-		int textWidth  = (int)(rect.getWidth());
-		int panelHeight= (int) bounds.getHeight();
-		int panelWidth = (int) bounds.getWidth();
-
-		// Center text horizontally and vertically
-		int x = ((panelWidth  - textWidth)  / 2) + bounds.x;
-		int y = ((panelHeight - textHeight) / 2  + fm.getAscent()) + bounds.y;
-
-		g.drawString(txt, x, y);  // Draw the string.	
-		g2d.draw(bounds);
-//		g.drawString(txt, bounds.x + 5, bounds.y + 40);		*/
-
-
-
-
-		}
 		
 }

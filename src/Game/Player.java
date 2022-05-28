@@ -38,6 +38,10 @@ public class Player implements java.lang.Comparable<Player> {
 	public boolean miChampion;
 	public boolean bestPlayer;
 	public boolean worstPlayer;
+	private double statgrowth;
+	private int birthMonth;
+	private int age;
+	private boolean active;
 
 	//Sort players by their total stats.
 	public int compareTo(Player p) {
@@ -49,6 +53,7 @@ public class Player implements java.lang.Comparable<Player> {
 		int counter = 0;
 		for (int x : stats)
 			counter += x;
+		statsTotal = counter;
 		return counter;
 	}
 
@@ -65,8 +70,8 @@ public class Player implements java.lang.Comparable<Player> {
 				+ stats[calmness] + "," + stats[communication] + "," + stats[consistency] + "," + stats[attention] + ","
 				+ stats[patchUnderstanding] + "," + stats[cheeseAbility] + "," + stats[wardPlacement] + ","
 				+ stats[dewarding] + "," + stats[heroPool] + "," + stats[gankAwareness] + "," + stats[gankAbility] + ","
-				+ stats[statGrowth] + "," + stats[lanePressure] + "," + stats[starFactor] + "," + earnings + "," + wChampion + "," + 
-				maChampion + "," + miChampion +"," + bestPlayer +"," + worstPlayer +"\n";
+				+ stats[statGrowth] + "," + stats[lanePressure] + "," + stats[starFactor] + "," + age + ","+ earnings + "," + wChampion + "," + 
+				maChampion + "," + miChampion +"," + bestPlayer +"," + worstPlayer + ","  + active + "\n";
 	}
 
 	//Generate a number between l and h
@@ -80,8 +85,10 @@ public class Player implements java.lang.Comparable<Player> {
 		if (!(n == null || n.isEmpty())) {
 			for (int i = 0; i < stats.length; i++)
 				stats[i] = generateNumbers(0, 512);
-
+			stats[statGrowth] = 1;
 			name = "" + n;
+			birthMonth = Timer.month;
+			age = generateNumbers(15,20);
 
 			// role = generateNumbers(1, 5);
 
@@ -98,30 +105,61 @@ public class Player implements java.lang.Comparable<Player> {
 			miChampion = false;
 			bestPlayer = false;
 			worstPlayer = false;
+			active = true;
 		}
 	}
 
 	//Doing the stat growth thing.
-	public void update() {
+	public void update(int retirementValue) {
+		
+		
 		Random r = new Random();
-		for (int i = stats[statGrowth]; i > 0; i--)
-			stats[r.nextInt(stats.length - 1)]++;
+		for (int i = Math.abs(stats[statGrowth]); i > 0; i--) {
+			if(stats[statGrowth]>0)
+				stats[r.nextInt(stats.length - 1)]++;
+			else
+				stats[r.nextInt(stats.length - 1)]--;
+		}
+			
 		for (int i = 0; i < stats.length - 1; i++)
 			if (stats[i] >= 512) {
 				stats[i] -= (int) Math.sqrt(stats[i]) - r.nextInt((int) Math.sqrt(stats[i]));
 			}
-		if (stats[statGrowth] >= 512)
-			stats[statGrowth] = 15;
+		if(stats[statGrowth] > 1)
+		statgrowth = stats[statGrowth];
+		if (statgrowth < 0)
+		{
+			statgrowth = 20 * (Math.pow(statgrowth, 3)) / (-(Math.pow(statgrowth, 3)) - (15 * (statgrowth)));
+		}
+		if (statgrowth >= 512) {
+			statgrowth = -15;	
+		}
+		
+		stats[statGrowth] = (int)Math.floor(statgrowth);
+		if(Timer.month == birthMonth)
+			age++;
+		getStatsTotal();
+		if (statsTotal < retirementValue)
+		{
+			active = false;
+			MultiColorNotification temp = new MultiColorNotification(name, Color.green);
+			temp.addPart(" has retired at age ", Color.green);
+			temp.addPart(""+age, Color.green);
+			NotificationHandler.add(temp);
+
+			MultiColorNotification.resetAll();
+			
+		}
 
 	}
 
 	//Constructor used when loading player from the file.
-	public Player(String n, int r, int World, int Major, int Minor, int[] s, int e, boolean champ, boolean maChamp, boolean miChamp, boolean bP, boolean wP) {
+	public Player(String n, int r, int World, int Major, int Minor, int[] s, int e, boolean champ, boolean maChamp, boolean miChamp, boolean bP, boolean wP, int awge, int bm, boolean wactive) {
 		if (!(n == null || n.isEmpty())) {
 
 			for (int i = 0; i < stats.length; i++)
 				stats[i] = s[i];
-
+			statgrowth = stats[statGrowth];
 			name = "" + n;
 
 			// role = generateNumbers(1, 5);
@@ -140,6 +178,8 @@ public class Player implements java.lang.Comparable<Player> {
 			miChampion = miChamp;
 			bestPlayer = bP;
 			worstPlayer = wP;
+			age = awge;
+			birthMonth = bm;
 		}
 	}
 
@@ -150,12 +190,14 @@ public class Player implements java.lang.Comparable<Player> {
 
 	//For displaying the player in the console
 	public String toString() {
+		System.out.println(name + stats[statGrowth]);
 		NumberFormat n = NumberFormat.getCurrencyInstance(Locale.US);
 		// double doublePayment = 100.13;
 		String s = n.format(earnings);
 		//System.out.println(WorldTitles);
 		if (org == null)
-			return "\tName: " + name + "\nRole: " + role + "\n\tCurrent Team: None" + "\nEarnings: " + s
+			return "\tName: " + name + "\nAge: " + age + 					
+					"\nRole: " + role + "\n\tCurrent Team: None" + "\nEarnings: " + s
 					+ "\nSkill Ranking: " + Database.getPlayerPosition(-1, this) + " / " + Database.playerdatabase.size()
 					+ "\n\n\tWorld Titles won: " + WorldTitles + "\n\tMajor Titles won: " + MajorTitles
 					+ "\n\tMinor Titles won: " + MinorTitles + "\n\n\tReaction Time: " + stats[reactionTime]
@@ -167,9 +209,9 @@ public class Player implements java.lang.Comparable<Player> {
 					+ "\n\tWard Placement: " + stats[wardPlacement] + "\n\tDe-warding the enemy: " + stats[dewarding]
 					+ "\n\tHero Pool: " + stats[heroPool] + "\n\tAwareness to Ganks: " + stats[gankAwareness]
 					+ "\n\tAbility to pull off Ganks: " + stats[gankAbility] + "\n\tPlayer Growth Factor: "
-					+ stats[statGrowth] + "\n\tAbility to Pressure enemy lane: " + stats[lanePressure]
+					+ statgrowth + "\n\tAbility to Pressure enemy lane: " + stats[lanePressure]
 					+ "\n\tStar Factor: " + stats[starFactor];
-		return "\tName: " + name + "\nRole: " + role + "\n\tCurrent Team: " + org.name + "\nEarnings: " + s
+		return "\tName: " + name + "\nAge: " + age + "\nRole: " + role + "\n\tCurrent Team: " + org.name + "\nEarnings: " + s
 				+ "\nSkill Ranking: " + Database.getPlayerPosition(-1, this)  + " / " + Database.playerdatabase.size()
 				+ "\n\n\tWorld Titles won: " + WorldTitles + "\n\tMajor Titles won: " + MajorTitles
 				+ "\n\tMinor Titles won: " + MinorTitles + "\n\n\tReaction Time: " + stats[reactionTime]
@@ -181,12 +223,15 @@ public class Player implements java.lang.Comparable<Player> {
 				+ stats[wardPlacement] + "\n\tDe-warding the enemy: " + stats[dewarding] + "\n\tHero Pool: "
 				+ stats[heroPool] + "\n\tAwareness to Ganks: " + stats[gankAwareness]
 				+ "\n\tAbility to pull off Ganks: " + stats[gankAbility] + "\n\tPlayer Growth Factor: "
-				+ stats[statGrowth] + "\n\tAbility to Pressure enemy lane: " + stats[lanePressure] + "\n\tStar Factor: "
+				+ statgrowth + "\n\tAbility to Pressure enemy lane: " + stats[lanePressure] + "\n\tStar Factor: "
 				+ stats[starFactor];
+		
+		
 
 	}
 
 	public String toStringN() {
+		System.out.println(name + stats[statGrowth]);
 		NumberFormat n = NumberFormat.getCurrencyInstance(Locale.US);
 		// double doublePayment = 100.13;
 		String s = n.format(earnings);
@@ -206,12 +251,13 @@ public class Player implements java.lang.Comparable<Player> {
 		
 	}
 	public String toStringN2() {
+
 		NumberFormat n = NumberFormat.getCurrencyInstance(Locale.US);
 		// double doublePayment = 100.13;
 		String s = n.format(earnings);
 		if (org == null) {
 		
-			return "\nRole: " + role + "\n\tCurrent Team: None" + "\nEarnings: " + s
+			return "\nAge: " + age +"\nRole: " + role + "\n\tCurrent Team: None" + "\nEarnings: " + s
 					+ "\nSkill Ranking: " + Database.getPlayerPosition(-1, this) + " / " + Database.playerdatabase.size()
 					+ "\n\n\tWorld Titles won: " + WorldTitles + "\n\tMajor Titles won: " + MajorTitles
 					+ "\n\tMinor Titles won: " + MinorTitles + "\n\n\tReaction Time: " + stats[reactionTime]
@@ -223,11 +269,11 @@ public class Player implements java.lang.Comparable<Player> {
 					+ "\n\tWard Placement: " + stats[wardPlacement] + "\n\tDe-warding the enemy: " + stats[dewarding]
 					+ "\n\tHero Pool: " + stats[heroPool] + "\n\tAwareness to Ganks: " + stats[gankAwareness]
 					+ "\n\tAbility to pull off Ganks: " + stats[gankAbility] + "\n\tPlayer Growth Factor: "
-					+ stats[statGrowth] + "\n\tAbility to Pressure enemy lane: " + stats[lanePressure]
+					+ statgrowth + "\n\tAbility to Pressure enemy lane: " + stats[lanePressure]
 					+ "\n\tStar Factor: " + stats[starFactor];
 		}
 		
-		return "\nRole: " + role + "\n\tCurrent Team: " + org.name + "\nEarnings: " + s
+		return "\nAge: " + age +"\nRole: " + role + "\n\tCurrent Team: " + org.name + "\nEarnings: " + s
 				+ "\nSkill Ranking: " + Database.getPlayerPosition(-1, this)  + " / " + Database.playerdatabase.size()
 				+ "\n\n\tWorld Titles won: " + WorldTitles + "\n\tMajor Titles won: " + MajorTitles
 				+ "\n\tMinor Titles won: " + MinorTitles + "\n\n\tReaction Time: " + stats[reactionTime]
@@ -239,7 +285,7 @@ public class Player implements java.lang.Comparable<Player> {
 				+ stats[wardPlacement] + "\n\tDe-warding the enemy: " + stats[dewarding] + "\n\tHero Pool: "
 				+ stats[heroPool] + "\n\tAwareness to Ganks: " + stats[gankAwareness]
 				+ "\n\tAbility to pull off Ganks: " + stats[gankAbility] + "\n\tPlayer Growth Factor: "
-				+ stats[statGrowth] + "\n\tAbility to Pressure enemy lane: " + stats[lanePressure] + "\n\tStar Factor: "
+				+ statgrowth + "\n\tAbility to Pressure enemy lane: " + stats[lanePressure] + "\n\tStar Factor: "
 				+ stats[starFactor];
 		
 

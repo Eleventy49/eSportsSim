@@ -286,4 +286,9 @@ public class Database {
 		
 		
 	}
+
+	public static Player getStrongestPlayer() {
+		return sortPlayersGeneral(playerdatabase).get(0);
+		
+	}
 }

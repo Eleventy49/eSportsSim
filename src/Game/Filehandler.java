@@ -127,14 +127,18 @@ public class Filehandler {
 					}
 
 				}
+				int awge = scnr.nextInt();
+				int bm = scnr.nextInt();
 				int earn = scnr.nextInt();
 				boolean c = scnr.nextBoolean();
 				boolean mac = scnr.nextBoolean();
 				boolean mic = scnr.nextBoolean();
 				boolean bp = scnr.nextBoolean();
 				boolean wp = scnr.nextBoolean();
+				boolean active = scnr.nextBoolean();
+				
 				loadedPlayers = true;
-				list.add(new Player(name, r, World, Major, Minor, a, earn, c, mac, mic,bp,wp));
+				list.add(new Player(name, r, World, Major, Minor, a, earn, c, mac, mic,bp,wp,awge,bm,active));
 				scnr.nextLine();
 
 			}
@@ -329,14 +333,18 @@ public class Filehandler {
 					}
 
 				}
+				int awge = scnr.nextInt();
+				int bm = scnr.nextInt();
 				int earn = scnr.nextInt();
 				boolean c = scnr.nextBoolean();
 				boolean mac = scnr.nextBoolean();
 				boolean mic = scnr.nextBoolean();
 				boolean bp = scnr.nextBoolean();
 				boolean wp = scnr.nextBoolean();
+				boolean active = scnr.nextBoolean();
+			
 				loadedPlayers = true;
-				list.add(new Player(name, r, World, Major, Minor, a, earn, c, mac, mic,bp,wp));
+				list.add(new Player(name, r, World, Major, Minor, a, earn, c, mac, mic,bp,wp,awge,bm,active));
 				scnr.nextLine();
 
 			}
@@ -529,14 +537,17 @@ public class Filehandler {
 					}
 
 				}
+				int awge = scnr.nextInt();
+				int bm = scnr.nextInt();
 				int earn = scnr.nextInt();
 				boolean c = scnr.nextBoolean();
 				boolean mac = scnr.nextBoolean();
 				boolean mic = scnr.nextBoolean();
 				boolean bp = scnr.nextBoolean();
 				boolean wp = scnr.nextBoolean();
+				boolean active = scnr.nextBoolean();
 				loadedPlayers = true;
-				list.add(new Player(name, r, World, Major, Minor, a, earn, c, mac,mic,bp,wp));
+				list.add(new Player(name, r, World, Major, Minor, a, earn, c, mac,mic,bp,wp,awge,bm,active));
 				scnr.nextLine();
 
 			}

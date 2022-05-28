@@ -13,7 +13,7 @@ import java.awt.Graphics;
 
 public class SimTournament {
 	
-	final static double teamStrengthBias = 100.0; //Increasing this number decreases the probability
+	final static double teamStrengthBias = 60.0; //Increasing this number decreases the probability
 												  //of the stronger team winning
 	final static double dynastyBias = 0.125;		  //Increasing this number increases the effect
 												  //of dynasty4
