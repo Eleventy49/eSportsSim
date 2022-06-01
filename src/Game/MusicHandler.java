@@ -26,8 +26,7 @@ import javax.sound.sampled.LineListener;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JFrame;
-import Game.buttons.PlayPause;
-import Game.WarningText;
+
 
 
 public class MusicHandler {
@@ -108,48 +107,37 @@ public class MusicHandler {
 		Graphical.setFrameCounter(0);
 		switch(index2) {
 		case 0:
-			Application.WarningQuery = true;
-			Application.WarningMessage = "Now playing: Eleventy 49 - This Finally Thought Everyone";
+
 			Graphical.resetAlpha();break;
 		case 1:
-			Application.WarningQuery = true;
-			Application.WarningMessage = "Now playing: Eleventy 49 - Crabs"; 
+
 			Graphical.resetAlpha();break;
 		case 2:
-			Application.WarningQuery = true;
-			Application.WarningMessage = "Now playing: Eleventy 49 - The Best Number is 74";
+	
 			Graphical.resetAlpha();break;
 		case 3:
-			Application.WarningQuery = true;
-			Application.WarningMessage = "Now playing: Eleventy 49 - Invasion of Pumpkins"; 
+ 
 			Graphical.resetAlpha();break;
 		case 4:
-			Application.WarningQuery = true;
-			Application.WarningMessage = "Now playing: Eleventy 49 - A Collection of Melodies";
+
 			Graphical.resetAlpha();break;
 		case 5:
-			Application.WarningQuery = true;
-			Application.WarningMessage = "Now playing: Eleventy 49 - Welcome to Winter";
+
 			Graphical.resetAlpha();break;
 		case 6:
-			Application.WarningQuery = true;
-			Application.WarningMessage = "Now playing: Eleventy 49 - Welcome to Spring"; 
+
 			Graphical.resetAlpha();break;
 		case 7:
-			Application.WarningQuery = true;
-			Application.WarningMessage = "Now playing: Eleventy 49 - For the House";
+
 			Graphical.resetAlpha();break;
 		case 8:
-			Application.WarningQuery = true;
-			Application.WarningMessage = "Now playing: Eleventy 49 - Welcome to Summer";
+
 			Graphical.resetAlpha();break;
 		case 9:
-			Application.WarningQuery = true;
-			Application.WarningMessage = "Now playing: Eleventy 49 - Welcome to Autumn";
+
 			Graphical.resetAlpha();break;
 		case 10:
-			Application.WarningQuery = true;
-			Application.WarningMessage = "Now playing: Eleventy 49 - In Collaboration"; 
+	
 			Graphical.resetAlpha();break;
 			
 			

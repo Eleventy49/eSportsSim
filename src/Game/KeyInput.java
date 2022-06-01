@@ -14,11 +14,6 @@ public class KeyInput extends KeyAdapter {
 	}
 
 	public void keyPressed(KeyEvent e) {
-		game.keyPressed(e);
-		if(Application.State == Application.STATE.SpectatorModeAddPlayer)
-			AddPlayer.keyPressed(e);
-		if(Application.State == Application.STATE.SpectatorModeAddTeam)
-			AddTeam.keyPressed(e);
 	}
 
 	public void keyReleased(KeyEvent e) {

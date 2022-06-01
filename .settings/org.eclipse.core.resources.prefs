@@ -1,7 +1,3 @@
 eclipse.preferences.version=1
 encoding//src/Game/MusicHandler.java=UTF-8
 encoding//src/Game/Timer.java=UTF-8
-encoding//src/Game/buttons/DecreaseGameSpeed.java=UTF-8
-encoding//src/Game/buttons/IncreaseGameSpeed.java=UTF-8
-encoding//src/Game/buttons/PlayPause.java=UTF-8
-encoding//src/Game/buttons/PlayPauseGameSpeed.java=UTF-8

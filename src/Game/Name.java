@@ -78,22 +78,5 @@ public class Name {
 		
 		return lasts[r.nextInt(lasts.length)];
 	}
-	public static void main(String args[])
-	{
-		Scanner s = new Scanner(System.in);
-		System.out.println("We doing things");
-		while(!s.next().equals(" "))
-		{
-			System.out.println(new Name().user);
-		}
-		
-		
-	}
-	
-	
-	
-	
-	
-	
-	
+
 }

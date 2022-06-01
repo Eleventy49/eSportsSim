@@ -43,6 +43,7 @@ public class Graphical {
 		// to the screen.
 		Application.getGame().getGraphics().setFont(getLargeFont()); // Set the default font and color
 		Application.getGame().getGraphics().setColor(Color.WHITE);
+		Isomap.render(Application.getGame().getGraphics());
 		for (Object x : Application.buttons.getCollection()) {
 			NormalButton y = null;
 			SpecialButton w = null;
@@ -71,23 +72,7 @@ public class Graphical {
 			}
 		}
 		Timer.render();
-		NotificationHandler.render();
 		StateTracker.render();
-		if (Application.WarningQuery) {
-			Application.CountingFrames = true;
-
-			if (Application.CountingFrames) {
-				Application.frameCounter++;
-				Application.alpha = 1 - (float) (0.01 * Application.frameCounter);
-				new WarningText(Application.WarningMessage, Application.alpha);
-			}
-			if (Application.frameCounter == 100) {
-				Application.WarningQuery = false;
-				Application.WarningMessage = "";
-				Application.frameCounter = 0;
-			}
-
-		}
 
 		///////
 	     Application.windowSize = Application.frame.getSize();
